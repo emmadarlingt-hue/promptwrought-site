@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — brand assets (portable HTML/CSS)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+  /* ---- Promptwrought palette ---- */
+  :root{
+    --ink:#221f1a;          /* ink black        */
+    --charcoal:#3a352d;     /* iron charcoal    */
+    --parchment:#ece3cf;    /* warm parchment   */
+    --hot:#c2451c;          /* hot metal accent */
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--charcoal);
+       font-family:'Courier Prime',monospace;color:var(--parchment);
+       padding:56px;display:flex;flex-direction:column;gap:56px;align-items:flex-start;}
+  .cap{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#c9bfa6;margin-bottom:14px;}
+
+  /* ============ MASTHEAD (locked "2c") ============ */
+  .pw-masthead{width:720px;max-width:100%;background:var(--parchment);
+       border:1px solid #2b2721;padding:44px 56px 40px;}
+  .pw-rule-top{border-top:4px solid var(--ink);border-bottom:1px solid var(--ink);height:5px;margin-bottom:18px;}
+  .pw-eyebrow{display:flex;justify-content:space-between;align-items:baseline;
+       font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;margin-bottom:32px;}
+  .pw-eyebrow .workshop{color:var(--hot);}
+  .pw-eyebrow .no{color:var(--ink);}
+  .pw-eyebrow .no sup{font-size:8px;vertical-align:.7em;}
+  .pw-wordmark{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:88px;
+       line-height:.92;letter-spacing:-.01em;color:var(--ink);
+       transform:scaleX(.94);transform-origin:left;}
+  .pw-entry{display:flex;align-items:baseline;gap:16px;margin-top:22px;flex-wrap:wrap;
+       font-family:'Cormorant Garamond',serif;}
+  .pw-entry .head{font-size:26px;color:var(--ink);}
+  .pw-entry .head .dot{color:var(--hot);}
+  .pw-entry .ipa{font-size:24px;color:#5c5344;}
+  .pw-entry .pos{font-size:24px;color:var(--hot);font-style:italic;}
+  .pw-tagline-wrap{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+       padding:15px 0;margin-top:26px;text-align:center;}
+  .pw-tagline{font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;color:#3d372d;line-height:1.9;}
+
+  /* ============ MONOGRAM LOGO ============ */
+  .pw-logo{width:280px;height:280px;background:var(--parchment);padding:34px;}
+  .pw-logo .outer{width:100%;height:100%;border:4px solid var(--ink);padding:9px;}
+  .pw-logo .inner{width:100%;height:100%;border:1.5px solid var(--ink);
+       display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+  .pw-logo .mono{display:flex;align-items:baseline;font-family:'Cormorant Garamond',serif;
+       font-weight:600;color:var(--ink);line-height:.9;}
+  .pw-logo .mono .P,.pw-logo .mono .w{font-size:108px;}
+  .pw-logo .mono .dot{font-size:58px;color:var(--hot);margin:0 2px;}
+  .pw-logo .name{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--hot);}
+
+  /* ============ PLAIN WORDMARK ============ */
+  .pw-wordmark-plain{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:96px;
+       line-height:.92;letter-spacing:-.01em;color:var(--ink);
+       transform:scaleX(.94);transform-origin:left;display:inline-block;}
+
+  .light-demo{background:var(--ink);padding:40px 56px;display:inline-block;}
+  .light-demo .pw-wordmark-plain{color:var(--parchment);}
+</style>
+</head>
+<body>
+
+  <div>
+    <div class="cap">Masthead</div>
+    <div class="pw-masthead">
+      <div class="pw-rule-top"></div>
+      <div class="pw-eyebrow">
+        <span class="workshop">A Workshop of Words</span>
+        <span class="no">N<sup>o</sup>&thinsp;1</span>
+      </div>
+      <div class="pw-wordmark">Promptwrought</div>
+      <div class="pw-entry">
+        <span class="head">prompt&thinsp;<span class="dot">&middot;</span>&thinsp;wrought</span>
+        <span class="ipa">\&thinsp;&#712;pr&auml;m(p)t-&#716;r&#559;t&thinsp;\</span>
+        <span class="pos">n.</span>
+      </div>
+      <div class="pw-tagline-wrap">
+        <div class="pw-tagline">A&nbsp;word&nbsp;a&nbsp;week&nbsp;for&nbsp;the&nbsp;age&nbsp;of&nbsp;talking&nbsp;to&nbsp;machines.</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="cap">Monogram logo</div>
+    <div class="pw-logo">
+      <div class="outer"><div class="inner">
+        <div class="mono"><span class="P">P</span><span class="dot">&middot;</span><span class="w">w</span></div>
+        <div class="name">Promptwrought</div>
+      </div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="cap">Wordmark — ink on parchment</div>
+    <span class="pw-wordmark-plain">Promptwrought</span>
+  </div>
+
+  <div>
+    <div class="cap">Wordmark — parchment on ink</div>
+    <div class="light-demo"><span class="pw-wordmark-plain">Promptwrought</span></div>
+  </div>
+
+</body>
+</html>

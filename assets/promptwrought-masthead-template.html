@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — masthead template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#221f1a; --charcoal:#3a352d; --parchment:#ece3cf; --hot:#c2451c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--charcoal);
+       font-family:'Courier Prime',monospace;
+       min-height:100vh;display:flex;flex-direction:column;
+       align-items:center;justify-content:center;gap:24px;padding:48px;}
+
+  /* The masthead itself — capture / screenshot THIS element (id="masthead") */
+  .pw-masthead{width:720px;max-width:100%;background:var(--parchment);
+       border:1px solid #2b2721;padding:44px 56px 40px;}
+  .pw-rule-top{border-top:4px solid var(--ink);border-bottom:1px solid var(--ink);height:5px;margin-bottom:18px;}
+  .pw-eyebrow{display:flex;justify-content:space-between;align-items:baseline;
+       font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;margin-bottom:32px;}
+  .pw-eyebrow .workshop{color:var(--hot);}
+  .pw-eyebrow .no{color:var(--ink);}
+  .pw-eyebrow .no sup{font-size:8px;vertical-align:.7em;}
+  .pw-wordmark{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:88px;
+       line-height:.92;letter-spacing:-.01em;color:var(--ink);
+       transform:scaleX(.94);transform-origin:left;}
+  .pw-entry{display:flex;align-items:baseline;gap:16px;margin-top:22px;flex-wrap:wrap;
+       font-family:'Cormorant Garamond',serif;}
+  .pw-entry .head{font-size:26px;color:var(--ink);}
+  .pw-entry .head .dot{color:var(--hot);}
+  .pw-entry .ipa{font-size:24px;color:#5c5344;}
+  .pw-entry .pos{font-size:24px;color:var(--hot);font-style:italic;}
+  .pw-tagline-wrap{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+       padding:15px 0;margin-top:26px;text-align:center;}
+  .pw-tagline{font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;color:#3d372d;line-height:1.9;}
+
+  /* ---- issue-number control (not part of the artwork) ---- */
+  .controls{display:flex;align-items:center;gap:12px;
+       font-size:12px;letter-spacing:.1em;color:#c9bfa6;text-transform:uppercase;}
+  .controls input{width:80px;font-family:'Courier Prime',monospace;font-size:14px;
+       padding:6px 10px;border:1px solid #6f6656;background:var(--ink);color:var(--parchment);text-align:center;}
+  .controls button{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.14em;
+       text-transform:uppercase;padding:7px 16px;border:1px solid var(--hot);
+       background:transparent;color:var(--hot);cursor:pointer;}
+  .controls button:hover{background:var(--hot);color:var(--parchment);}
+  @media print{.controls{display:none;}}
+</style>
+</head>
+<body>
+
+  <!-- ===== EDIT THE ISSUE NUMBER HERE ===== -->
+  <div class="controls">
+    <label for="issue">Issue Nº</label>
+    <input id="issue" type="text" value="1" autocomplete="off">
+  </div>
+
+  <!-- ===== THE MASTHEAD (this is what you save/upload) ===== -->
+  <div class="pw-masthead" id="masthead">
+    <div class="pw-rule-top"></div>
+    <div class="pw-eyebrow">
+      <span class="workshop">A Workshop of Words</span>
+      <span class="no">N<sup>o</sup>&thinsp;<span id="issue-out">1</span></span>
+    </div>
+    <div class="pw-wordmark">Promptwrought</div>
+    <div class="pw-entry">
+      <span class="head">prompt&thinsp;<span class="dot">&middot;</span>&thinsp;wrought</span>
+      <span class="ipa">\&thinsp;&#712;pr&auml;m(p)t-&#716;r&#559;t&thinsp;\</span>
+      <span class="pos">n.</span>
+    </div>
+    <div class="pw-tagline-wrap">
+      <div class="pw-tagline">A&nbsp;word&nbsp;a&nbsp;week&nbsp;for&nbsp;the&nbsp;age&nbsp;of&nbsp;talking&nbsp;to&nbsp;machines.</div>
+    </div>
+  </div>
+
+  <script>
+    var input = document.getElementById('issue');
+    var out = document.getElementById('issue-out');
+    input.addEventListener('input', function(){ out.textContent = input.value || '1'; });
+  </script>
+</body>
+</html>

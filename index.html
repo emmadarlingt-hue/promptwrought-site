@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Promptwrought — a workshop of words</title>
+<meta name="description" content="A lexicon for the age of talking to machines. One coined word an issue, with its definition, its roots, and the case for keeping it.">
+
+<link rel="icon" href="assets/promptwrought-logo-ink.png">
+
+<meta property="og:title" content="Promptwrought — a workshop of words">
+<meta property="og:description" content="A lexicon for the age of talking to machines. One coined word an issue.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://promptwrought.com">
+<meta property="og:image" content="https://promptwrought.com/assets/promptwrought-masthead-no1.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Courier+Prime:wght@400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --parchment: #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --ink: #221f1a;
+    --iron: #3a352d;
+    --hot-metal: #c2451c;
+    --rule: rgba(34, 31, 26, 0.28);
+    --hairline: rgba(34, 31, 26, 0.14);
+
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body: "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    --measure: 66ch;
+    --gutter: clamp(1.5rem, 6vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: clamp(1.0625rem, 0.98rem + 0.42vw, 1.1875rem);
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: var(--hot-metal); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--hot-metal);
+    outline-offset: 3px;
+  }
+
+  ::selection { background: var(--hot-metal); color: var(--parchment); }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  .wrap {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+  }
+
+  .band { padding-block: clamp(3rem, 8vw, 5.5rem); }
+  .band + .band { border-top: 1px solid var(--hairline); }
+
+  /* Utility voice — Courier Prime, matching the lockup artwork.
+     Artwork spec is 10.5px / 0.34em. Floored at 11px on small screens,
+     with tracking eased back so it doesn't shear apart on a phone. */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: clamp(0.6875rem, 0.65rem + 0.16vw, 0.78125rem);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  @media (min-width: 48rem) {
+    .label { letter-spacing: 0.34em; }
+  }
+  .label--accent { color: var(--hot-metal); }
+  .label--wide { letter-spacing: 0.28em; }
+
+  /* Condensed display setting — scaleX(.94), as in the wordmark */
+  .condense {
+    display: inline-block;
+    transform: scaleX(0.94);
+    transform-origin: left center;
+  }
+
+  /* ─────────── masthead ─────────── */
+
+  .masthead { padding-block: clamp(2.5rem, 7vw, 4.5rem) clamp(1.75rem, 4vw, 2.5rem); }
+
+  .masthead__mark {
+    width: clamp(13rem, 42vw, 22rem);
+    margin: 0 auto;
+  }
+
+  .masthead__rule {
+    border: 0;
+    border-top: 2px solid var(--ink);
+    margin: clamp(1.5rem, 4vw, 2.25rem) 0 1rem;
+  }
+
+  .masthead__line { text-align: center; }
+
+  /* ─────────── the entry (signature block) ─────────── */
+
+  .entry__eyebrow { margin-bottom: clamp(1.5rem, 4vw, 2rem); }
+
+  .entry__headword {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(3rem, 1.3rem + 8.6vw, 7rem);
+    line-height: 0.96;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.32em;
+  }
+
+  /* the single accent moment above the fold */
+  .interpunct { color: var(--hot-metal); }
+
+  .entry__gloss {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4em 1.1em;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    color: var(--iron);
+    margin-bottom: clamp(2rem, 5vw, 2.75rem);
+  }
+  .entry__pos { font-style: italic; }
+
+  .senses { margin: 0; padding: 0; list-style: none; max-width: var(--measure); }
+  .senses li {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.35rem;
+  }
+  .senses li:last-child { margin-bottom: 0; }
+  .senses .n {
+    font-family: var(--utility);
+    font-size: 0.8em;
+    color: var(--hot-metal);
+    padding-top: 0.4em;
+  }
+  .senses p { margin: 0; font-size: 1.06em; line-height: 1.5; text-wrap: pretty; }
+
+  /* ─────────── premise ─────────── */
+
+  .premise h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(2rem, 1.1rem + 4.4vw, 3.75rem);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.25rem;
+    max-width: 24ch;
+  }
+  .premise p { max-width: var(--measure); margin: 0 0 1.15rem; text-wrap: pretty; }
+  .premise p:last-child { margin-bottom: 0; }
+
+  /* ─────────── how a word is made ─────────── */
+
+  .stages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr));
+    gap: clamp(1.75rem, 4vw, 2.5rem);
+    margin-top: clamp(2rem, 5vw, 2.75rem);
+  }
+  .stage { border-top: 1px solid var(--rule); padding-top: 1.1rem; }
+  .stage__numeral {
+    font-family: var(--utility);
+    font-size: 0.8125rem;
+    letter-spacing: 0.3em;
+    color: var(--hot-metal);
+    margin: 0 0 0.75rem;
+  }
+  .stage h3 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: -0.005em;
+    margin: 0 0 0.4rem;
+  }
+  .stage p { margin: 0; font-size: 0.96em; line-height: 1.5; color: var(--iron); }
+
+  /* ─────────── the lexicon so far ─────────── */
+
+  .lexicon__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+  }
+  .lexicon__head h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .word-entry {
+    border-top: 2px solid var(--ink);
+    padding-top: 1.35rem;
+    max-width: var(--measure);
+  }
+  .word-entry__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.55em;
+    margin-bottom: 0.55rem;
+  }
+  .word-entry__word {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(2rem, 1.5rem + 2.2vw, 2.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .word-entry__pos {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--hot-metal);
+  }
+  .word-entry p { margin: 0 0 0.75rem; text-wrap: pretty; }
+
+  .forthcoming {
+    border-top: 1px solid var(--hairline);
+    margin-top: 2rem;
+    padding-top: 1.1rem;
+    max-width: var(--measure);
+    color: var(--iron);
+    font-style: italic;
+  }
+
+  /* ─────────── from the desk ─────────── */
+
+  .desk { background: var(--parchment-deep); }
+  .desk__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+  }
+  @media (min-width: 52rem) {
+    .desk__grid { grid-template-columns: 11rem minmax(0, 1fr); }
+  }
+  .desk p {
+    margin: 0 0 1.15rem;
+    max-width: var(--measure);
+    text-wrap: pretty;
+  }
+  .desk p:last-of-type { margin-bottom: 0; }
+  .desk__lead { font-size: 1.14em; line-height: 1.55; }
+  .desk__sign {
+    border-top: 1px solid var(--rule);
+    margin-top: 1.75rem;
+    padding-top: 0.9rem;
+    max-width: 16rem;
+  }
+
+  /* ─────────── subscribe ─────────── */
+
+  .subscribe {
+    background: var(--hot-metal);
+    color: var(--parchment);
+  }
+  .subscribe h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(2.1rem, 1.15rem + 4.6vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.5rem;
+    max-width: 20ch;
+  }
+  .subscribe .label { color: var(--parchment); opacity: 0.85; }
+  .subscribe__embed {
+    border: 0;
+    width: 100%;
+    max-width: 30rem;
+    height: 9.5rem;
+    background: transparent;
+  }
+  .subscribe__note {
+    margin: 1.1rem 0 0;
+    font-size: 0.95em;
+    opacity: 0.92;
+    max-width: 40ch;
+  }
+  .subscribe__note a { color: var(--parchment); text-decoration: underline; }
+
+  /* ─────────── footer ─────────── */
+
+  .footer {
+    background: var(--ink);
+    color: var(--parchment);
+    padding-block: clamp(2.25rem, 5vw, 3rem);
+  }
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  .footer__mark { width: 8.5rem; opacity: 0.9; }
+  .footer .label { color: var(--parchment); opacity: 0.7; }
+  .footer a { color: var(--parchment); }
+
+  /* ─────────── motion ─────────── */
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(0.75rem);
+      animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+    }
+    .reveal:nth-child(2) { animation-delay: 0.1s; }
+    .reveal:nth-child(3) { animation-delay: 0.2s; }
+    @keyframes rise {
+      to { opacity: 1; transform: none; }
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ══════════ masthead ══════════ -->
+<header class="masthead wrap">
+  <img class="masthead__mark" src="assets/promptwrought-wordmark-ink.png" alt="Promptwrought">
+  <hr class="masthead__rule">
+  <p class="label label--wide masthead__line">A workshop of words</p>
+</header>
+
+<main>
+
+  <!-- ══════════ the entry — signature block ══════════ -->
+  <!-- TODO Emma: replace the three senses with your real Verbarium definitions -->
+  <section class="band wrap" aria-labelledby="headword">
+    <p class="label label--accent entry__eyebrow reveal">The word this is named for</p>
+
+    <h1 class="entry__headword reveal" id="headword"><span class="condense">prompt&thinsp;<span class="interpunct">·</span>&thinsp;wrought</span></h1>
+
+    <div class="entry__gloss reveal">
+      <span>\ ˈprɒm(p)t-ˌrɔːt \</span>
+      <span class="entry__pos">adj.</span>
+    </div>
+
+    <ol class="senses">
+      <li>
+        <span class="n">1.</span>
+        <p>Made by asking. Shaped in language rather than in metal, wood or stone.</p>
+      </li>
+      <li>
+        <span class="n">2.</span>
+        <p>Of a made thing whose maker cannot fully say which parts are theirs.</p>
+      </li>
+      <li>
+        <span class="n">3.</span>
+        <p>A lexicon, published in issues. One coined word each time, with its definition, its roots, and the case for keeping it.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ══════════ premise ══════════ -->
+  <section class="band wrap premise">
+    <h2><span class="condense">There is a craft here. It has no vocabulary.</span></h2>
+    <p>The tooling arrived before the language did. We have all spent two years doing something daily that we cannot name — and reaching, every time, for a borrowed word that nearly fits.</p>
+    <p>That gap closes eventually. Somebody names these things. It may as well be done carefully, one word at a time, with the roots dug up and checked before anything is struck.</p>
+  </section>
+
+  <!-- ══════════ how a word is made ══════════ -->
+  <section class="band wrap" aria-labelledby="process">
+    <p class="label label--accent" id="process">How a word is made</p>
+    <div class="stages">
+      <div class="stage">
+        <p class="stage__numeral">I</p>
+        <h3>Noticing</h3>
+        <p>Something happens at the keyboard that everyone has felt and nobody has named.</p>
+      </div>
+      <div class="stage">
+        <p class="stage__numeral">II</p>
+        <h3>Digging</h3>
+        <p>Old roots are pulled up — Norse, Latin, the guild trades — and tried for fit.</p>
+      </div>
+      <div class="stage">
+        <p class="stage__numeral">III</p>
+        <h3>Striking</h3>
+        <p>The word is set: definition, pronunciation, part of speech, and the case for its keeping.</p>
+      </div>
+      <div class="stage">
+        <p class="stage__numeral">IV</p>
+        <h3>Sending</h3>
+        <p>One coinage an issue, in the headword slot. Everything around it in plain English.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ the lexicon so far ══════════ -->
+  <!-- TODO Emma: replace with your real misask definition from Issue 001 -->
+  <section class="band wrap" aria-labelledby="lexicon">
+    <div class="lexicon__head">
+      <h2 id="lexicon">The lexicon so far</h2>
+      <p class="label">Nº 001</p>
+    </div>
+
+    <article class="word-entry">
+      <div class="word-entry__head">
+        <span class="word-entry__word">misask</span>
+        <span class="word-entry__pos">v.</span>
+      </div>
+     {
+    word: "Misask",
+    pos: "noun & verb",
+    pron: "/mɪsˈɑːsk/",
+    vol: "VI",
+    tag: "Work",
+    def: "The gap between what one asked for and what one meant; to instruct a machine accurately in the wrong direction.",
+    etym: "From mis- (Old English, 'wrongly') + ask (Old English āscian, 'to seek'). Pure Anglo-Saxon; no seam.",
+    quote: "The output wasn't wrong -- my question was. A straight misask.",
+    why: "It relocates blame from the machine to the phrasing, which is the founding insight of the entire craft -- and it is short enough to be said in meetings."
+  },
+
+    <p class="forthcoming">The second entry is being set. Subscribe below and it will arrive when it is ready, and not before.</p>
+  </section>
+
+  <!-- ══════════ from the desk ══════════ -->
+  <section class="band desk" aria-labelledby="desk">
+    <div class="wrap desk__grid">
+      <p class="label label--accent" id="desk">From the desk</p>
+      <div>
+        <p class="desk__lead">The <em>-wright</em> suffix is one of the oldest job descriptions in English. It comes from Old English <em>wyrhta</em>, a worker or maker, and it survives now almost entirely in trades that have gone: the wheelwright, the shipwright, the millwright, the cartwright. Only the playwright is still at work.</p>
+        <p>Which is exactly what makes it available. The suffix is unclaimed. And <em>wrought</em> — the old past participle of <em>work</em> — carries something that <em>made</em> does not: the sense of a thing worked into shape by hand, with effort, and with the marks of the working still on it.</p>
+        <p>That seemed like the right word for what this is.</p>
+        <p class="label desk__sign">Emma Darling, editor</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ subscribe ══════════ -->
+  <!-- TODO Emma: swap this iframe for the exact embed code you used on emmadarling.dev -->
+  <section class="band subscribe" aria-labelledby="subscribe">
+    <div class="wrap">
+      <h2 id="subscribe"><span class="condense">A word a time for the age of talking to machines.</span></h2>
+     
+    <iframe src="https://promptwrought.substack.com/embed?transparent=1&light=1"
+            width="480" height="150"
+            style="border:0; background:transparent"
+            frameborder="0" scrolling="no"></iframe>
+  
+      <p class="subscribe__note">Free. No archive paywall, no referral scheme, no post about how to grow your newsletter. Read it at <a href="https://promptwrought.substack.com">promptwrought.substack.com</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <img class="footer__mark" src="assets/promptwrought-wordmark-light.png" alt="Promptwrought">
+    <p class="label">Est. 2026 · London</p>
+  </div>
+</footer>
+
+</body>
+</html>
