@@ -28,6 +28,9 @@ the portable lockup sheet (`assets/promptwrought-web.html`) and the live site
 Each sheet is a standalone HTML file with its tokens inlined, so it renders
 anywhere with no build step and no shared stylesheet.
 
+`FONTS.md` lists the three families with direct download links and licences —
+all SIL Open Font License. Five files cover the whole system.
+
 ## Using the tokens
 
 `tokens.css` is the machine-readable version, namespaced `--pw-*` so it can be
