@@ -33,6 +33,31 @@ ever set in bold.
 The two variable files per Garamond cover every weight the system asks for, so
 five files is the whole set.
 
+## Local copies
+
+The five files are vendored in `design-system/fonts/`, each family beside its
+OFL licence — the licence must travel with the fonts when they are
+redistributed.
+
+```
+fonts/cormorant-garamond/  CormorantGaramond[wght].ttf, -Italic[wght].ttf, OFL.txt
+fonts/eb-garamond/         EBGaramond[wght].ttf, -Italic[wght].ttf, OFL.txt
+fonts/courier-prime/       CourierPrime-Regular.ttf, OFL.txt
+```
+
+Verified as real sfnt fonts, not error pages, with these weight axes:
+
+| File | Axis | Covers |
+| --- | --- | --- |
+| CormorantGaramond\[wght\] | 300–700, default **300** | display 500, 600 |
+| EBGaramond\[wght\] | 400–800, default 400 | body 400 |
+| CourierPrime-Regular | static | utility 400 |
+
+**Mind Cormorant's default.** Its default instance is 300 (Light), so anything
+that uses the family without naming a weight renders Light — noticeably thinner
+than the 600 the wordmark is set in. Every rule in this system states its
+weight explicitly. Keep it that way.
+
 ## Specimens and upstream sources
 
 | Family | Specimen | Upstream |
