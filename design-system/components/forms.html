@@ -162,12 +162,21 @@
   .subscribe h2 { font-family: var(--display); font-weight: 500; font-size: clamp(2.1rem, 1.15rem + 4.6vw, 4rem);
     line-height: 1.06; letter-spacing: -0.01em; margin: 0 0 1.5rem; max-width: 20ch; }
   .subscribe .label { color: var(--parchment); opacity: 0.85; margin-bottom: 1.25rem; }
-  .subscribe .input { border-color: rgba(236,227,207,.45); color: var(--parchment); }
+  .subscribe .input { border-color: var(--parchment); color: var(--parchment); }
   .subscribe .input::placeholder { color: rgba(236,227,207,.7); }
   .subscribe .input:focus { outline-color: var(--parchment); border-color: var(--parchment); }
   .subscribe .btn { background: var(--parchment); color: var(--ink); border-color: var(--parchment); }
   .subscribe .btn:hover { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
   .subscribe__note { margin: 1.4rem 0 0; font-size: 0.95rem; opacity: 0.92; max-width: 44ch; text-wrap: pretty; }
+  .cta {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem;
+    font-family: var(--utility); font-size: 0.75rem; letter-spacing: 0.24em; text-transform: uppercase;
+    line-height: 1; padding: 1.05em 1.9em; margin-top: 0.5rem;
+    background: var(--parchment); color: var(--ink); border: 1px solid var(--parchment);
+    text-decoration: none;
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .cta:hover { background: var(--ink); border-color: var(--ink); color: var(--parchment); }
   .subscribe__note a { color: var(--parchment); text-decoration: underline; text-underline-offset: 0.18em; }
 
   .label { font-family: var(--utility); font-size: 0.78125rem; letter-spacing: 0.34em; text-transform: uppercase;
@@ -227,9 +236,30 @@
     </div>
     <p class="note">
       <b>Fill this band with --hot-metal-deep (#A63914), not --hot-metal.</b> The 0.95rem note inside it is body-size
-      text, and parchment on #C2451C measures 3.9 : 1 — below AA. On the deep red it is 5.1 : 1.<br>
-      If the form is a third-party embed (Substack, Buttondown), size the iframe to
-      <code>max-width: 30rem; height: 9.5rem;</code> on a transparent background and let the band’s fill show through.
+      text, and parchment on #C2451C measures 3.9 : 1 — below AA. On the deep red it is 5.1 : 1.
+    </p>
+    <p class="note">
+      <b>The input border on this band is solid parchment, not a tint.</b> --control-edge-reversed (55%) is measured
+      against ink, where it gives 4.3 : 1; against #A63914 the same tint falls to 2.6 : 1, under the 3 : 1 a control
+      edge needs. Control-edge tokens are surface-specific — re-measure them, do not reuse them.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>When capture has to happen elsewhere</span><em>the hand-off pattern</em></p>
+    <div class="subscribe">
+      <p class="label">A workshop of words</p>
+      <h2><span class="condense">A word a time for the age of talking to machines.</span></h2>
+      <a class="cta" href="#">Subscribe</a>
+      <p class="subscribe__note">Free. No archive paywall, no referral scheme, no post about how to grow your
+        newsletter.</p>
+    </div>
+    <p class="note">
+      A static site cannot post to a provider that sends no <code>Access-Control-Allow-Origin</code> — Substack’s
+      subscribe API does not, so an inline form on the page could never submit. Rather than ship a foreign widget
+      whose button colour collides with the band, use the brand’s own primary action and let the provider take the
+      address on its own page. <span class="no">Never fall back to a GET form that puts the reader’s email in a
+      query string</span> — it leaks into history, referrers and server logs.
     </p>
   </section>
 </div>
