@@ -1,0 +1,232 @@
+<!-- @dsCard group="Components" name="Surfaces & footer" subtitle="Band stack, dividers, footer, reversed system" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Surfaces & footer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .band { padding: 2.75rem 3rem; }
+  .band + .band { border-top: 1px solid var(--hairline); }
+  .band h2 { font-family: var(--display); font-weight: 500; font-size: 2rem; line-height: 1.1;
+    letter-spacing: -0.01em; margin: 0 0 0.85rem; }
+  .band p { margin: 0; max-width: var(--measure); text-wrap: pretty; }
+
+  .band--deep { background: var(--parchment-deep); }
+  .band--hot { background: var(--hot-metal-deep); color: var(--parchment); }
+  .band--hot .label { color: var(--parchment); opacity: 0.85; }
+  .band--ink { background: var(--ink); color: var(--parchment); }
+  .band--ink .label { color: var(--parchment); opacity: 0.7; }
+
+  .stackdemo { border: 1px solid var(--hairline); }
+
+  .footer { background: var(--ink); color: var(--parchment); padding: 2.5rem 3rem; }
+  .footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .footer__mark { font-family: var(--display); font-weight: 600; font-size: 2.25rem; line-height: 0.92;
+    letter-spacing: -0.01em; transform: scaleX(0.94); transform-origin: left center; display: inline-block;
+    color: var(--parchment); opacity: 0.9; }
+  .footer .label { color: var(--parchment); opacity: 0.7; }
+  .footer a { color: var(--parchment); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+
+  .label { font-family: var(--utility); font-size: 0.78125rem; letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--iron); margin: 0 0 0.9rem; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Components</p>
+  <h1 class="sheet__title"><span class="condense">Surfaces &amp; footer</span></h1>
+  <p class="sheet__lede">Four surfaces, stacked. A page is built by choosing an order for them — there is no other
+    layout decision to make.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>The band stack</span><em>hairline between consecutive parchment bands</em></p>
+    <div class="stackdemo">
+      <div class="band">
+        <p class="label" style="color:#a63914">Parchment — the default</p>
+        <h2><span class="condense">Where everything is read.</span></h2>
+        <p>Entries, prose, process, archive. Most of a page is this surface, and consecutive bands are separated by a
+          1px hairline at 14% — not by a colour change.</p>
+      </div>
+      <div class="band band--deep">
+        <p class="label" style="color:#a63914">Parchment deep — the aside</p>
+        <p>One shade down, for the editor’s note or a standfirst. No hairline needed; the tone change is the divider.</p>
+      </div>
+      <div class="band band--hot">
+        <p class="label">Hot metal deep — the ask</p>
+        <h2><span class="condense">One per page, and only for subscribing.</span></h2>
+        <p>The single filled accent band. If a page has two of these, one of them is not really an ask.</p>
+      </div>
+      <div class="band band--ink">
+        <p class="label">Ink — the close</p>
+        <p>Ends the page. Reversed wordmark, one line of utility metadata.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Footer</span></p>
+    <div class="footer">
+      <div class="footer__inner">
+        <span class="footer__mark">Promptwrought</span>
+        <p class="label" style="margin:0">Est. MMXXVI · London</p>
+        <p class="label" style="margin:0">© 2026 Promptwrought</p>
+      </div>
+    </div>
+    <p class="note">
+      Wordmark reversed at 90% opacity on the left, the founding line and the copyright on the right, wrapping to
+      stacked on narrow screens. The year is set in roman numerals in the founding line so 2026 does not read
+      twice; the copyright keeps arabic, which is the convention people scan for. Nothing else goes in the footer — no nav, no social row, no newsletter form repeated. On ink, links
+      are parchment and underline on hover; labels sit at 70% opacity.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Reversed system</span><em>token swaps when the surface is ink</em></p>
+    <p class="note" style="margin-top:0">
+      <b>Text</b> becomes --parchment. <b>Secondary text</b> becomes parchment at 70%, or --parchment-dim (#C9BFA6) —
+      the one place that token is used.<br>
+      <b>Rules</b> become --rule-light: parchment at 30%.<br>
+      <b>The accent steps up, not down.</b> On ink, accent <em>text</em> is --hot-metal-light (#E0703F) at 5.1 : 1.
+      --hot-metal (#C2451C) reaches only 3.3 : 1 on ink, so on dark it is limited to marks and display type — the
+      monogram interpunct, a large numeral. <span class="no">--hot-metal-deep must never appear on ink at all</span>
+      (2.5 : 1); it is a light-surface token only.<br>
+      <span class="no">Never</span> butt a hot-metal band directly against an ink band — the two darks fight and the
+      join reads as a rendering error. Put a parchment band between them.
+    </p>
+  </section>
+</div>
+</body>
+</html>

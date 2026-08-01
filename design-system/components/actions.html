@@ -1,0 +1,264 @@
+<!-- @dsCard group="Components" name="Actions" subtitle="Buttons, links, focus — three variants, two sizes" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Actions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.6em;
+    font-family: var(--utility); font-size: 0.75rem; letter-spacing: 0.24em; text-transform: uppercase;
+    line-height: 1; padding: 1.05em 1.9em; border: 1px solid transparent; border-radius: 0;
+    text-decoration: none; cursor: pointer; background: none; color: inherit;
+    transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  }
+  .btn--primary { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+  .btn--primary:hover { background: var(--hot-metal-deep); border-color: var(--hot-metal-deep); }
+
+  .btn--secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+  .btn--secondary:hover { background: var(--ink); color: var(--parchment); }
+
+  .btn--quiet { padding-inline: 0; color: var(--hot-metal-deep); border-bottom: 1px solid var(--rule); }
+  .btn--quiet:hover { border-bottom-color: var(--hot-metal-deep); }
+
+  .btn--sm { font-size: 0.6875rem; letter-spacing: 0.2em; padding: 0.8em 1.4em; }
+
+  .btn:focus-visible { outline: 2px solid var(--hot-metal-deep); outline-offset: 3px; }
+  .btn[disabled], .btn--disabled { opacity: 0.4; pointer-events: none; }
+
+  .on-ink { background: var(--ink); padding: 2rem 2.25rem; }
+  .on-ink .btn--primary { background: var(--parchment); color: var(--ink); border-color: var(--parchment); }
+  .on-ink .btn--primary:hover { background: var(--parchment); border-color: var(--parchment); color: var(--hot-metal-deep); }
+  .on-ink .btn--secondary { color: var(--parchment); border-color: var(--control-edge-reversed); }
+  .on-ink .btn--secondary:hover { background: var(--parchment); color: var(--ink); border-color: var(--parchment); }
+
+  .on-hot { background: var(--hot-metal-deep); padding: 2rem 2.25rem; }
+  .on-hot .btn--primary { background: var(--parchment); color: var(--ink); border-color: var(--parchment); }
+  .on-hot .btn--primary:hover { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+
+  .row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+  .stack { display: flex; flex-direction: column; gap: 1.75rem; }
+  .cap { font-family: var(--utility); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--slate); margin: 0 0 0.75rem; }
+
+  .textlink { color: var(--hot-metal-deep); text-decoration: none; }
+  .textlink:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+  .textlink:focus-visible { outline: 2px solid var(--hot-metal-deep); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Components</p>
+  <h1 class="sheet__title"><span class="condense">Actions</span></h1>
+  <p class="sheet__lede">A publication that asks for one thing — a subscription — needs one loud button and two
+    quiet ones. All three are square-cornered utility type in a rectangle. Nothing here has a radius or a shadow.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>On parchment</span><em>default surface</em></p>
+    <div class="stack">
+      <div>
+        <p class="cap">Primary — one per view</p>
+        <div class="row">
+          <a class="btn btn--primary" href="#">Subscribe</a>
+          <a class="btn btn--primary btn--sm" href="#">Subscribe</a>
+          <span class="btn btn--primary btn--disabled">Disabled</span>
+        </div>
+      </div>
+      <div>
+        <p class="cap">Secondary</p>
+        <div class="row">
+          <a class="btn btn--secondary" href="#">Read the archive</a>
+          <a class="btn btn--secondary btn--sm" href="#">Read the archive</a>
+        </div>
+      </div>
+      <div>
+        <p class="cap">Quiet — inline, rule-underlined</p>
+        <div class="row">
+          <a class="btn btn--quiet" href="#">All entries</a>
+          <a class="btn btn--quiet btn--sm" href="#">Submit a coinage</a>
+        </div>
+      </div>
+      <div>
+        <p class="cap">Text link — inside prose</p>
+        <p style="margin:0;max-width:var(--measure)">Read it at <a class="textlink" href="#">promptwrought.substack.com</a>,
+          or browse <a class="textlink" href="#">the lexicon so far</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Reversed</span><em>on ink and on the accent band</em></p>
+    <div class="row" style="gap:1.25rem;align-items:stretch">
+      <div class="on-ink">
+        <p class="cap" style="color:#c9bfa6">On ink</p>
+        <div class="row">
+          <a class="btn btn--primary" href="#">Subscribe</a>
+          <a class="btn btn--secondary" href="#">Archive</a>
+        </div>
+      </div>
+      <div class="on-hot">
+        <p class="cap" style="color:#ece3cf;opacity:.75">On hot metal deep</p>
+        <div class="row">
+          <a class="btn btn--primary" href="#">Subscribe</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>States &amp; rules</span></p>
+    <p class="note" style="margin-top:0">
+      <b>Hover</b> on the primary swaps ink for hot-metal-deep — the accent appears on interaction, not at rest.
+      Secondary inverts. Quiet darkens its underline. No lift, no scale, no shadow; 0.18s ease.<br>
+      <b>Hover on ink</b> keeps the parchment fill and turns the <em>label</em> hot-metal-deep instead. Repainting the
+      fill red on a dark surface drops the button’s edge to 2.5 : 1 against the band and it visually disappears.<br>
+      <b>Outlined buttons on ink</b> take <code>--control-edge-reversed</code> (parchment at 55%, 4.3 : 1), not the 30%
+      <code>--rule-light</code> used for dividers — a control’s edge needs 3 : 1 against its surface, and 30% only
+      reaches 2.4 : 1. On light the equivalent is <code>--control-edge</code> at 3.5 : 1.<br>
+      <b>Focus</b> is a 2px hot-metal-deep outline at 3px offset, used identically on links, buttons, and inputs
+      (hot-metal-light when the surface is ink). Never remove it.<br>
+      <b>Labels</b> are verbs in sentence case, uppercased by CSS — <em>Subscribe</em>, <em>Read the archive</em>,
+      <em>Submit a coinage</em>. Never “Click here”, never “Learn more”.<br>
+      <b>Radius is zero</b> everywhere. The system is set in rules and rectangles; a rounded corner reads as a
+      different brand immediately.<br>
+      <b>Hit area</b> on a button is at least 44 × 44px including padding, even at the small size.
+      <b>Category chips are the deliberate exception at 32px</b> — they sit in dense rows where 44 would break the
+      line rhythm. WCAG 2.2 SC 2.5.8 sets the AA target at 24 × 24px, which 32 clears comfortably; 44 is the AAA
+      bar, and buttons keep it.
+    </p>
+  </section>
+</div>
+</body>
+</html>

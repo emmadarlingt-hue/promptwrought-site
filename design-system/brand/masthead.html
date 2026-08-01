@@ -1,0 +1,232 @@
+<!-- @dsCard group="Brand" name="Masthead" subtitle="The locked issue lockup, plus the banner variant" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Masthead</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .pw-masthead { width: 45rem; max-width: 100%; background: var(--parchment); border: 1px solid #2b2721; padding: 2.75rem 3.5rem 2.5rem; }
+  @media (max-width: 40rem) { .pw-masthead { padding: 1.75rem 1.5rem 1.5rem; } }
+  .pw-rule-top { border-top: 4px solid var(--ink); border-bottom: 1px solid var(--ink); height: 5px; margin-bottom: 1.125rem; }
+  .pw-eyebrow { display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--utility); font-size: 0.65625rem; letter-spacing: 0.34em; text-transform: uppercase; margin-bottom: 2rem; }
+  .pw-eyebrow .workshop { color: var(--hot-metal-deep); }
+  .pw-eyebrow .no { color: var(--ink); }
+  .pw-eyebrow .no sup { font-size: 0.5rem; vertical-align: 0.7em; }
+  .pw-wordmark { font-family: var(--display); font-weight: 600; font-size: clamp(2.25rem, 9vw, 5.5rem);
+    line-height: 0.92; letter-spacing: -0.01em; color: var(--ink); transform: scaleX(0.94); transform-origin: left; }
+  .pw-entry { display: flex; align-items: baseline; gap: 1rem; margin-top: 1.375rem; flex-wrap: wrap; font-family: var(--display); }
+  .pw-entry .head { font-size: 1.625rem; color: var(--ink); }
+  .pw-entry .head .dot { color: var(--hot-metal); }
+  .pw-entry .ipa { font-size: 1.5rem; color: var(--slate); }
+  .pw-entry .pos { font-size: 1.5rem; color: var(--hot-metal); font-style: italic; }
+  .pw-tagline-wrap { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 0.9375rem 0; margin-top: 1.625rem; text-align: center; }
+  /* Artwork spec holds this on one line. Below 48rem it is allowed to wrap
+     rather than force a 620px horizontal scroll on a phone. */
+  .pw-tagline { font-family: var(--utility); font-size: 0.78125rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: #3d372d; line-height: 1.9; }
+  @media (min-width: 48rem) { .pw-tagline { white-space: nowrap; } }
+
+  .banner { background: var(--parchment); border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink);
+    padding: 1.75rem 2.25rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .banner__side { font-family: var(--utility); font-size: 0.6875rem; letter-spacing: 0.26em; text-transform: uppercase; line-height: 2; }
+  .banner__side--l { color: var(--hot-metal-deep); }
+  .banner__side--r { color: var(--iron); text-align: right; }
+  .banner__mark { font-family: var(--display); font-weight: 600; font-size: clamp(1.75rem, 7vw, 3.75rem); line-height: 0.92;
+    letter-spacing: -0.01em; transform: scaleX(0.94); }
+
+  .web-masthead { text-align: center; padding: 2.5rem 2rem; border: 1px solid var(--hairline); }
+  .web-masthead__mark { font-family: var(--display); font-weight: 600; font-size: clamp(1.85rem, 7.5vw, 4rem); line-height: 0.92;
+    letter-spacing: -0.01em; transform: scaleX(0.94); display: inline-block; }
+  .web-masthead hr { border: 0; border-top: 2px solid var(--ink); margin: 1.75rem 0 1rem; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Brand</p>
+  <h1 class="sheet__title"><span class="condense">Masthead</span></h1>
+  <p class="sheet__lede">The full issue lockup. Rule, eyebrow, name, dictionary entry, tagline between rules —
+    in that order, always. This one is locked: rebuild it, don’t redesign it.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>Issue masthead</span><em>locked — email header &amp; issue no. 1 artwork</em></p>
+    <div class="pw-masthead">
+      <div class="pw-rule-top"></div>
+      <div class="pw-eyebrow">
+        <span class="workshop">A Workshop of Words</span>
+        <span class="no">N<sup>o</sup>&thinsp;1</span>
+      </div>
+      <div class="pw-wordmark">Promptwrought</div>
+      <div class="pw-entry">
+        <span class="head">prompt&thinsp;<span class="dot">&middot;</span>&thinsp;wrought</span>
+        <span class="ipa">\&thinsp;&#712;pr&auml;m(p)t-&#716;r&#559;t&thinsp;\</span>
+        <span class="pos">n.</span>
+      </div>
+      <div class="pw-tagline-wrap">
+        <div class="pw-tagline">A word a week for the age of talking to machines.</div>
+      </div>
+    </div>
+    <p class="note">
+      Only two things change between issues: <b>N<sup>o</sup></b> and the tagline cadence
+      (<em>a word a week</em> / <em>a word a time</em>). Everything else is fixed. The eyebrow is the one place
+      hot metal and ink sit on the same line — left is accent, right is ink.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Banner</span><em>wide crops — social headers, letterheads, 5:1</em></p>
+    <div class="banner">
+      <p class="banner__side banner__side--l">A workshop<br>of words</p>
+      <div class="banner__mark">Promptwrought</div>
+      <p class="banner__side banner__side--r">A word a week<br>for the age of<br>talking to machines</p>
+    </div>
+    <p class="note">Three columns, name centred, rules top and bottom at 3px. The utility columns are set to two or
+      three short lines so the block stays optically balanced — never one long line.</p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Web masthead</span><em>the site header — simplified</em></p>
+    <div class="web-masthead">
+      <span class="web-masthead__mark">Promptwrought</span>
+      <hr>
+      <p class="label" style="letter-spacing:0.28em">A workshop of words</p>
+    </div>
+    <p class="note">On the site the entry line moves out of the masthead and becomes the first content block, so the
+      header carries only the name, a 2px rule, and the tagline. Centred here, and only here — every other block on
+      the site is left-aligned.</p>
+  </section>
+</div>
+</body>
+</html>

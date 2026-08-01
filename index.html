@@ -26,9 +26,15 @@
     --parchment-deep: #e2d7bd;
     --ink: #221f1a;
     --iron: #3a352d;
+    --slate: #5c5344;
+    /* Accent, two values. #c2451c measures 3.95:1 on parchment — fine for
+       display type and marks, below AA for anything at text size. */
     --hot-metal: #c2451c;
+    --hot-metal-deep: #a63914;
     --rule: rgba(34, 31, 26, 0.28);
     --hairline: rgba(34, 31, 26, 0.14);
+    /* a divider may be faint; the edge of something clickable may not */
+    --control-edge: rgba(34, 31, 26, 0.55);
 
     --display: "Cormorant Garamond", Garamond, Georgia, serif;
     --body: "EB Garamond", Garamond, Georgia, serif;
@@ -52,16 +58,16 @@
     text-rendering: optimizeLegibility;
   }
 
-  a { color: var(--hot-metal); text-decoration: none; }
+  a { color: var(--hot-metal-deep); text-decoration: none; }
   a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
   a:focus-visible,
   button:focus-visible,
   input:focus-visible {
-    outline: 2px solid var(--hot-metal);
+    outline: 2px solid var(--hot-metal-deep);
     outline-offset: 3px;
   }
 
-  ::selection { background: var(--hot-metal); color: var(--parchment); }
+  ::selection { background: var(--hot-metal-deep); color: var(--parchment); }
 
   img { max-width: 100%; height: auto; display: block; }
 
@@ -89,7 +95,7 @@
   @media (min-width: 48rem) {
     .label { letter-spacing: 0.34em; }
   }
-  .label--accent { color: var(--hot-metal); }
+  .label--accent { color: var(--hot-metal-deep); }
   .label--wide { letter-spacing: 0.28em; }
 
   /* Condensed display setting — scaleX(.94), as in the wordmark */
@@ -156,7 +162,7 @@
   .senses .n {
     font-family: var(--utility);
     font-size: 0.8em;
-    color: var(--hot-metal);
+    color: var(--hot-metal-deep);
     padding-top: 0.4em;
   }
   .senses p { margin: 0; font-size: 1.06em; line-height: 1.5; text-wrap: pretty; }
@@ -188,7 +194,7 @@
     font-family: var(--utility);
     font-size: 0.8125rem;
     letter-spacing: 0.3em;
-    color: var(--hot-metal);
+    color: var(--hot-metal-deep);
     margin: 0 0 0.75rem;
   }
   .stage h3 {
@@ -241,9 +247,54 @@
     font-family: var(--display);
     font-style: italic;
     font-size: 1.25rem;
-    color: var(--hot-metal);
+    color: var(--hot-metal-deep);
   }
+  .word-entry__pron {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    color: var(--slate);
+  }
+  .word-entry__meta { display: flex; gap: 0.6rem; align-items: center; margin-left: auto; }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    font-family: var(--utility);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--hot-metal-deep);
+    border: 1px solid var(--control-edge);
+    padding: 0.4rem 0.8rem;
+  }
+  a.tag { transition: color 0.18s ease, border-color 0.18s ease; }
+  a.tag:hover { color: var(--ink); border-color: var(--ink); }
+  .tag[aria-current] { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+
   .word-entry p { margin: 0 0 0.75rem; text-wrap: pretty; }
+  .word-entry__def { margin: 0.85rem 0 1.25rem; font-size: 1.06em; line-height: 1.5; }
+
+  .field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+    padding: 0.8rem 0;
+    border-top: 1px solid var(--hairline);
+  }
+  @media (min-width: 40rem) {
+    .field { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1.25rem; }
+  }
+  .field__k {
+    font-family: var(--utility);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding-top: 0.35em;
+  }
+  .field__v { margin: 0; font-size: 0.98rem; line-height: 1.5; color: var(--iron); text-wrap: pretty; }
+  .field__v cite { font-style: italic; color: var(--ink); }
 
   .forthcoming {
     border-top: 1px solid var(--hairline);
@@ -282,9 +333,13 @@
   /* ─────────── subscribe ─────────── */
 
   .subscribe {
-    background: var(--hot-metal);
+    background: var(--hot-metal-deep);
     color: var(--parchment);
   }
+  /* the page-wide accent outline is invisible against this band */
+  .subscribe a:focus-visible,
+  .subscribe button:focus-visible,
+  .subscribe input:focus-visible { outline-color: var(--parchment); }
   .subscribe h2 {
     font-family: var(--display);
     font-weight: 500;
@@ -294,7 +349,7 @@
     margin: 0 0 1.5rem;
     max-width: 20ch;
   }
-  .subscribe .label { color: var(--parchment); opacity: 0.85; }
+  .subscribe .label { color: var(--parchment); opacity: 0.95; }
   .subscribe__embed {
     border: 0;
     width: 100%;
@@ -429,19 +484,29 @@
     <article class="word-entry">
       <div class="word-entry__head">
         <span class="word-entry__word">misask</span>
-        <span class="word-entry__pos">v.</span>
+        <span class="word-entry__pos">n. &amp; v.</span>
+        <span class="word-entry__pron">\ mɪsˈɑːsk \</span>
+        <span class="word-entry__meta"><span class="tag">Asking</span></span>
       </div>
-     {
-    word: "Misask",
-    pos: "noun & verb",
-    pron: "/mɪsˈɑːsk/",
-    vol: "VI",
-    tag: "Work",
-    def: "The gap between what one asked for and what one meant; to instruct a machine accurately in the wrong direction.",
-    etym: "From mis- (Old English, 'wrongly') + ask (Old English āscian, 'to seek'). Pure Anglo-Saxon; no seam.",
-    quote: "The output wasn't wrong -- my question was. A straight misask.",
-    why: "It relocates blame from the machine to the phrasing, which is the founding insight of the entire craft -- and it is short enough to be said in meetings."
-  },
+
+      <p class="word-entry__def">The gap between what one asked for and what one meant; to instruct a machine
+        accurately in the wrong direction.</p>
+
+      <div class="field">
+        <div class="field__k">Etymology</div>
+        <p class="field__v">From <em>mis-</em> (Old English, “wrongly”) + <em>ask</em> (Old English <em>āscian</em>,
+          “to seek”). Pure Anglo-Saxon; no seam.</p>
+      </div>
+      <div class="field">
+        <div class="field__k">In use</div>
+        <p class="field__v"><cite>“The output wasn’t wrong — my question was. A straight misask.”</cite></p>
+      </div>
+      <div class="field">
+        <div class="field__k">The case</div>
+        <p class="field__v">It relocates blame from the machine to the phrasing, which is the founding insight of
+          the entire craft — and it is short enough to be said in meetings.</p>
+      </div>
+    </article>
 
     <p class="forthcoming">The second entry is being set. Subscribe below and it will arrive when it is ready, and not before.</p>
   </section>
@@ -465,10 +530,11 @@
     <div class="wrap">
       <h2 id="subscribe"><span class="condense">A word a time for the age of talking to machines.</span></h2>
      
-    <iframe src="https://promptwrought.substack.com/embed?transparent=1&light=1"
-            width="480" height="150"
-            style="border:0; background:transparent"
-            frameborder="0" scrolling="no"></iframe>
+      <iframe class="subscribe__embed"
+              src="https://promptwrought.substack.com/embed?transparent=1&amp;light=1"
+              title="Subscribe to Promptwrought"
+              width="480" height="150"
+              frameborder="0" scrolling="no"></iframe>
   
       <p class="subscribe__note">Free. No archive paywall, no referral scheme, no post about how to grow your newsletter. Read it at <a href="https://promptwrought.substack.com">promptwrought.substack.com</a>.</p>
     </div>
@@ -479,7 +545,8 @@
 <footer class="footer">
   <div class="wrap footer__inner">
     <img class="footer__mark" src="assets/promptwrought-wordmark-light.png" alt="Promptwrought">
-    <p class="label">Est. 2026 · London</p>
+    <p class="label">Est. MMXXVI · London</p>
+    <p class="label">© 2026 Promptwrought</p>
   </div>
 </footer>
 

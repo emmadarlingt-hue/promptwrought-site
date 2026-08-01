@@ -1,0 +1,70 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   Promptwrought — design tokens
+   A workshop of words. Two surfaces, one accent, three voices.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── ink & parchment ─────────────────────────────────────────────────── */
+  --pw-ink:            #221f1a;  /* body text, headwords, 2px rules, footer   */
+  --pw-iron:           #3a352d;  /* secondary copy, labels, glosses           */
+  --pw-slate:          #5c5344;  /* pronunciation, captions, metadata         */
+  --pw-parchment:      #ece3cf;  /* the default page                          */
+  --pw-parchment-deep: #e2d7bd;  /* inset bands — editor's note, callouts     */
+  --pw-parchment-dim:  #c9bfa6;  /* captions ON DARK ONLY                     */
+
+  /* ── the one accent, in three values ─────────────────────────────────────
+     Reds sit awkwardly in the luminance range: a single value is either too
+     dark to read on ink or too light to read on parchment. Pick by surface. */
+  --pw-hot-metal:       #c2451c;  /* marks & display 24px+, either surface    */
+  --pw-hot-metal-deep:  #a63914;  /* accent text & fills ON LIGHT  (5.1:1)    */
+  --pw-hot-metal-light: #e0703f;  /* accent text ON INK            (5.1:1)    */
+
+  /* ── rules — decoration for the eye, may be faint ────────────────────── */
+  --pw-rule:       rgba(34, 31, 26, 0.28);     /* divides peers    (1.8:1)   */
+  --pw-hairline:   rgba(34, 31, 26, 0.14);     /* separates bands            */
+  --pw-rule-light: rgba(236, 227, 207, 0.30);  /* dividers on ink            */
+
+  /* ── control edges — the boundary of something clickable, needs 3:1 ────
+     Chips, inputs and outlined buttons. Never use --pw-rule for these.    */
+  --pw-control-edge:          rgba(34, 31, 26, 0.55);    /* 3.5:1 on parchment */
+  --pw-control-edge-reversed: rgba(236, 227, 207, 0.55); /* 4.3:1 on ink       */
+
+  /* ── voices ──────────────────────────────────────────────────────────── */
+  --pw-display: "Cormorant Garamond", Garamond, Georgia, serif;
+  --pw-body:    "EB Garamond", Garamond, Georgia, serif;
+  --pw-utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+  /* ── type scale (fluid) ──────────────────────────────────────────────── */
+  --pw-display-xl: clamp(3rem, 1.3rem + 8.6vw, 7rem);        /* headword     */
+  --pw-display-l:  clamp(2rem, 1.1rem + 4.4vw, 3.75rem);     /* section h2   */
+  --pw-display-m:  clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem);  /* sub-section  */
+  --pw-display-s:  1.5rem;                                    /* h3          */
+  --pw-gloss:      clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);  /* pron. line  */
+  --pw-text:       clamp(1.0625rem, 0.98rem + 0.42vw, 1.1875rem);
+  --pw-text-sm:    0.96rem;
+  --pw-label:      0.78125rem;
+  --pw-micro:      0.6875rem;
+
+  /* ── type detail ─────────────────────────────────────────────────────── */
+  --pw-leading-body:    1.62;
+  --pw-leading-display: 0.96;
+  --pw-track-display:  -0.01em;
+  --pw-track-label:     0.34em;  /* eases to 0.26em below 48rem             */
+  --pw-squeeze:         0.94;    /* scaleX on display type — the house look  */
+
+  /* ── measure & rhythm ────────────────────────────────────────────────── */
+  --pw-measure: 66ch;
+  --pw-wrap:    60rem;
+  --pw-gutter:  clamp(1.5rem, 6vw, 5.5rem);
+  --pw-band:    clamp(3rem, 8vw, 5.5rem);
+
+  /* ── motion ──────────────────────────────────────────────────────────── */
+  --pw-ease:     cubic-bezier(0.2, 0.7, 0.3, 1);
+  --pw-rise:     0.9s;
+  --pw-hover:    0.18s;
+  --pw-radius:   0;  /* not a mistake — nothing in this system is rounded   */
+
+  /* ── target sizes ────────────────────────────────────────────────────── */
+  --pw-target-button: 2.75rem;  /* 44px — AAA, and the default              */
+  --pw-target-chip:   2rem;     /* 32px — the one exception; AA bar is 24   */
+}

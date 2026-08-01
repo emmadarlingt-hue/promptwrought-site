@@ -1,0 +1,244 @@
+<!-- @dsCard group="Components" name="Lexicon entry" subtitle="Archive card — definition, etymology, citation, case" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Lexicon entry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .word-entry { border-top: 2px solid var(--ink); padding-top: 1.35rem; max-width: var(--measure); margin-bottom: 3rem; }
+  .word-entry:last-child { margin-bottom: 0; }
+  .word-entry__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.55em; margin-bottom: 0.15rem; }
+  .word-entry__word { font-family: var(--display); font-weight: 600; font-size: clamp(2rem, 1.5rem + 2.2vw, 2.75rem);
+    line-height: 1.05; letter-spacing: -0.01em; }
+  .word-entry__pos { font-family: var(--display); font-style: italic; font-size: 1.25rem; color: var(--hot-metal-deep); }
+  .word-entry__pron { font-family: var(--display); font-size: 1.2rem; color: var(--slate); }
+  .word-entry__meta { display: flex; gap: 0.6rem; align-items: center; margin-left: auto; }
+
+  .tag { font-family: var(--utility); font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--hot-metal-deep); border: 1px solid var(--rule); padding: 0.25rem 0.55rem; }
+  .tag--solid { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+
+  .word-entry__def { margin: 0.85rem 0 1.25rem; font-size: 1.06em; line-height: 1.5; text-wrap: pretty; }
+
+  .field { display: grid; grid-template-columns: minmax(0,1fr); gap: 0.2rem; padding: 0.8rem 0; border-top: 1px solid var(--hairline); }
+  @media (min-width: 40rem) { .field { grid-template-columns: 6.5rem minmax(0,1fr); gap: 1.25rem; } }
+  .field__k { font-family: var(--utility); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--slate); padding-top: 0.35em; }
+  .field__v { margin: 0; font-size: 0.98rem; line-height: 1.5; color: var(--iron); text-wrap: pretty; }
+  .field__v cite { font-style: italic; color: var(--ink); }
+
+  .forthcoming { border-top: 1px solid var(--hairline); margin-top: 2rem; padding-top: 1.1rem;
+    max-width: var(--measure); color: var(--iron); font-style: italic; }
+
+  .lexicon__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+    gap: 1rem; margin-bottom: 2rem; }
+  .lexicon__head h2 { font-family: var(--display); font-weight: 500; font-size: clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem);
+    letter-spacing: -0.01em; margin: 0; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Components</p>
+  <h1 class="sheet__title"><span class="condense">Lexicon entry</span></h1>
+  <p class="sheet__lede">The archive unit — one coined word, fully struck. A 2px ink rule opens it, the way a rule
+    opens an entry in a printed dictionary. Below the definition, four labelled fields do the scholarly work.</p>
+
+  <section class="grp">
+    <div class="lexicon__head">
+      <h2>The lexicon so far</h2>
+      <p class="label">N<sup style="font-size:0.6em;vertical-align:0.7em;letter-spacing:0">o</sup>&thinsp;001</p>
+    </div>
+
+    <article class="word-entry">
+      <div class="word-entry__head">
+        <span class="word-entry__word">misask</span>
+        <span class="word-entry__pos">n. &amp; v.</span>
+        <span class="word-entry__pron">\ mɪsˈɑːsk \</span>
+        <span class="word-entry__meta"><span class="tag">Asking</span></span>
+      </div>
+
+      <p class="word-entry__def">The gap between what one asked for and what one meant; to instruct a machine
+        accurately in the wrong direction.</p>
+
+      <div class="field">
+        <div class="field__k">Etymology</div>
+        <p class="field__v">From <em>mis-</em> (Old English, “wrongly”) + <em>ask</em> (Old English <em>āscian</em>,
+          “to seek”). Pure Anglo-Saxon; no seam.</p>
+      </div>
+      <div class="field">
+        <div class="field__k">In use</div>
+        <p class="field__v"><cite>“The output wasn’t wrong — my question was. A straight misask.”</cite></p>
+      </div>
+      <div class="field">
+        <div class="field__k">The case</div>
+        <p class="field__v">It relocates blame from the machine to the phrasing, which is the founding insight of the
+          entire craft — and it is short enough to be said in meetings.</p>
+      </div>
+    </article>
+
+    <p class="forthcoming">The second entry is being set. Subscribe below and it will arrive when it is ready, and
+      not before.</p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Compact — archive listing</span><em>definition only, no fields</em></p>
+
+    <article class="word-entry" style="margin-bottom:1.75rem">
+      <div class="word-entry__head">
+        <span class="word-entry__word" style="font-size:1.75rem">misask</span>
+        <span class="word-entry__pos" style="font-size:1rem">n. &amp; v.</span>
+        <span class="word-entry__meta"><span class="tag">Asking</span><span class="tag tag--solid">N<sup style="font-size:0.7em;vertical-align:0.6em;letter-spacing:0">o</sup>&thinsp;001</span></span>
+      </div>
+      <p class="word-entry__def" style="margin:0.4rem 0 0;font-size:1rem">The gap between what one asked for and what
+        one meant.</p>
+    </article>
+
+    <article class="word-entry" style="border-top-width:1px;border-top-color:rgba(34,31,26,.28);margin-bottom:0">
+      <div class="word-entry__head">
+        <span class="word-entry__word" style="font-size:1.75rem;color:#5c5344">—</span>
+        <span class="word-entry__pos" style="font-size:1rem;color:#5c5344">forthcoming</span>
+      </div>
+      <p class="word-entry__def" style="margin:0.4rem 0 0;font-size:1rem;color:#5c5344;font-style:italic">Being set.</p>
+    </article>
+
+    <p class="note">
+      In the archive list the rule drops from 2px to 1px at 28% and the fields collapse away. <b>Struck</b> entries
+      keep the ink rule; <b>forthcoming</b> ones use the lighter rule and slate type, so the list reads as a
+      progress ledger without needing any status chrome.
+    </p>
+  </section>
+</div>
+</body>
+</html>

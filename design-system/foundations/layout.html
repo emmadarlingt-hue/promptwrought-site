@@ -1,0 +1,247 @@
+<!-- @dsCard group="Foundations" name="Layout & rhythm" subtitle="Measure, gutter, bands, the reveal" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Layout & rhythm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .diagram { border: 1px solid var(--hairline); background: repeating-linear-gradient(180deg, transparent 0 1.62rem, rgba(34,31,26,.05) 1.62rem 1.625rem); }
+  .diagram__band { padding: 2.5rem; position: relative; }
+  .diagram__band + .diagram__band { border-top: 1px solid var(--hairline); }
+  .diagram__tag {
+    font-family: var(--utility); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--hot-metal-deep); position: absolute; top: 0.55rem; left: 0.7rem;
+  }
+  .diagram p { margin: 0; max-width: var(--measure); }
+
+  .measure-demo { position: relative; max-width: var(--measure); border-left: 2px solid var(--hot-metal);
+    padding-left: 1rem; margin-top: 1.5rem; }
+  .measure-demo::after {
+    content: "66ch"; position: absolute; right: 0; top: -1.35rem;
+    font-family: var(--utility); font-size: 0.62rem; letter-spacing: 0.16em; color: var(--hot-metal-deep);
+  }
+
+  .tokens-scroll { overflow-x: auto; }
+  .tokens { width: 100%; border-collapse: collapse; font-family: var(--utility); font-size: 0.76rem; min-width: 30rem; }
+  .tokens th, .tokens td { text-align: left; padding: 0.6rem 0.9rem 0.6rem 0; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  .tokens th { font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.65rem; color: var(--slate); }
+  .tokens td:first-child { color: var(--hot-metal-deep); }
+  .tokens td:last-child { font-family: var(--body); font-size: 0.95rem; color: var(--iron); letter-spacing: 0; line-height: 1.45; }
+
+  .motion { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .motion__card { border: 1px solid var(--hairline); padding: 1.5rem; min-width: 14rem; flex: 1; }
+  .rise { animation: rise 0.9s cubic-bezier(0.2,0.7,0.3,1) infinite alternate; }
+  @keyframes rise { from { opacity: 0; transform: translateY(0.75rem); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Foundations</p>
+  <h1 class="sheet__title"><span class="condense">Layout &amp; rhythm</span></h1>
+  <p class="sheet__lede">One column, generous gutters, and horizontal rules doing the work that boxes and cards do
+    elsewhere. Nothing on this site sits in a container with a shadow. It sits between two lines, like an entry.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>Spatial tokens</span></p>
+    <div class="tokens-scroll"><table class="tokens">
+      <tr><th>Token</th><th>Value</th><th>Job</th></tr>
+      <tr><td>--wrap</td><td>60rem</td><td>Outer column. Everything is centred in it; nothing exceeds it.</td></tr>
+      <tr><td>--measure</td><td>66ch</td><td>Reading width for body copy, senses, and definitions.</td></tr>
+      <tr><td>--gutter</td><td>clamp(1.5rem, 6vw, 5.5rem)</td><td>Inline padding. Wide margins are the point, not waste.</td></tr>
+      <tr><td>--band</td><td>clamp(3rem, 8vw, 5.5rem)</td><td>Vertical padding on a section. Consecutive bands get a hairline between them.</td></tr>
+    </table></div>
+    <p class="note"><b>Vertical rhythm</b> is the body leading — 1.62. Paragraph spacing is 1.15rem, senses 1.35rem,
+      section titles 1.25rem above their first paragraph. Grid gaps step in clamps of 1.75–2.5rem.</p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>The band</span><em>the only layout primitive</em></p>
+    <div class="diagram">
+      <div class="diagram__band">
+        <span class="diagram__tag">band · parchment</span>
+        <p class="label label--accent" style="margin-bottom:1.25rem">An eyebrow opens it</p>
+        <p>A band is a full-bleed horizontal slab with <code>--band</code> padding above and below and the wrap
+          centred inside. It carries a surface colour and nothing else — no border radius, no shadow, no card.</p>
+      </div>
+      <div class="diagram__band" style="background:#e2d7bd">
+        <span class="diagram__tag">band · parchment-deep</span>
+        <p>Shift the surface a shade to mark an aside — the editor’s note, a standfirst. Same padding, same wrap.</p>
+      </div>
+      <div class="diagram__band" style="background:#a63914;color:#ece3cf">
+        <span class="diagram__tag" style="color:#ece3cf;opacity:.8">band · hot-metal-deep</span>
+        <p>One band per page may be filled with the accent — the call to subscribe. Use the deep variant so the
+          parchment copy inside it clears AA.</p>
+      </div>
+      <div class="diagram__band" style="background:#221f1a;color:#ece3cf">
+        <span class="diagram__tag" style="color:#e0703f">band · ink</span>
+        <p>Ink closes the page. Reversed wordmark, one line of utility type, nothing else.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Measure</span><em>66ch, and hold to it</em></p>
+    <div class="measure-demo">
+      <p style="margin:0">The <em>-wright</em> suffix is one of the oldest job descriptions in English. It comes from
+      Old English <em>wyrhta</em>, a worker or maker, and it survives now almost entirely in trades that have gone:
+      the wheelwright, the shipwright, the millwright, the cartwright. Only the playwright is still at work.</p>
+    </div>
+    <p class="note"><b>Always</b> pair the measure with <code>text-wrap: pretty</code> — it stops orphans in a serif
+      face where a single short last line is very visible. Display headings additionally cap at 20–24ch.</p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Motion</span><em>one gesture, used sparingly</em></p>
+    <div class="motion">
+      <div class="motion__card">
+        <p class="label label--accent" style="margin-bottom:0.8rem">Rise</p>
+        <p class="rise" style="margin:0;font-family:var(--display);font-size:1.75rem;line-height:1.2">misask</p>
+        <p class="note" style="margin-top:1rem">translateY(0.75rem) → 0, opacity 0 → 1<br>0.9s cubic-bezier(.2,.7,.3,1)<br>stagger 0.1s</p>
+      </div>
+      <div class="motion__card">
+        <p class="label" style="margin-bottom:0.8rem">Rules of motion</p>
+        <p class="note" style="margin:0">
+          Only the first screen animates, and only three elements deep.<br>
+          No parallax, no scroll-jacking, no hover lift.<br>
+          Links underline on hover at <code>0.18em</code> offset — that is the entire hover vocabulary.<br>
+          The whole block sits inside <code>@media (prefers-reduced-motion: no-preference)</code>, so reduced-motion
+          users get the finished state with no fallback needed.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!-- @dsCard group="Brand" name="Wordmark" subtitle="Ink & reversed, clear space, misuse" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Wordmark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .mark { font-family: var(--display); font-weight: 600; font-size: clamp(1.75rem, 4.6vw, 4.25rem);
+          line-height: 0.92; letter-spacing: -0.01em;
+          transform: scaleX(0.94); transform-origin: left center; display: inline-block; color: var(--ink); }
+  .mark--sm { font-size: clamp(1.25rem, 3vw, 2.5rem); }
+  .stage-box { padding: 2.75rem 3rem; border: 1px solid var(--hairline); }
+  .stage-box--ink { background: var(--ink); border-color: transparent; }
+  .stage-box--ink .mark { color: var(--parchment); }
+  .stage-box--hot { background: var(--hot-metal-deep); border-color: transparent; }
+  .stage-box--hot .mark { color: var(--parchment); }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr)); gap: 1.25rem; }
+
+  .clearspace { position: relative; display: inline-block; padding: 2.6rem; outline: 1px dashed var(--hot-metal); }
+  .clearspace::before {
+    content: "P"; position: absolute; left: 0.55rem; top: 0.3rem;
+    font-family: var(--display); font-weight: 600; font-size: 2.6rem; line-height: 1; color: var(--hot-metal); opacity: 0.4;
+  }
+
+  .dont { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16.5rem, 100%), 1fr)); gap: 1.25rem; }
+  .dont figure > span { font-size: clamp(1.15rem, 3.2vw, 1.8rem); max-width: 100%; }
+  .dont figure { margin: 0; border: 1px solid var(--hairline); padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; gap: 1.1rem; min-height: 11rem; }
+  .dont figcaption { font-family: var(--utility); font-size: 0.68rem; letter-spacing: 0.12em; line-height: 1.7; color: var(--slate); }
+  .dont figcaption b { color: var(--hot-metal-deep); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; display: block; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Brand</p>
+  <h1 class="sheet__title"><span class="condense">Wordmark</span></h1>
+  <p class="sheet__lede">Cormorant Garamond 600, one word, squeezed to 94%. It is not a logo drawn once and frozen —
+    it is a typesetting instruction, so it can be reset live at any size in HTML, email, or artwork.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>Primary</span><em>Cormorant Garamond 600 · scaleX(.94) · tracking −0.01em</em></p>
+    <div class="grid2">
+      <div class="stage-box"><span class="mark">Promptwrought</span></div>
+      <div class="stage-box stage-box--ink"><span class="mark">Promptwrought</span></div>
+    </div>
+    <div class="grid2" style="margin-top:1.25rem">
+      <div class="stage-box stage-box--hot"><span class="mark mark--sm">Promptwrought</span></div>
+      <div class="stage-box" style="background:#e2d7bd"><span class="mark mark--sm">Promptwrought</span></div>
+    </div>
+    <p class="note">
+      Ink on parchment is the default. Parchment reversed out of ink is the footer and any dark context.
+      Parchment on hot-metal-deep is permitted for a single accent band. <span class="no">The wordmark is never
+      set in hot metal itself</span> — the accent belongs to the interpunct, not the name.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Clear space &amp; minimum size</span></p>
+    <div class="clearspace"><span class="mark mark--sm">Promptwrought</span></div>
+    <p class="note">
+      <b>Clear space</b> on all four sides equals the cap-height of the <em>P</em>. Nothing enters it — not a rule,
+      not a nav item, not a photograph edge.<br>
+      <b>Minimum width</b> 120px on screen, 32mm in print. Below that the hairlines in Cormorant break up; use the
+      monogram instead.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Misuse</span><em>each of these has been tried and rejected</em></p>
+    <div class="dont">
+      <figure>
+        <span style="font-family:var(--display);font-weight:600;letter-spacing:0.08em">Promptwrought</span>
+        <figcaption><b>Don’t</b> letterspace the wordmark. It is condensed and tight-tracked; opening it up turns a
+          workshop sign into a spa.</figcaption>
+      </figure>
+      <figure>
+        <span style="font-family:Georgia,serif;font-weight:700">Promptwrought</span>
+        <figcaption><b>Don’t</b> substitute the face. Georgia and Times both survive as fallbacks in body copy —
+          never in the mark.</figcaption>
+      </figure>
+      <figure>
+        <span style="font-family:var(--display);font-weight:600;color:#c2451c;transform:scaleX(.94);transform-origin:left;display:inline-block">Promptwrought</span>
+        <figcaption><b>Don’t</b> set it in hot metal. The accent is a punctuation mark, not a brand colour for
+          type.</figcaption>
+      </figure>
+      <figure>
+        <span style="font-family:var(--display);font-weight:600;transform:scaleX(.94) skewX(-8deg);transform-origin:left;display:inline-block">Promptwrought</span>
+        <figcaption><b>Don’t</b> skew, arch, outline, emboss, or add a shadow. The only permitted transform is the
+          horizontal scale.</figcaption>
+      </figure>
+      <figure>
+        <span style="font-family:var(--display);font-weight:600;transform:scaleX(.94);transform-origin:left;display:inline-block">Prompt<span style="color:#c2451c">W</span>rought</span>
+        <figcaption><b>Don’t</b> camel-case or split it. One lowercase word, always — the compound is the whole
+          idea.</figcaption>
+      </figure>
+      <figure>
+        <span style="font-family:var(--display);font-weight:600;background:#c9bfa6;padding:0.2rem 0.5rem;transform:scaleX(.94);transform-origin:left;display:inline-block">Promptwrought</span>
+        <figcaption><b>Don’t</b> place it on a tinted plate or a photograph. Parchment, ink, or hot-metal-deep —
+          nothing else.</figcaption>
+      </figure>
+    </div>
+  </section>
+</div>
+</body>
+</html>

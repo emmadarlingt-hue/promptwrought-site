@@ -1,0 +1,294 @@
+<!-- @dsCard group="Foundations" name="Typography" subtitle="Three voices, nine steps, fluid clamps" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Typography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .voice { display: grid; grid-template-columns: minmax(0,1fr); gap: 0.6rem; margin-bottom: 2.75rem; }
+  @media (min-width: 46rem) { .voice { grid-template-columns: 11rem minmax(0,1fr); gap: 2rem; } }
+  .voice__meta { font-family: var(--utility); font-size: 0.7rem; line-height: 1.9; letter-spacing: 0.08em; color: var(--slate); }
+  .voice__meta b { display: block; color: var(--hot-metal-deep); letter-spacing: 0.24em; text-transform: uppercase; font-weight: 400; margin-bottom: 0.5rem; }
+  .voice__spec { min-width: 0; }
+  .voice__alpha { font-size: 2.6rem; line-height: 1.15; margin: 0 0 0.35rem; word-break: break-word; }
+  .voice__sample { margin: 0; color: var(--iron); max-width: var(--measure); text-wrap: pretty; }
+
+  .step { display: grid; grid-template-columns: minmax(0,1fr); gap: 0.35rem; padding: 1.1rem 0; border-top: 1px solid var(--hairline); }
+  @media (min-width: 52rem) { .step { grid-template-columns: 13rem minmax(0,1fr); gap: 2rem; align-items: baseline; } }
+  .step__tag { font-family: var(--utility); font-size: 0.68rem; line-height: 1.8; letter-spacing: 0.08em; color: var(--slate); }
+  .step__tag b { display: block; color: var(--ink); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; }
+  .step__demo { min-width: 0; }
+
+  .d-xl { font-family: var(--display); font-weight: 600; font-size: clamp(3rem, 1.3rem + 8.6vw, 7rem); line-height: 0.96; letter-spacing: -0.01em; }
+  .d-l  { font-family: var(--display); font-weight: 500; font-size: clamp(2rem, 1.1rem + 4.4vw, 3.75rem); line-height: 1.08; letter-spacing: -0.01em; }
+  .d-m  { font-family: var(--display); font-weight: 500; font-size: clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem); line-height: 1.12; letter-spacing: -0.01em; }
+  .d-s  { font-family: var(--display); font-weight: 600; font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.005em; }
+  .gloss { font-family: var(--display); font-weight: 400; font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem); color: var(--iron); }
+  .t-body  { font-size: clamp(1.0625rem, 0.98rem + 0.42vw, 1.1875rem); line-height: 1.62; max-width: var(--measure); }
+  .t-small { font-size: 0.96rem; line-height: 1.5; color: var(--iron); max-width: var(--measure); }
+  .t-label { font-family: var(--utility); font-size: 0.78125rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--iron); }
+  .t-micro { font-family: var(--utility); font-size: 0.6875rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--slate); }
+
+  .side { display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: flex-end; margin-top: 0.5rem; }
+  .side figure { margin: 0; }
+  .side figcaption { font-family: var(--utility); font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate); margin-top: 0.6rem; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Foundations</p>
+  <h1 class="sheet__title"><span class="condense">Typography</span></h1>
+  <p class="sheet__lede">Three voices, and they do not overlap. Cormorant is the sign over the door. EB Garamond is
+    the sentence. Courier Prime is the stamp on the crate — it says what a thing is, never what it means.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>The three voices</span><em>all three from Google Fonts, all free</em></p>
+
+    <div class="voice">
+      <div class="voice__meta">
+        <b>Display</b>
+        Cormorant Garamond<br>500 · 600 · 400 italic<br>tracking −0.01em<br>scaleX(.94)<br><code>--display</code>
+      </div>
+      <div class="voice__spec">
+        <p class="voice__alpha" style="font-family:var(--display);font-weight:600;letter-spacing:-0.01em">Promptwrought &amp; misask</p>
+        <p class="voice__sample" style="font-family:var(--display);font-weight:400;font-size:1.4rem;line-height:1.3">
+          Headwords, section titles, the gloss line. Set it large or don’t set it at all — Cormorant’s hairlines
+          disappear below about 20px.</p>
+      </div>
+    </div>
+
+    <div class="voice">
+      <div class="voice__meta">
+        <b>Body</b>
+        EB Garamond<br>400 · 400 italic<br>line-height 1.62<br>measure 66ch<br><code>--body</code>
+      </div>
+      <div class="voice__spec">
+        <p class="voice__alpha" style="font-family:var(--body);font-weight:400">Every sentence lives here</p>
+        <p class="voice__sample">The tooling arrived before the language did. We have all spent two years doing
+          something daily that we cannot name — and reaching, every time, for a borrowed word that nearly fits.
+          <em>Italic carries emphasis and cited words;</em> nothing is ever bolded.</p>
+      </div>
+    </div>
+
+    <div class="voice">
+      <div class="voice__meta">
+        <b>Utility</b>
+        Courier Prime<br>400<br>uppercase always<br>tracking 0.26–0.34em<br><code>--utility</code>
+      </div>
+      <div class="voice__spec">
+        <p class="voice__alpha" style="font-family:var(--utility);font-size:1.6rem;letter-spacing:0.14em;text-transform:uppercase">A workshop of words</p>
+        <p class="voice__sample" style="font-family:var(--utility);font-size:0.82rem;letter-spacing:0.06em;line-height:1.8">
+          Eyebrows, issue numbers, roman numerals, the sign-off, the footer. Never a sentence. Never lower case.
+          Never longer than about eight words.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>The scale</span><em>fluid — clamp() min / preferred / max</em></p>
+
+    <div class="step">
+      <div class="step__tag"><b>Display XL</b>clamp(3rem, 1.3rem + 8.6vw, 7rem)<br>600 · lh 0.96</div>
+      <div class="step__demo"><div class="d-xl"><span class="condense">prompt&thinsp;<span style="color:#c2451c">&middot;</span>&thinsp;wrought</span></div></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Display L</b>clamp(2rem, 1.1rem + 4.4vw, 3.75rem)<br>500 · lh 1.08 · max 24ch</div>
+      <div class="step__demo"><div class="d-l"><span class="condense">There is a craft here.</span></div></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Display M</b>clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem)<br>500 · lh 1.12</div>
+      <div class="step__demo"><div class="d-m">The lexicon so far</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Display S</b>1.5rem<br>600 · lh 1.2</div>
+      <div class="step__demo"><div class="d-s">Striking</div></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Gloss</b>clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem)<br>400 · iron</div>
+      <div class="step__demo"><div class="gloss">\ ˈprɒm(p)t-ˌrɔːt \ &nbsp; <em style="color:#c2451c">adj.</em></div></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Body</b>clamp(1.0625rem, 0.98rem + 0.42vw, 1.1875rem)<br>400 · lh 1.62 · 66ch</div>
+      <div class="step__demo"><p class="t-body" style="margin:0">That gap closes eventually. Somebody names these things.
+        It may as well be done carefully, one word at a time, with the roots dug up and checked before anything is struck.</p></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Small</b>0.96rem<br>400 · lh 1.5 · iron</div>
+      <div class="step__demo"><p class="t-small" style="margin:0">Old roots are pulled up — Norse, Latin, the guild trades — and tried for fit.</p></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Label</b>0.78125rem<br>tracking 0.34em · caps</div>
+      <div class="step__demo"><p class="t-label" style="margin:0">How a word is made</p></div>
+    </div>
+
+    <div class="step">
+      <div class="step__tag"><b>Micro</b>0.6875rem<br>tracking 0.26em · caps</div>
+      <div class="step__demo"><p class="t-micro" style="margin:0">Est. 2026 · London</p></div>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Two habits that make it the brand</span></p>
+    <div class="side">
+      <figure>
+        <div class="d-m" style="transform:scaleX(0.94);transform-origin:left center;display:inline-block">Promptwrought</div>
+        <figcaption>scaleX(.94) — condensed</figcaption>
+      </figure>
+      <figure>
+        <div class="d-m">Promptwrought</div>
+        <figcaption>untouched — reads soft</figcaption>
+      </figure>
+    </div>
+    <p class="note">
+      <b>The squeeze.</b> Display type in the wordmark, headwords and section titles is horizontally scaled to
+      <code>scaleX(.94)</code> with a left origin. It is what makes Cormorant look struck rather than typed.
+      Apply it to display sizes only — <span class="no">never to body copy, labels, or anything under 24px.</span>
+    </p>
+    <p class="note">
+      <b>The tracking floor.</b> Utility type is 0.34em on desktop, eased to 0.26em under 48rem so it doesn’t shear
+      apart on a phone. Set <code>letter-spacing</code> on the element, not the parent — the trailing space on the
+      last character is intentional and part of the artwork’s rhythm.
+    </p>
+  </section>
+</div>
+</body>
+</html>

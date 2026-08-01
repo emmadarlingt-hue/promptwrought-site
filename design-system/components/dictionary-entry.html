@@ -1,0 +1,225 @@
+<!-- @dsCard group="Components" name="Dictionary entry" subtitle="Headword, gloss line, numbered senses" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Dictionary entry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .entry__eyebrow { margin-bottom: 2rem; }
+  .entry__headword { font-family: var(--display); font-weight: 600; font-size: clamp(3rem, 1.3rem + 8.6vw, 7rem);
+    line-height: 0.96; letter-spacing: -0.01em; margin: 0 0 0.32em; }
+  .interpunct { color: var(--hot-metal); }
+  .entry__gloss { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4em 1.1em;
+    font-family: var(--display); font-weight: 400; font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+    color: var(--iron); margin-bottom: 2.5rem; }
+  .entry__pos { font-style: italic; color: var(--hot-metal-deep); }
+
+  .senses { margin: 0; padding: 0; list-style: none; max-width: var(--measure); }
+  .senses li { display: grid; grid-template-columns: 2.25rem 1fr; gap: 0.75rem; margin-bottom: 1.35rem; }
+  .senses li:last-child { margin-bottom: 0; }
+  .senses .n { font-family: var(--utility); font-size: 0.8em; color: var(--hot-metal-deep); padding-top: 0.4em; }
+  .senses p { margin: 0; font-size: 1.06em; line-height: 1.5; text-wrap: pretty; }
+
+  .anatomy { display: grid; grid-template-columns: minmax(0,1fr); gap: 0.35rem; padding: 0.85rem 0; border-top: 1px solid var(--hairline); }
+  @media (min-width: 44rem) { .anatomy { grid-template-columns: 12rem minmax(0,1fr); gap: 1.5rem; align-items: baseline; } }
+  .anatomy__k { font-family: var(--utility); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--hot-metal-deep); }
+  .anatomy__v { font-size: 0.95rem; color: var(--iron); line-height: 1.5; text-wrap: pretty; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Components</p>
+  <h1 class="sheet__title"><span class="condense">Dictionary entry</span></h1>
+  <p class="sheet__lede">The signature block. Every issue opens with one, and it is the reason the whole system is
+    built from rules and baselines rather than cards — it has to look like something out of a dictionary, because
+    it is one.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>Full entry</span><em>as used above the fold</em></p>
+
+    <p class="label label--accent entry__eyebrow">The word this is named for</p>
+
+    <h2 class="entry__headword"><span class="condense">prompt&thinsp;<span class="interpunct">&middot;</span>&thinsp;wrought</span></h2>
+
+    <div class="entry__gloss">
+      <span>\ ˈprɒm(p)t-ˌrɔːt \</span>
+      <span class="entry__pos">adj.</span>
+    </div>
+
+    <ol class="senses">
+      <li><span class="n">1.</span><p>Made by asking. Shaped in language rather than in metal, wood or stone.</p></li>
+      <li><span class="n">2.</span><p>Of a made thing whose maker cannot fully say which parts are theirs.</p></li>
+      <li><span class="n">3.</span><p>A lexicon, published in issues. One coined word each time, with its definition,
+        its roots, and the case for keeping it.</p></li>
+    </ol>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Anatomy</span><em>five parts, this order, no exceptions</em></p>
+
+    <div class="anatomy">
+      <div class="anatomy__k">1 · Eyebrow</div>
+      <div class="anatomy__v">Utility label in hot-metal-deep. Says what the block is. Sentence case, no full stop.</div>
+    </div>
+    <div class="anatomy">
+      <div class="anatomy__k">2 · Headword</div>
+      <div class="anatomy__v">Display XL, condensed, lowercase, syllable-broken with the hot-metal interpunct and thin
+        spaces. This is the only h1 on the page.</div>
+    </div>
+    <div class="anatomy">
+      <div class="anatomy__k">3 · Gloss line</div>
+      <div class="anatomy__v">Pronunciation in slashes (iron) and part of speech (hot metal, italic), baseline-aligned
+        with a 1.1em gap, wrapping to a second line on narrow screens.</div>
+    </div>
+    <div class="anatomy">
+      <div class="anatomy__k">4 · Senses</div>
+      <div class="anatomy__v">Numbered list on a 2.25rem gutter. Utility numerals in hot metal, definitions in body at
+        1.06em. Two to four senses; the last one is always the meta-sense — what the publication itself is.</div>
+    </div>
+    <div class="anatomy">
+      <div class="anatomy__k">5 · Restraint</div>
+      <div class="anatomy__v">No rule above, no rule below, no background. The white space around it is the frame.</div>
+    </div>
+
+    <p class="note">
+      <b>Pronunciation</b> uses backslash-space delimiters (<code>\ … \</code>) in the Merriam-Webster house style,
+      not IPA slashes, and is set in the display face so the diacritics render properly.
+      <b>Part of speech</b> is abbreviated and italicised — <em>n.</em>, <em>v.</em>, <em>adj.</em> — and is the one
+      place hot metal appears in the gloss.
+    </p>
+  </section>
+</div>
+</body>
+</html>

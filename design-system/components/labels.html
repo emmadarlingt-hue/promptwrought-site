@@ -1,0 +1,285 @@
+<!-- @dsCard group="Components" name="Labels & marks" subtitle="Eyebrows, numerals, issue nos., tags, interpunct" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Labels & marks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .demo { display: flex; flex-wrap: wrap; gap: 2.5rem 3.5rem; align-items: flex-start; }
+  .demo figure { margin: 0; }
+  .demo figcaption { font-family: var(--utility); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate); margin-top: 0.85rem; }
+
+  .numeral { font-family: var(--utility); font-size: 0.8125rem; letter-spacing: 0.3em; color: var(--hot-metal-deep); margin: 0; }
+  .issue { font-family: var(--utility); font-size: 0.78125rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--ink); }
+  .issue sup { font-size: 0.6em; vertical-align: 0.7em; letter-spacing: 0; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+
+  .tag {
+    display: inline-flex; align-items: center;
+    min-height: 2rem;                             /* 32px — see the note on hit areas */
+    font-family: var(--utility); font-size: 0.65rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    text-decoration: none;
+    color: var(--hot-metal-deep);                 /* 5.1 : 1 */
+    background: transparent;
+    border: 1px solid var(--control-edge);        /* 3.5 : 1 */
+    border-radius: 0;
+    padding: 0.4rem 0.8rem;
+  }
+
+  /* interactive affordances belong to the link, not to static marker chips */
+  a.tag { cursor: pointer; transition: color .18s ease, background-color .18s ease, border-color .18s ease; }
+  a.tag:hover { color: var(--ink); border-color: var(--ink); }
+  a.tag:focus-visible { outline: 2px solid var(--hot-metal-deep); outline-offset: 3px; }
+
+  /* selected filter — the solid look */
+  .tag[aria-current] { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+  a.tag[aria-current]:hover { background: var(--hot-metal-deep); border-color: var(--hot-metal-deep); }
+
+  .tag--solid { background: var(--ink); color: var(--parchment); border-color: var(--ink); }
+  .tag--quiet { color: var(--iron); border-color: var(--hairline); }
+
+  /* reversed — hot-metal-deep must never appear on ink */
+  .on-ink { background: var(--ink); padding: 1.4rem 1.6rem; }
+  .on-ink .tag { color: var(--hot-metal-light); border-color: var(--control-edge-reversed); }
+  .on-ink a.tag:hover { color: var(--parchment); border-color: var(--parchment); }
+  .on-ink .tag[aria-current] { background: var(--parchment); color: var(--ink); border-color: var(--parchment); }
+
+  .sense-n { font-family: var(--utility); font-size: 0.85rem; color: var(--hot-metal-deep); }
+  .interpunct { color: var(--hot-metal); }
+  .big { font-family: var(--display); font-weight: 600; font-size: 3rem; line-height: 1; letter-spacing: -0.01em; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Components</p>
+  <h1 class="sheet__title"><span class="condense">Labels &amp; marks</span></h1>
+  <p class="sheet__lede">The small typographic furniture. All of it is Courier Prime, uppercase, widely tracked —
+    and all of it is structural. A label says what part of the document you are in; it never editorialises.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>Eyebrow labels</span><em>0.78125rem · 0.34em · caps</em></p>
+    <div class="demo">
+      <figure>
+        <p class="label label--accent">The word this is named for</p>
+        <figcaption>Accent — opens a section</figcaption>
+      </figure>
+      <figure>
+        <p class="label">Est. MMXXVI · London</p>
+        <figcaption>Iron — metadata</figcaption>
+      </figure>
+      <figure style="background:#221f1a;padding:1.1rem 1.4rem">
+        <p class="label" style="color:#ece3cf;opacity:0.7">From the desk</p>
+        <figcaption style="color:#5c5344">On ink — 70% parchment</figcaption>
+      </figure>
+    </div>
+    <p class="note">
+      Tracking eases to <code>0.26em</code> below 48rem so the label doesn’t shear apart on a phone.
+      Accent labels use <b>--hot-metal-deep</b>, not --hot-metal — at this size the lighter red fails AA.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Numerals</span><em>roman for process, arabic for issues</em></p>
+    <div class="demo">
+      <figure>
+        <div style="display:flex;gap:2rem">
+          <p class="numeral">I</p><p class="numeral">II</p><p class="numeral">III</p><p class="numeral">IV</p>
+        </div>
+        <figcaption>Roman — stages, volumes</figcaption>
+      </figure>
+      <figure>
+        <p class="issue">N<sup>o</sup>&thinsp;001</p>
+        <figcaption>Issue number</figcaption>
+      </figure>
+      <figure>
+        <p style="margin:0"><span class="sense-n">1.</span> <span class="sense-n">2.</span> <span class="sense-n">3.</span></p>
+        <figcaption>Sense numbers — 2.25rem column</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Tags</span><em>a lexicon entry carries exactly one category</em></p>
+
+    <nav class="tags" aria-label="Filter by category">
+      <a class="tag" href="/lexicon/asking" aria-current="page">Asking</a>
+      <a class="tag" href="/lexicon/making">Making</a>
+      <a class="tag" href="/lexicon/trusting">Trusting</a>
+      <a class="tag" href="/lexicon/working">Working</a>
+    </nav>
+
+    <div class="tags" style="margin-top:1.1rem">
+      <span class="tag tag--solid">N<sup style="font-size:0.7em;vertical-align:0.6em;letter-spacing:0">o</sup>&thinsp;001</span>
+      <span class="tag tag--quiet">Forthcoming</span>
+    </div>
+
+    <div class="on-ink tags" style="margin-top:1.1rem">
+      <a class="tag" href="/lexicon/asking" aria-current="page">Asking</a>
+      <a class="tag" href="/lexicon/making">Making</a>
+    </div>
+
+    <p class="note">
+      Outline is the default. Solid ink marks the <b>issue number</b>, and is also the selected state of a filter.
+      The quiet variant marks an entry that hasn’t been struck yet.
+      <span class="no">No tag is ever filled with hot metal</span> — that would put two accents on one page.
+    </p>
+    <p class="note">
+      <b>Categories are links, not buttons</b> — <code>&lt;a href="/lexicon/asking"&gt;</code> inside a labelled
+      <code>&lt;nav&gt;</code> — so a filtered view is shareable and crawlable. The selected one carries
+      <code>aria-current="page"</code>, which is what draws the solid fill; there is no separate modifier class for it.
+    </p>
+    <p class="note">
+      <b>Edges.</b> A chip’s border is <code>--control-edge</code> (ink at 55%, 3.5 : 1), not the
+      <code>--rule</code> used for dividers — at 28% a rule measures 1.8 : 1, which is fine for a line between
+      paragraphs and not fine for the edge of something you can click. On ink the chip flips to
+      <b>--hot-metal-light</b> text with <code>--control-edge-reversed</code>;
+      <span class="no">--hot-metal-deep must never appear on ink.</span>
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>The interpunct</span><em>the single most important mark in the system</em></p>
+    <div class="big"><span class="condense">prompt&thinsp;<span class="interpunct">&middot;</span>&thinsp;wrought</span></div>
+    <p class="note">
+      A middle dot in <b>--hot-metal</b>, flanked by thin spaces (<code>&amp;thinsp;</code>), marking the syllable
+      break in a headword. It is the brand’s one flash of colour above the fold and the anchor of the monogram.
+      Set it in the display face at the same size as the surrounding word — never scaled, never bolded, never a bullet.
+    </p>
+  </section>
+</div>
+</body>
+</html>

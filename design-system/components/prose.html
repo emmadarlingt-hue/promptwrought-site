@@ -1,0 +1,228 @@
+<!-- @dsCard group="Components" name="Prose & editorial" subtitle="Running copy, standfirst, editor’s note, sign-off" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Prose & editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .premise h2 { font-family: var(--display); font-weight: 500; font-size: clamp(2rem, 1.1rem + 4.4vw, 3.75rem);
+    line-height: 1.08; letter-spacing: -0.01em; margin: 0 0 1.25rem; max-width: 24ch; }
+  .premise p { max-width: var(--measure); margin: 0 0 1.15rem; text-wrap: pretty; }
+  .premise p:last-child { margin-bottom: 0; }
+
+  .desk { background: var(--parchment-deep); padding: 2.75rem 3rem; }
+  .desk__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  @media (min-width: 52rem) { .desk__grid { grid-template-columns: 11rem minmax(0, 1fr); gap: 2.5rem; } }
+  .desk p { margin: 0 0 1.15rem; max-width: var(--measure); text-wrap: pretty; }
+  .desk p:last-of-type { margin-bottom: 0; }
+  .desk__lead { font-size: 1.14em; line-height: 1.55; }
+  .desk__sign { border-top: 1px solid var(--rule); margin-top: 1.75rem; padding-top: 0.9rem; max-width: 16rem; }
+
+  .pull { border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); padding: 1.6rem 0;
+    margin: 2.25rem 0; max-width: var(--measure); }
+  .pull p { font-family: var(--display); font-weight: 400; font-size: 1.75rem; line-height: 1.25;
+    letter-spacing: -0.005em; margin: 0; text-wrap: pretty; }
+  .pull cite { display: block; font-family: var(--utility); font-style: normal; font-size: 0.66rem;
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--hot-metal-deep); margin-top: 1rem; }
+
+  a { color: var(--hot-metal-deep); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Components</p>
+  <h1 class="sheet__title"><span class="condense">Prose &amp; editorial</span></h1>
+  <p class="sheet__lede">Everything that isn’t an entry. The rule here is plainness: the coinage is the only
+    ornamented thing on a page, and the writing around it stays in flat, unhurried English.</p>
+
+  <section class="grp premise">
+    <p class="grp__label"><span>Section — display L + running copy</span><em>heading capped at 24ch</em></p>
+    <h2><span class="condense">There is a craft here. It has no vocabulary.</span></h2>
+    <p>The tooling arrived before the language did. We have all spent two years doing something daily that we
+      cannot name — and reaching, every time, for a borrowed word that nearly fits.</p>
+    <p>That gap closes eventually. Somebody names these things. It may as well be done carefully, one word at a
+      time, with the roots dug up and checked before anything is struck. Read the archive at
+      <a href="#">promptwrought.com</a>.</p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Pull quote</span><em>2px rules top and bottom, display 400</em></p>
+    <blockquote class="pull">
+      <p>The output wasn’t wrong — my question was. A straight misask.</p>
+      <cite>Issue N<sup style="font-size:0.7em;vertical-align:0.6em;letter-spacing:0">o</sup> 001</cite>
+    </blockquote>
+    <p class="note">Set in the display face at 400 weight, not 600 — a quotation is spoken, not struck. No quotation
+      marks in the markup; the rules do the quoting.</p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Editor’s note</span><em>inset band on parchment-deep</em></p>
+    <div class="desk">
+      <div class="desk__grid">
+        <p class="label label--accent" style="margin:0">From the desk</p>
+        <div>
+          <p class="desk__lead">The <em>-wright</em> suffix is one of the oldest job descriptions in English. It comes
+            from Old English <em>wyrhta</em>, a worker or maker, and it survives now almost entirely in trades that
+            have gone: the wheelwright, the shipwright, the millwright, the cartwright. Only the playwright is still
+            at work.</p>
+          <p>Which is exactly what makes it available. The suffix is unclaimed. And <em>wrought</em> — the old past
+            participle of <em>work</em> — carries something that <em>made</em> does not: the sense of a thing worked
+            into shape by hand, with effort, and with the marks of the working still on it.</p>
+          <p class="label desk__sign">Emma Darling, editor</p>
+        </div>
+      </div>
+    </div>
+    <p class="note">
+      A two-column band: an 11rem utility label rail on the left, prose on the right, collapsing to stacked below
+      52rem. The first paragraph is a standfirst at 1.14em / 1.55. The sign-off is a utility label above a 1px rule.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Prose rules</span></p>
+    <p class="note" style="margin-top:0">
+      <b>Emphasis</b> is italic. There is no bold in body copy anywhere in this system — a serif at 1.06em with a
+      bold run in it looks like a different typeface.<br>
+      <b>Cited words</b> take italics, not quotation marks: <em>wrought</em>, <em>wyrhta</em>, <em>misask</em>.<br>
+      <b>Dashes</b> are em dashes with spaces around them — like this — matching the existing voice.<br>
+      <b>Links</b> are hot-metal-deep, underlined on hover only, at 0.18em offset. No visited state, no external-link
+      icon.<br>
+      <b>Paragraphs</b> are 1.15rem apart with no indent, capped at 66ch, always <code>text-wrap: pretty</code>.
+    </p>
+  </section>
+</div>
+</body>
+</html>

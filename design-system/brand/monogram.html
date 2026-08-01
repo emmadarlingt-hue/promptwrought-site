@@ -1,0 +1,241 @@
+<!-- @dsCard group="Brand" name="Monogram" subtitle="P·w in double rule — favicon, avatar, stamp" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Promptwrought — Monogram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── ink & parchment ── */
+    --ink:            #221f1a;
+    --iron:           #3a352d;
+    --slate:          #5c5344;
+    --parchment:      #ece3cf;
+    --parchment-deep: #e2d7bd;
+    --parchment-dim:  #c9bfa6;
+
+    /* ── the one accent ── */
+    --hot-metal:       #c2451c;
+    --hot-metal-deep:  #a63914;
+    --hot-metal-light: #e0703f;
+
+    /* ── rules ── */
+    --rule:       rgba(34, 31, 26, 0.28);
+    --hairline:   rgba(34, 31, 26, 0.14);
+    --rule-light: rgba(236, 227, 207, 0.30);
+
+    /* ── control edges — dividers can be faint, controls cannot ── */
+    --control-edge:          rgba(34, 31, 26, 0.55);    /* on light — 3.5 : 1 */
+    --control-edge-reversed: rgba(236, 227, 207, 0.55); /* on ink   — 4.3 : 1 */
+
+    /* ── voices ── */
+    --display: "Cormorant Garamond", Garamond, Georgia, serif;
+    --body:    "EB Garamond", Garamond, Georgia, serif;
+    --utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+
+    /* ── measure & rhythm ── */
+    --measure: 66ch;
+    --wrap:    60rem;
+    --gutter:  clamp(1.5rem, 6vw, 5.5rem);
+    --band:    clamp(3rem, 8vw, 5.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding: 3rem clamp(1.5rem, 5vw, 3.5rem) 4rem;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── the spec-sheet chrome (not part of the brand itself) ── */
+  .sheet { max-width: 68rem; margin: 0 auto; }
+
+  .sheet__kicker {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--hot-metal-deep);
+    margin: 0 0 0.9rem;
+  }
+  .sheet__title {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 2.75rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.65rem;
+  }
+  .sheet__lede {
+    margin: 0 0 2.75rem;
+    max-width: 58ch;
+    color: var(--iron);
+    font-size: 1.09rem;
+    text-wrap: pretty;
+  }
+
+  .grp { border-top: 1px solid var(--hairline); padding-top: 1.15rem; margin-top: 2.75rem; }
+  .grp:first-of-type { margin-top: 0; }
+  .grp__label {
+    font-family: var(--utility);
+    font-size: 0.6875rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .grp__label em { font-style: normal; color: var(--slate); letter-spacing: 0.14em; text-transform: none; }
+
+  .note {
+    font-family: var(--utility);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--slate);
+    letter-spacing: 0.01em;
+    margin: 1.15rem 0 0;
+    max-width: 74ch;
+  }
+  .note b { color: var(--ink); font-weight: 400; }
+  .note .ok  { color: var(--hot-metal-deep); }
+  .note .no  { color: var(--slate); }
+
+  code {
+    font-family: var(--utility);
+    font-size: 0.82em;
+    background: var(--parchment-deep);
+    padding: 0.1em 0.35em;
+    color: var(--iron);
+  }
+
+  /* ── shared brand primitives, used by the specimens below ── */
+  .label {
+    font-family: var(--utility);
+    font-weight: 400;
+    font-size: 0.78125rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--iron);
+    margin: 0;
+  }
+  .label--accent { color: var(--hot-metal-deep); }
+  .condense { display: inline-block; transform: scaleX(0.94); transform-origin: left center; }
+
+  .logo { width: 17.5rem; height: 17.5rem; background: var(--parchment); padding: 2.1rem; }
+  .logo .outer { width: 100%; height: 100%; border: 4px solid var(--ink); padding: 9px; }
+  .logo .inner { width: 100%; height: 100%; border: 1.5px solid var(--ink);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; }
+  .logo .mono { display: flex; align-items: baseline; font-family: var(--display); font-weight: 600; color: var(--ink); line-height: 0.9; }
+  .logo .mono .P, .logo .mono .w { font-size: 6.75rem; }
+  .logo .mono .dot { font-size: 3.6rem; color: var(--hot-metal); margin: 0 2px; }
+  .logo .name { font-family: var(--utility); font-size: 0.5625rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--hot-metal-deep); }
+
+  .logo--ink { background: var(--ink); }
+  .logo--ink .name { color: var(--hot-metal-light); }
+  .logo--ink .outer, .logo--ink .inner { border-color: var(--parchment); }
+  .logo--ink .mono { color: var(--parchment); }
+
+  .logo--sm { width: 8rem; height: 8rem; padding: 0.85rem; }
+  .logo--sm .outer { border-width: 2.5px; padding: 5px; }
+  .logo--sm .inner { border-width: 1px; gap: 0.25rem; }
+  .logo--sm .mono .P, .logo--sm .mono .w { font-size: 3rem; }
+  .logo--sm .mono .dot { font-size: 1.6rem; }
+  .logo--sm .name { font-size: 0.4rem; letter-spacing: 0.28em; }
+
+  .logo--xs { width: 3.5rem; height: 3.5rem; padding: 0.3rem; }
+  .logo--xs .outer { border-width: 1.5px; padding: 2px; }
+  .logo--xs .inner { border-width: 0.75px; gap: 0; }
+  .logo--xs .mono .P, .logo--xs .mono .w { font-size: 1.6rem; }
+  .logo--xs .mono .dot { font-size: 0.85rem; }
+  .logo--xs .name { display: none; }
+
+  .row { display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-end; }
+  .row figure { margin: 0; }
+  .row figcaption { font-family: var(--utility); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--slate); margin-top: 0.75rem; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="sheet__kicker">Brand</p>
+  <h1 class="sheet__title"><span class="condense">Monogram</span></h1>
+  <p class="sheet__lede">A capital P and a lowercase w on a shared baseline, separated by the hot-metal interpunct,
+    inside a double rule. It reads as a maker’s stamp punched into the back of a piece — which is the whole idea.</p>
+
+  <section class="grp">
+    <p class="grp__label"><span>Primary &amp; reversed</span><em>double rule: 4px outer, 1.5px inner, 9px apart</em></p>
+    <div class="row">
+      <figure>
+        <div class="logo"><div class="outer"><div class="inner">
+          <div class="mono"><span class="P">P</span><span class="dot">&middot;</span><span class="w">w</span></div>
+          <div class="name">Promptwrought</div>
+        </div></div></div>
+        <figcaption>Ink on parchment</figcaption>
+      </figure>
+      <figure>
+        <div class="logo logo--ink"><div class="outer"><div class="inner">
+          <div class="mono"><span class="P">P</span><span class="dot">&middot;</span><span class="w">w</span></div>
+          <div class="name">Promptwrought</div>
+        </div></div></div>
+        <figcaption>Reversed on ink</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Size steps</span><em>the frame thins, the name drops</em></p>
+    <div class="row">
+      <figure>
+        <div class="logo logo--sm"><div class="outer"><div class="inner">
+          <div class="mono"><span class="P">P</span><span class="dot">&middot;</span><span class="w">w</span></div>
+          <div class="name">Promptwrought</div>
+        </div></div></div>
+        <figcaption>128px — avatar</figcaption>
+      </figure>
+      <figure>
+        <div class="logo logo--xs"><div class="outer"><div class="inner">
+          <div class="mono"><span class="P">P</span><span class="dot">&middot;</span><span class="w">w</span></div>
+        </div></div></div>
+        <figcaption>56px — favicon</figcaption>
+      </figure>
+      <figure>
+        <div class="logo logo--xs logo--ink"><div class="outer"><div class="inner">
+          <div class="mono"><span class="P">P</span><span class="dot">&middot;</span><span class="w">w</span></div>
+        </div></div></div>
+        <figcaption>56px — reversed</figcaption>
+      </figure>
+    </div>
+    <p class="note">
+      Below 96px the <b>PROMPTWROUGHT</b> line is dropped — at that size it is texture, not text. Below 32px, drop the
+      inner rule too and keep only the outer frame and the letters. The interpunct is the last thing to go; it never goes.
+    </p>
+  </section>
+
+  <section class="grp">
+    <p class="grp__label"><span>Where it goes</span></p>
+    <p class="note" style="margin-top:0">
+      <b>Use the monogram</b> for the favicon, social avatars, the app icon, wax-seal moments at the end of an issue,
+      and anywhere narrower than 120px.<br>
+      <b>Use the wordmark</b> for the masthead, email headers, the footer, and anything where the name has room to be
+      read.<br>
+      <span class="no">Never lock the two together.</span> They are alternates, not a combination mark.
+    </p>
+  </section>
+</div>
+</body>
+</html>
