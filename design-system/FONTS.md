@@ -5,9 +5,9 @@ redistribute, including commercially. Verified 2026-08-02.
 
 | Role | Family | Token | Weights used |
 | --- | --- | --- | --- |
-| Display | Cormorant Garamond | `--pw-display` | 500, 600, 400 italic |
-| Body | EB Garamond | `--pw-body` | 400, 400 italic |
-| Utility | Courier Prime | `--pw-utility` | 400 |
+| Display | Cormorant Garamond | `--pw-font-display` | 500, 600, 400 italic |
+| Body | EB Garamond | `--pw-font-body` | 400, 400 italic |
+| Utility | Courier Prime | `--pw-font-utility` | 400 |
 
 ## Direct downloads
 
@@ -47,9 +47,9 @@ zip. It is not a direct download link, despite looking like one.
 ## Fallbacks
 
 ```css
---pw-display: "Cormorant Garamond", Garamond, Georgia, serif;
---pw-body:    "EB Garamond", Garamond, Georgia, serif;
---pw-utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+--pw-font-display: "Cormorant Garamond", Garamond, Georgia, serif;
+--pw-font-body:    "EB Garamond", Garamond, Georgia, serif;
+--pw-font-utility: "Courier Prime", ui-monospace, "Courier New", monospace;
 ```
 
 Garamond and Georgia are acceptable substitutes in body copy on a machine
@@ -57,14 +57,22 @@ without the webfont. **They are not acceptable in the wordmark** — see
 `brand/wordmark.html`. If Cormorant cannot load, use the wordmark artwork
 in `assets/` rather than letting a fallback set the name.
 
-## A parsing note
+## Why the tokens are named this way
 
-A design-system tool reading `tokens.css` may report a missing font named
-`+ 0.42vw`. There is no such font. It is a misread of
+Design-system tooling classifies custom properties by **name**, not by value.
+The first cut of this file used `--pw-display` / `--pw-body` / `--pw-utility`
+for the families and `--pw-text` for the body size, and the generated manifest
+came back as:
 
-```css
---pw-text: clamp(1.0625rem, 0.98rem + 0.42vw, 1.1875rem);
+```json
+"fonts": [],
+"brandFonts": [{ "family": "+ 0.42vw", "status": "no-face", "tokens": ["--pw-text"] }]
 ```
 
-where the fragment `+ 0.42vw` is mistaken for a family name. The only real
-families are the three above.
+Zero real fonts, one phantom. `--pw-text` was parsed for a family and yielded
+the fragment `+ 0.42vw` out of its `clamp()`; the three actual families were
+typed as `other`, because `--pw-display` reads as the CSS `display` property.
+
+Hence the rule: **families are `--pw-font-*`, sizes are `--pw-size-*`.** Never
+name a size token after text or type — `--pw-text`, `--pw-type`, `--pw-copy`
+will all be mined for a font family they do not contain.

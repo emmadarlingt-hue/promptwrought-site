@@ -29,21 +29,26 @@
   --pw-control-edge:          rgba(34, 31, 26, 0.55);    /* 3.5:1 on parchment */
   --pw-control-edge-reversed: rgba(236, 227, 207, 0.55); /* 4.3:1 on ink       */
 
-  /* ── voices ──────────────────────────────────────────────────────────── */
-  --pw-display: "Cormorant Garamond", Garamond, Georgia, serif;
-  --pw-body:    "EB Garamond", Garamond, Georgia, serif;
-  --pw-utility: "Courier Prime", ui-monospace, "Courier New", monospace;
+  /* ── voices ──────────────────────────────────────────────────────────────
+     Families are --pw-font-*; sizes are --pw-size-*. Keep that boundary.
+     Tooling classifies these tokens by NAME, not by value: a size token
+     called --pw-text gets parsed for a font family (and yields a phantom
+     "+ 0.42vw"), while a family called --pw-display is read as the CSS
+     display property and ignored. Never name a size after text or type. */
+  --pw-font-display: "Cormorant Garamond", Garamond, Georgia, serif;
+  --pw-font-body:    "EB Garamond", Garamond, Georgia, serif;
+  --pw-font-utility: "Courier Prime", ui-monospace, "Courier New", monospace;
 
   /* ── type scale (fluid) ──────────────────────────────────────────────── */
-  --pw-display-xl: clamp(3rem, 1.3rem + 8.6vw, 7rem);        /* headword     */
-  --pw-display-l:  clamp(2rem, 1.1rem + 4.4vw, 3.75rem);     /* section h2   */
-  --pw-display-m:  clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem);  /* sub-section  */
-  --pw-display-s:  1.5rem;                                    /* h3          */
-  --pw-gloss:      clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);  /* pron. line  */
-  --pw-text:       clamp(1.0625rem, 0.98rem + 0.42vw, 1.1875rem);
-  --pw-text-sm:    0.96rem;
-  --pw-label:      0.78125rem;
-  --pw-micro:      0.6875rem;
+  --pw-size-display-xl: clamp(3rem, 1.3rem + 8.6vw, 7rem);        /* headword    */
+  --pw-size-display-l:  clamp(2rem, 1.1rem + 4.4vw, 3.75rem);     /* section h2  */
+  --pw-size-display-m:  clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem);  /* sub-section */
+  --pw-size-display-s:  1.5rem;                                    /* h3         */
+  --pw-size-gloss:      clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);  /* pron. line */
+  --pw-size-body:       clamp(1.0625rem, 0.98rem + 0.42vw, 1.1875rem);
+  --pw-size-small:      0.96rem;
+  --pw-size-label:      0.78125rem;
+  --pw-size-micro:      0.6875rem;
 
   /* ── type detail ─────────────────────────────────────────────────────── */
   --pw-leading-body:    1.62;
