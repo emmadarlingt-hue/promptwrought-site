@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Courier+Prime:wght@400&display=swap");
+
 /* ══════════════════════════════════════════════════════════════════════════
    Promptwrought — design tokens
    A workshop of words. Two surfaces, one accent, three voices.
@@ -55,18 +57,18 @@
   --pw-leading-display: 0.96;
   --pw-track-display:  -0.01em;
   --pw-track-label:     0.34em;  /* eases to 0.26em below 48rem             */
-  --pw-squeeze:         0.94;    /* scaleX on display type — the house look  */
+  --pw-squeeze:         0.94; /* @kind other */    /* scaleX on display type — the house look  */
 
   /* ── measure & rhythm ────────────────────────────────────────────────── */
   --pw-measure: 66ch;
   --pw-wrap:    60rem;
-  --pw-gutter:  clamp(1.5rem, 6vw, 5.5rem);
-  --pw-band:    clamp(3rem, 8vw, 5.5rem);
+  --pw-gutter:  clamp(1.5rem, 6vw, 5.5rem); /* @kind spacing */
+  --pw-band:    clamp(3rem, 8vw, 5.5rem); /* @kind spacing */
 
   /* ── motion ──────────────────────────────────────────────────────────── */
-  --pw-ease:     cubic-bezier(0.2, 0.7, 0.3, 1);
-  --pw-rise:     0.9s;
-  --pw-hover:    0.18s;
+  --pw-ease:     cubic-bezier(0.2, 0.7, 0.3, 1); /* @kind other */
+  --pw-rise:     0.9s; /* @kind other */
+  --pw-hover:    0.18s; /* @kind other */
   --pw-radius:   0;  /* not a mistake — nothing in this system is rounded   */
 
   /* ── target sizes ────────────────────────────────────────────────────── */
