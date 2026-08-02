@@ -46,10 +46,11 @@ interpunct and display type, below AA for anything at body size. Use
 `--pw-hot-metal-light` (#E0703F) for accent text on ink. They are visually
 near-identical; only the checker can tell.
 
-**2. There is a live accessibility bug on the site.** The subscribe band in
-`index.html` is filled with `--hot-metal` and carries a 0.95em note in
-parchment — 3.9 : 1, below AA. Swapping that one fill to `#A63914` fixes it and
-looks the same. `components/forms.html` shows the corrected band.
+**2. The accent bug that prompted this is fixed.** The subscribe band in
+`index.html` was filled with `--hot-metal` behind a 0.95em note in parchment —
+3.9 : 1, below AA. It now uses `#A63914` at 5.1 : 1, and every text node on the
+live site clears AA. `components/forms.html` documents the corrected band, and
+the hand-off pattern that replaced the Substack embed.
 
 **3. Radius is zero, everywhere.** The system is built from rules and
 rectangles. A single rounded corner reads as a different brand instantly.
