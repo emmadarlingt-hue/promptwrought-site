@@ -33,19 +33,27 @@ ever set in bold.
 The two variable files per Garamond cover every weight the system asks for, so
 five files is the whole set.
 
-## Local copies
+## How the fonts load
 
-The five files are vendored in `design-system/fonts/`, each family beside its
-OFL licence — the licence must travel with the fonts when they are
-redistributed.
+All three families are served from Google Fonts, imported at the top of
+`tokens.css` so the @font-face rules travel with the token layer — any page
+that links `tokens.css` gets the real faces without its own font `<link>`.
 
-```
-fonts/cormorant-garamond/  CormorantGaramond[wght].ttf, -Italic[wght].ttf, OFL.txt
-fonts/eb-garamond/         EBGaramond[wght].ttf, -Italic[wght].ttf, OFL.txt
-fonts/courier-prime/       CourierPrime-Regular.ttf, OFL.txt
+```css
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Courier+Prime:wght@400&display=swap");
 ```
 
-Verified as real sfnt fonts, not error pages, with these weight axes:
+Those ranges cover every weight the system uses: display 500 and 600, body 400,
+italic 400, utility 400.
+
+**This means the design system depends on Google Fonts at render time.** No font
+binaries are uploaded to the Claude Design project — `brandFonts` resolves
+because the families are reachable over the CDN, not because they are embedded.
+
+The five files *are* vendored in this repo under `design-system/fonts/`, each
+family beside its OFL licence — the licence must travel with the fonts when they
+are redistributed. To self-host, swap the @import for local @font-face rules
+pointing at those files. Their weight axes:
 
 | File | Axis | Covers |
 | --- | --- | --- |
