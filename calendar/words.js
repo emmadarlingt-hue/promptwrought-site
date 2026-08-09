@@ -1,28 +1,31 @@
 /* ══════════════════════════════════════════════════════════════════════════
    Promptwrought — the year in 52 words
 
+   GENERATED FILE — do not edit by hand. tools/build-lexicon.py writes it
+   from issues/*.json. Edit the issue file and run the script; anything
+   typed straight in here is overwritten without warning.
+
    One object per week of 2026. `week` is the ISO week number and
-   `releaseDate` its Tuesday; the two never change, and the grid is built
+   `releaseDate` its Tuesday. Neither ever changes, so the tray is built
    from them whether or not a word has been struck yet.
 
-   A slot with an empty `word` renders as blank (a week before the run
-   began, or one that was skipped) or as forthcoming (a week still to
-   come) — app.js decides by comparing `releaseDate` with today.
+   A slot with an empty `word` renders as blank — a week before the run
+   began, or one that was skipped — or as sealed, a week still to come.
+   app.js decides by comparing `releaseDate` with today.
 
-   IMPORTANT: this file is served to the public verbatim. Fill a slot in
-   only once its issue has gone out, or the word is readable in the page
-   source before subscribers get the email.
+   Issue number and week differ by 30: issue 001 is week 031.
 
        week         ISO week of 2026, 1–52
        releaseDate  the Tuesday of that week, YYYY-MM-DD
        word         the headword; empty until the issue ships
        pos          part of speech, written out — "noun", "noun & verb"
        definition   the sense line, as it reads on the site
+       tag          the category chip, e.g. "Asking", "Keeping"
        note         optional editor's aside, shown under the definition
-       issueUrl     link to the Substack issue; the link is omitted if empty
+       issueUrl     link to the Substack issue; omitted if empty
 
    `definition` and `note` are HTML fragments, as in issues/*.json — <em>
-   works. `word` and `pos` are plain text.
+   works. The rest are plain text.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const WORDS = [
@@ -32,6 +35,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -41,6 +45,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -50,6 +55,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -59,6 +65,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -68,6 +75,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -77,6 +85,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -86,6 +95,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -95,6 +105,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -104,6 +115,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -113,6 +125,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -122,6 +135,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -131,6 +145,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -140,6 +155,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -149,6 +165,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -158,6 +175,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -167,6 +185,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -176,6 +195,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -185,6 +205,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -194,6 +215,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -203,6 +225,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -212,6 +235,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -221,6 +245,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -230,6 +255,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -239,6 +265,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -248,6 +275,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -257,6 +285,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -266,6 +295,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -275,6 +305,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -284,6 +315,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -293,6 +325,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -302,6 +335,7 @@ const WORDS = [
     word: "misask",
     pos: "noun & verb",
     definition: "The gap between what one asked for and what one meant; to instruct a machine accurately in the wrong direction.",
+    tag: "Asking",
     note: "",
     issueUrl: "",
   },
@@ -311,6 +345,7 @@ const WORDS = [
     word: "promptbook",
     pos: "noun",
     definition: "A personal, accumulated collection of proven instructions, kept and refined the way a cook keeps recipes; a promptwright’s working grimoire.",
+    tag: "Keeping",
     note: "",
     issueUrl: "",
   },
@@ -320,6 +355,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -329,6 +365,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -338,6 +375,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -347,6 +385,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -356,6 +395,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -365,6 +405,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -374,6 +415,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -383,6 +425,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -392,6 +435,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -401,6 +445,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -410,6 +455,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -419,6 +465,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -428,6 +475,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -437,6 +485,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -446,6 +495,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -455,6 +505,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -464,6 +515,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -473,6 +525,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -482,6 +535,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
@@ -491,6 +545,7 @@ const WORDS = [
     word: "",
     pos: "",
     definition: "",
+    tag: "",
     note: "",
     issueUrl: "",
   },
