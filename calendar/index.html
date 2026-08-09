@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>The Type Case — Promptwrought</title>
+<meta name="description" content="A shallow tray of fifty-two compartments. One coined word to each, struck on the first day of its week.">
+
+<link rel="icon" href="../assets/promptwrought-logo-ink.png">
+
+<!-- The brand tokens (--pw-*). style.css maps them onto light and dark
+     surfaces; it declares no raw colours of its own. -->
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="page">
+  <div class="shell">
+
+    <!-- ══════════ masthead ══════════ -->
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">The Type Case &nbsp;·&nbsp; Fifty&#8209;two words, one a week</p>
+        <h1 class="wordmark"><span class="wordmark__squeeze">Promptwrought</span></h1>
+      </div>
+      <div class="masthead__aside">
+        <p class="volume">Vol.&thinsp;VI &nbsp;·&nbsp; MMXXVI</p>
+        <!-- label and text are filled in by app.js, so the two stay in step -->
+        <button type="button" class="theme-toggle" id="theme-toggle"></button>
+      </div>
+    </header>
+
+    <p class="standfirst">A shallow tray of fifty-two compartments. One coined word to each, struck on the Tuesday of its week. Sealed compartments hold weeks not yet set.</p>
+
+    <!-- ══════════ what the compartments mean ══════════ -->
+    <div class="legend">
+      <span class="legend__item"><span class="legend__swatch legend__swatch--released"></span>Released</span>
+      <span class="legend__item"><span class="legend__swatch legend__swatch--current"></span>This week</span>
+      <span class="legend__item"><span class="legend__swatch legend__swatch--sealed"></span>Sealed</span>
+    </div>
+
+    <!-- ══════════ the tray — fifty-two compartments, built by app.js ══════════ -->
+    <div role="grid" aria-label="Fifty-two weeks" class="tray" id="tray"></div>
+
+    <!-- ══════════ the open compartment ══════════
+         aria-live="polite" means a screen reader announces this panel
+         when it changes, without interrupting whatever it is saying. -->
+    <section class="detail" aria-live="polite">
+      <div class="detail__head">
+        <p class="detail__week" id="detail-label"></p>
+        <p class="detail__meta"><span id="detail-dates"></span> &nbsp;·&nbsp; <span id="detail-status"></span></p>
+      </div>
+      <div id="detail-body"></div>
+    </section>
+
+    <footer class="colophon">
+      <span>© 2026 Promptwrought &nbsp;·&nbsp; A workshop of words</span>
+      <span><span id="struck-count"></span> of 52 struck</span>
+    </footer>
+
+  </div>
+</div>
+
+<!-- words.js first: it defines WORDS, which app.js reads. Both are plain
+     scripts, not modules, so this page also works opened from disk. -->
+<script src="words.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
