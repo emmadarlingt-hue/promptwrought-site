@@ -167,6 +167,19 @@ button {
   transform-origin: left center;
 }
 
+/* the wordmark doubles as the way back to the front page. It keeps the ink
+   of a title rather than taking the accent every other link gets — a
+   masthead that turned red would read as a button. */
+.wordmark__home {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wordmark__home:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
 .masthead__aside {
   display: flex;
   align-items: center;

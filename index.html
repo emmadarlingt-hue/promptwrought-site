@@ -121,7 +121,13 @@
   }
 
   .masthead__line { text-align: center; }
-
+  /* the only navigation on the page. Set smaller and tighter than the line
+     above it so it reads as a way through, not a second title. */
+  .masthead__nav {
+    text-align: center;
+    margin-top: 0.9rem;
+    letter-spacing: 0.22em;
+  }
   /* ─────────── the entry (signature block) ─────────── */
 
   .entry__eyebrow { margin-bottom: clamp(1.5rem, 4vw, 2rem); }
@@ -434,6 +440,8 @@
   <img class="masthead__mark" src="assets/promptwrought-wordmark-ink.png" alt="Promptwrought">
   <hr class="masthead__rule">
   <p class="label label--wide masthead__line">A workshop of words</p>
+    <p class="label label--wide masthead__line">A workshop of words</p>
+  <p class="label masthead__nav"><a href="calendar/">The Type Case &nbsp;·&nbsp; the year so far</a></p>
 </header>
 
 <main>
