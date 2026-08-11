@@ -1,0 +1,584 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   Promptwrought — The Type Case
+
+   Every value here came from the Claude Design file, unchanged. The design
+   used inline style="" attributes on each element; those have been moved
+   into the classes below, which is the only difference.
+
+   Two layers of variables are in play:
+     --pw-*   the brand tokens, defined in ../design-system/tokens.css
+     --surface, --text, --accent …   this page's names for them, so that
+                                     switching to dark means reassigning
+                                     six variables instead of hunting
+                                     through every rule.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1. THE TWO SURFACES
+
+   :root is the <html> element. The first block is the light page. The
+   second only applies when <html> carries data-theme="dark", which the
+   theme button sets. Nothing below this block mentions a colour directly —
+   they all go through these names.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --surface:  var(--pw-parchment);
+  --inset:    var(--pw-parchment-deep);
+  --text:     var(--pw-ink);
+  --text-2:   var(--pw-iron);
+  --text-3:   var(--pw-slate);
+  --accent:   var(--pw-hot-metal-deep);
+  --rule:     var(--pw-rule);
+  --hairline: var(--pw-hairline);
+  --edge:     var(--pw-control-edge);
+  --solid-fg: var(--pw-parchment);
+}
+
+:root[data-theme="dark"] {
+  --surface:  #221f1a;
+  --inset:    #2c2823;
+  --text:     #ece3cf;
+  --text-2:   #d6cbb3;
+  --text-3:   var(--pw-parchment-dim);
+  --accent:   var(--pw-hot-metal-light);
+  --rule:     var(--pw-rule-light);
+  --hairline: rgba(236, 227, 207, 0.14);
+  --edge:     var(--pw-control-edge-reversed);
+  --solid-fg: #221f1a;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2. HOW MANY COLUMNS THE TRAY HAS
+
+   One variable, four values. The tray reads --cols to decide how many
+   compartments sit in a row, so the four breakpoints below are the whole
+   of this page's responsive behaviour.
+
+   These are max-width queries, so they read downwards: the widest case is
+   the default, and each query narrows it further.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root { --cols: 13; }
+@media (max-width: 60rem) { :root { --cols: 8; } }
+@media (max-width: 34rem) { :root { --cols: 6; } }
+@media (max-width: 24rem) { :root { --cols: 4; } }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3. PAGE BASICS
+
+   border-box means an element's width includes its padding and border,
+   which is almost always what you want when sizing things.
+   ───────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--surface);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+a:hover { color: var(--text); }
+
+/* buttons don't inherit the page font by default; these two lines fix that */
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* :focus-visible is the ring shown when someone is navigating by keyboard.
+   It deliberately does NOT appear on mouse clicks. Never remove it. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* the outermost wrapper — sets the page's type and its breathing room */
+.page {
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--pw-font-body);
+  font-size: var(--pw-size-body);
+  line-height: var(--pw-leading-body);
+  min-height: 100vh;
+  padding: clamp(1.75rem, 4vw, 3.25rem) clamp(1.25rem, 4vw, 3.5rem) clamp(3rem, 6vw, 5rem);
+}
+
+/* centres the content and stops it stretching on very wide screens */
+.shell {
+  max-width: 78rem;
+  margin: 0 auto;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4. MASTHEAD
+
+   flex-wrap: wrap lets the title and the right-hand block drop onto
+   separate lines when there isn't room for both.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  border-bottom: 2px solid var(--text);
+  padding-bottom: 1.1rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.7rem;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.wordmark {
+  margin: 0;
+  font-family: var(--pw-font-display);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 1.2rem + 4.4vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+
+/* squeezes the lettering horizontally to 94% — the house look, matching
+   the printed wordmark. transform-origin keeps the left edge pinned. */
+.wordmark__squeeze {
+  display: inline-block;
+  transform: scaleX(0.94);
+  transform-origin: left center;
+}
+
+.masthead__aside {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.25rem);
+}
+
+.volume {
+  margin: 0;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-label);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+/* the light/dark switch. In the design this carried a style-hover
+   attribute; here it is a real :hover rule, just below. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--pw-target-chip);
+  background: transparent;
+  border: 1px solid var(--edge);
+  border-radius: 0;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: color var(--pw-hover) var(--pw-ease),
+              border-color var(--pw-hover) var(--pw-ease);
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   5. STANDFIRST AND LEGEND
+
+   62ch means "about 62 characters wide" — a readable line length that
+   holds whatever the font size turns out to be.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.standfirst {
+  margin: 1.1rem 0 0;
+  max-width: 62ch;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.75rem;
+  margin: 1.75rem 0 1.15rem;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* the little colour chip in front of each legend word */
+.legend__swatch {
+  width: 1.15rem;
+  height: 0.75rem;
+}
+.legend__swatch--released {
+  background: var(--inset);
+  border: 1px solid var(--edge);
+}
+.legend__swatch--current {
+  background: transparent;
+  border: 2px solid var(--accent);
+}
+/* repeating-linear-gradient draws the diagonal hatching by hand:
+   2px of line, then 3px of gap, at 135 degrees. */
+.legend__swatch--sealed {
+  background: repeating-linear-gradient(135deg, var(--hairline) 0 2px, transparent 2px 5px);
+  border: 1px solid var(--hairline);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   6. THE TRAY
+
+   A CSS grid of --cols equal columns. minmax(0, 1fr) is the standard way
+   of saying "share the width equally, and let cells shrink smaller than
+   their contents" — without the 0, a long word would force the column wide.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.tray {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 13), minmax(0, 1fr));
+  gap: 0;
+  background: transparent;
+  border: 2px solid var(--text);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   7. ONE COMPARTMENT
+
+   Every compartment is a <button>, so the keyboard and screen readers get
+   it for free. The four states below share this base and then differ.
+
+   The cells sit flush against each other (gap: 0), so the dividing lines
+   come from box-shadow rather than border — a shadow is drawn outside the
+   element's size, so neighbours overlap theirs instead of doubling up.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.cell {
+  position: relative;
+  min-height: 4.6rem;
+  padding: 0.4rem 0.45rem;
+  border: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* The number line across the top of every compartment. space-between is
+   what gives each number its own side: the week pinned left, the issue —
+   when there is one — pushed right. With only one child, which is every
+   compartment without a word, it simply sits left. */
+.cell__num {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.32rem;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  letter-spacing: 0.1em;
+}
+
+/* the week number — the coordinate. Always present, always left, never
+   the thing the eye is meant to land on. */
+.cell__wk {
+  letter-spacing: 0.1em;
+}
+
+/* the issue number — the name a reader knows the word by, so it takes the
+   emphasis: larger, and at full strength where the week is held back. */
+.cell__issue {
+  font-size: 1.2em;
+  letter-spacing: 0.06em;
+}
+
+/* the word itself. overflow-wrap: anywhere lets a long coinage break
+   rather than burst out of a narrow compartment. */
+.cell__word {
+  font-family: var(--pw-font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+/* ── sealed: a week still in the future ────────────────────────────────── */
+.cell--sealed {
+  background: var(--inset);
+  box-shadow: 0 0 0 1px var(--rule);
+  cursor: default;
+  opacity: 0.72;
+}
+.cell--sealed .cell__num { color: var(--text-3); }
+
+/* the hatched bar standing in for the unset word */
+.cell__hatch {
+  display: block;
+  height: 0.7rem;
+  background: repeating-linear-gradient(135deg, var(--hairline) 0 2px, transparent 2px 5px);
+}
+
+/* ── this week: the most recent word, ringed in the accent ─────────────── */
+.cell--current {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 1px var(--rule);
+  cursor: pointer;
+  gap: 0.3rem;
+  transition: background var(--pw-hover) var(--pw-ease);
+}
+.cell--current:hover { background: var(--inset); }
+.cell--current .cell__num { color: var(--accent); }
+.cell--current .cell__word { color: var(--accent); }
+
+/* ── released: a word already out ──────────────────────────────────────── */
+.cell--released {
+  background: var(--inset);
+  box-shadow: 0 0 0 1px var(--rule);
+  cursor: pointer;
+  gap: 0.3rem;
+  transition: background var(--pw-hover) var(--pw-ease),
+              color var(--pw-hover) var(--pw-ease);
+}
+/* on hover the compartment inverts — currentColor below then follows */
+.cell--released:hover {
+  background: var(--text);
+  color: var(--solid-fg);
+}
+/* The dimming the design put on the number belongs to the week half only.
+   Fading the issue number too would undo the emphasis it was just given. */
+.cell--released .cell__num { color: currentColor; }
+.cell--released .cell__wk { opacity: 0.62; }
+
+/* ── blank: the date has passed but no word was struck ──────────────────
+   Not one of the design's three states. It exists because words.js carries
+   all fifty-two weeks of the year, including those before the volume
+   opened. Left plain — no hatching — so it does not read as "sealed",
+   which means something different. The legend does not describe it yet. */
+.cell--blank {
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--rule);
+  cursor: default;
+}
+
+/* Its week number is back, now that the two numbers no longer share a
+   side. It was only ever removed because 001–030 running down the left
+   collided with the issue numbers; with issues held to the right, the
+   left column reads as one unbroken run of weeks and the collision is
+   gone. To empty the blanks again, skip this state's number in
+   buildTray — the rest of the tray is unaffected. */
+.cell--blank .cell__num { color: var(--text-3); }
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   8. THE OPEN COMPARTMENT
+
+   The panel under the tray, showing whichever week is selected.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.detail {
+  margin-top: clamp(2.25rem, 5vw, 3.5rem);
+  border-top: 2px solid var(--text);
+  padding-top: 1.35rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem 3rem;
+}
+
+.detail__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.detail__week {
+  margin: 0;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-label);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.detail__meta {
+  margin: 0;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+/* the headword and its part of speech, sitting on the same baseline */
+.entry__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15em 0.6em;
+}
+
+.entry__word {
+  margin: 0;
+  font-family: var(--pw-font-display);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 1.4rem + 5vw, 4.75rem);
+  line-height: var(--pw-leading-display);
+  letter-spacing: -0.01em;
+}
+
+.entry__pos {
+  font-family: var(--pw-font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+  color: var(--accent);
+}
+
+.entry__def {
+  margin: 1rem 0 0;
+  max-width: 54ch;
+  font-size: 1.12em;
+  line-height: 1.5;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.entry__note {
+  margin: 1rem 0 0;
+  max-width: 54ch;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: var(--text-3);
+}
+
+.entry__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.85rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.entry__tag {
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  border: 1px solid var(--rule);
+  padding: 0.3rem 0.6rem;
+}
+
+.entry__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--pw-target-chip);
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.15rem;
+}
+
+/* the raised "o" in "nº" */
+.entry__link sup {
+  font-size: 0.62em;
+  vertical-align: 0.75em;
+  letter-spacing: 0;
+}
+
+/* shown instead of an entry when the selected week has no word */
+.empty-panel { max-width: 54ch; }
+
+.empty-panel__title {
+  margin: 0;
+  font-family: var(--pw-font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(1.85rem, 1.3rem + 2.4vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--text-3);
+}
+
+.empty-panel__body {
+  margin: 0.9rem 0 0;
+  color: var(--text-2);
+  text-wrap: pretty;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   9. COLOPHON
+   ───────────────────────────────────────────────────────────────────────── */
+
+.colophon {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  border-top: 1px solid var(--hairline);
+  padding-top: 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem 2rem;
+  font-family: var(--pw-font-utility);
+  font-size: var(--pw-size-micro);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   10. REDUCED MOTION
+
+   Some people set an operating-system preference to cut down on animation.
+   This honours it by switching the hover fades off.
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
