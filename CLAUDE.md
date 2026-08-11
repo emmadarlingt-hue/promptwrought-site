@@ -4,16 +4,21 @@ Guidance for Claude Code and other AI assistants working in this repository.
 
 `README.md` is the human-facing guide to adding an issue and stays the source of
 truth for that workflow. This file covers what an assistant needs on top of it:
-the shape of the repo, the one generated region, and the conventions that are
-easy to break without noticing.
+the shape of the repo, the two generated files, and the conventions that are easy
+to break without noticing.
 
 ## What this is
 
 The site behind [promptwrought.com](https://promptwrought.com) — a newsletter
-that coins one word at a time for the craft of talking to machines. It is a
-**single static page**, `index.html`, with no framework, no bundler, no
-dependency manifest, and no CI. The only tooling is one Python script that
-regenerates part of that page from JSON.
+that coins one word at a time for the craft of talking to machines. There is
+**no framework, no bundler, no dependency manifest, and no CI**. The only tooling
+is one Python script, standard library only.
+
+It has two surfaces:
+
+- **The front page**, `index.html` — the current word and the lexicon so far.
+- **The Type Case**, `calendar/` — the year as fifty-two compartments, one per
+  ISO week, served at `/calendar`.
 
 The newsletter itself lives on Substack; the site links out to it and does not
 host the archive.
@@ -21,16 +26,33 @@ host the archive.
 ## Layout
 
 ```
-index.html              the whole site — markup + inline <style>, self-contained
-issues/00N-<word>.json  one issue's lexicon entry; the data behind the page
-tools/build-lexicon.py  renders issues/*.json into index.html (stdlib only)
-design-system/          brand reference sheets — see the warning below
+index.html              the front page — markup + inline <style>, self-contained
+calendar/
+  index.html            the Type Case page
+  words.js              GENERATED — 52 week slots; do not hand-edit
+  app.js                the tray, plain browser JS, no build step
+  style.css             maps --pw-* tokens onto local names; light + dark
+issues/00N-<word>.json  one issue; the only file written by hand
+tools/build-lexicon.py  generates both outputs from issues/*.json (stdlib only)
+design-system/          brand reference sheets + tokens.css
 assets/                 logos, wordmarks, mastheads (PNG) + lockup HTML
 ```
 
-There is no `.github/`, no test suite, and no package manifest. How the site is
-deployed is not recorded anywhere in the repo — don't assume GitHub Pages, and
-don't add deploy config without asking.
+There is no `.github/`, no test suite, and no package manifest.
+
+## Deployment
+
+**Netlify builds from the repo on push.** There is no build command to run and
+no artifact to produce — the pushed files *are* the site.
+
+Nothing about the deploy lives in this repo: there is no `netlify.toml`, no
+`_redirects`, no `_headers`. Site settings, the publish directory, and the domain
+are configured in the Netlify dashboard. So you cannot change deploy behaviour
+from here, and adding one of those files would silently start overriding the
+dashboard — don't, without asking.
+
+The practical consequence is the next section: **a push to the deploy branch is a
+publication**, live in a minute or two, with no gate in between.
 
 ## Commands
 
@@ -38,95 +60,126 @@ Python 3 standard library only; no install step, no virtualenv.
 
 | Task | Command |
 |---|---|
-| Regenerate the lexicon | `python3 tools/build-lexicon.py` |
-| Verify the page is current | `python3 tools/build-lexicon.py --check` |
-| Preview locally | `python3 -m http.server` then open `index.html` |
+| Regenerate both outputs | `python3 tools/build-lexicon.py` |
+| Verify both are current | `python3 tools/build-lexicon.py --check` |
+| Preview locally | `python3 -m http.server` then open `/` or `/calendar/` |
 
-`--check` writes nothing and exits non-zero if `index.html` is stale. Run it
+`--check` writes nothing and exits non-zero if **either** output is stale. Run it
 before you commit; it is the closest thing this repo has to a test.
 
-## The one generated region
+## One source, two generated files
 
-`tools/build-lexicon.py` owns everything between these two markers in
-`index.html` and nothing else:
+`issues/00N-<word>.json` is the only file you write by hand. `build-lexicon.py`
+generates everything else a word appears in:
+
+**1. The lexicon region of `index.html`** — everything between these markers, and
+nothing else:
 
 ```html
     <!-- lexicon:start -->
     <!-- lexicon:end -->
 ```
 
-**Never hand-edit inside them** — the next build silently overwrites it. That
-region contains the `Nº` counter, the word entries, and the closing
-"forthcoming" line. Everything outside the markers is hand-written and the
-script will not touch it.
+The marker indentation (four spaces) is part of the contract; the script matches
+the exact string. Everything outside the markers is hand-written and untouched.
 
-How it renders:
+**2. The whole of `calendar/words.js`** — all 52 slots, regenerated from scratch
+every run. The file has a "GENERATED FILE — do not edit by hand" banner. Anything
+typed into it is overwritten without warning.
 
-- Entries are sorted by the `no` field and shown **newest first**.
-- The `Nº` counter takes the highest `no`.
-- The closing line names the next word from the newest issue's `next_word`
-  field, and counts the ordinal from the number of issues on file.
-- Field values are **HTML fragments** — `<em>` and friends survive as written.
-  A bare `&` is escaped for you; an existing entity like `&amp;` is left alone.
+**Never hand-edit either.** Edit the issue JSON and re-run the script.
+
+How they render:
+
+- Lexicon entries are sorted by `no`, shown **newest first**; the `Nº` counter
+  takes the highest `no`; the closing line names the newest issue's `next_word`.
+- Field values are **HTML fragments** — `<em>` survives as written. A bare `&` is
+  escaped for you; an existing entity like `&amp;` is left alone.
 - `in_use` is wrapped in `<cite>` and curly quotes by the script — write it bare.
-- The marker indentation (four spaces) is part of the contract; the script
-  matches on the exact string.
+- On the calendar, `pos` is expanded to long form (`n. & v.` → `noun & verb`).
+  An abbreviation not in `POS_WORDS` passes through **with a warning** rather
+  than failing — check stderr after adding an unusual part of speech.
 
-`README.md` documents the JSON fields. Copy an existing issue rather than
-writing one from scratch — `pron` in particular is backslash-delimited and needs
-escaping as `\\` in JSON.
+## The week arithmetic
 
-## `design-system/` does not style the site
+The tray is one calendar year and the run opens at week 31, so **issue N is week
+N + 30** — issue 001 is week 031. The release date is the Tuesday of that ISO
+week, computed via `date.fromisocalendar`. Weeks with no issue render sealed if
+still to come, blank if their date has passed.
 
-This is the thing most likely to waste your time.
+Two constraints worth knowing before you touch this:
 
-`index.html` is **self-contained**: it carries its own inline `<style>` block and
-its own Google Fonts `<link>`. It does **not** link `design-system/tokens.css`.
-Editing `tokens.css` changes nothing on the live site.
+- **The constants are duplicated.** `FIRST_ISSUE_WEEK` and `TOTAL_WEEKS` are
+  defined in *both* `tools/build-lexicon.py` and `calendar/app.js`, and
+  `VOLUME_YEAR` only in the script. Change one and you must change the other —
+  nothing catches the mismatch.
+- **The volume stops at week 52.** Issue 023 would be week 53; rather than run
+  past the end of the tray, the script exits with an error saying a second year
+  needs its own `words.js` and its own `VOLUME_YEAR`. That is deliberate. Don't
+  "fix" it by widening the range.
 
-The two layers hold the same values under different names:
+`calendar/app.js` parses dates with `Date.UTC` by hand rather than
+`new Date(string)`, because a bare date string is read as midnight UTC and lands
+on the previous day for anyone west of Greenwich. This is commented in the file.
+Leave it alone — `new Date(iso)` looks tidier and is wrong.
 
-| Layer | Naming | Used by |
+## How `design-system/` reaches each surface — they differ
+
+This is the thing most likely to waste your time, and the two pages do **not**
+behave the same way.
+
+| Surface | Links `tokens.css`? | Names it uses |
 |---|---|---|
-| `index.html` inline `<style>` | `--ink`, `--parchment`, `--hot-metal` | the live site |
-| `design-system/tokens.css` | `--pw-ink`, `--pw-parchment`, `--pw-hot-metal` | reference; portable into other projects |
+| `index.html` (front page) | **No** — self-contained inline `<style>` | `--ink`, `--parchment`, `--hot-metal` |
+| `calendar/` | **Yes** — `../design-system/tokens.css` | `--pw-*`, remapped to `--surface`, `--text`, `--accent` |
 
-So a colour or type change intended to reach the site must be made in
-`index.html`. If it is meant to be part of the brand, make it in **both** and say
-so in the commit — they drift apart otherwise, and nothing catches it.
+So editing `design-system/tokens.css`:
 
-`design-system/` mirrors the Promptwrought Claude Design project. Each sheet is
-standalone HTML with its tokens inlined so it renders with no build step.
+- **changes the calendar**, which consumes those tokens through `style.css`;
+- **changes nothing on the front page**, which holds its own copy of the values.
+
+A brand change intended to reach both must be made in `tokens.css` *and* in the
+inline `<style>` of `index.html`. Say so in the commit — they drift apart
+otherwise, and nothing catches it.
+
+`calendar/style.css` defines a semantic layer (`--surface`, `--text`, `--accent`,
+`--rule`, `--edge`) on top of the brand tokens, so **dark mode is a reassignment
+of that layer** under `:root[data-theme="dark"]`, not a second set of rules. Add
+a colour by adding it to the semantic layer in both blocks — never by hardcoding
+a hex in a component rule. The front page has no dark theme.
+
+`design-system/` otherwise mirrors the Promptwrought Claude Design project. Each
+sheet is standalone HTML with tokens inlined so it renders with no build step.
 `design-system/_ds_manifest.json` is generated remotely and gitignored — do not
 create it by hand.
 
 ## House rules for anything visual
 
-These are stated in `design-system/README.md` and `FONTS.md` and are deliberate,
-not accidental. Breaking one is immediately visible as off-brand.
+Stated in `design-system/README.md` and `FONTS.md`, and deliberate. Breaking one
+is immediately visible as off-brand.
 
 - **Nothing is bold.** Emphasis is italic throughout. The only weight change is
   between display 500 and 600. A bold run in a serif at body size reads as a
   second typeface.
-- **Radius is zero, everywhere.** The system is rules and rectangles. One
-  rounded corner reads as a different brand.
-- **The accent has three values, not one.** `#c2451c` measures 3.9:1 on
-  parchment — fine for marks and display type at 24px+, below AA at body size.
-  Use `#a63914` for accent text and fills on light, `#e0703f` for accent text on
-  ink. Both measure 5.1:1.
+- **Radius is zero, everywhere.** The system is rules and rectangles. One rounded
+  corner reads as a different brand.
+- **The accent has three values, not one.** `#c2451c` measures 3.9:1 on parchment
+  — fine for marks and display type at 24px+, below AA at body size. Use
+  `#a63914` for accent text and fills on light, `#e0703f` for accent text on ink.
+  Both measure 5.1:1. `calendar/style.css` already picks the right one per theme.
 - **Rules vs. control edges are different tokens.** A divider may be faint
   (`--rule`); the edge of something clickable may not (`--control-edge`, 3:1
   minimum). Never use a rule token for a control boundary.
 - **Every font rule states its weight.** Cormorant Garamond's variable default
-  instance is 300 (Light), so any rule that omits a weight renders noticeably
+  instance is 300 (Light), so any rule omitting a weight renders noticeably
   thinner than intended.
-- **Size tokens are never named after text or type.** Families are
-  `--pw-font-*`, sizes are `--pw-size-*`. Design tooling classifies custom
-  properties by name: a size called `--pw-text` gets mined for a font family and
-  yields a phantom entry. `FONTS.md` documents the incident that set this rule.
+- **Size tokens are never named after text or type.** Families are `--pw-font-*`,
+  sizes are `--pw-size-*`. Design tooling classifies custom properties by name: a
+  size called `--pw-text` gets mined for a font family and yields a phantom
+  entry. `FONTS.md` documents the incident that set this rule.
 
 Contrast is a standing commitment: every text node on the live site clears WCAG
-AA. If you change a colour pairing, check the ratio rather than eyeballing it.
+AA, in both themes. If you change a pairing, measure it rather than eyeballing.
 
 ## Publishing discipline
 
@@ -135,8 +188,18 @@ AA. If you change a colour pairing, check the ratio rather than eyeballing it.
 > Push after the Substack issue has actually gone out — pushing early puts the
 > word on the site before subscribers get the email.
 
-Treat a push to the default branch as publishing. If you have generated an entry
-for an issue that has not been sent yet, say so and leave the push to a human.
+Netlify makes this literal: a push to the deploy branch goes live within a minute
+or two, unreviewed. There is no staging step to catch a word that has not been
+emailed yet. Treat pushing to that branch as pressing publish; feature branches
+are free.
+
+This is now partly enforced: the script **warns on stderr** if an issue's release
+date has not arrived yet. A warning is not a failure — the build still writes.
+Read the output rather than trusting the exit code, and if you have generated an
+entry for an issue that has not been sent, say so and leave the push to a human.
+
+The structural guard is that a word only reaches either output once its issue
+JSON exists, so neither file can leak a word you have not written up.
 
 ## Git
 
@@ -144,27 +207,31 @@ for an issue that has not been sent yet, say so and leave the push to a human.
 - Imperative-mood commit subjects, with a body explaining *why* when the change
   is not self-evident.
 - Push with `git push -u origin <branch-name>`.
-- When you add an issue, commit the JSON file and the regenerated `index.html`
-  **together** — a commit that has one without the other leaves `--check` failing
-  for whoever pulls next.
+- When you add an issue, commit the JSON **and both regenerated outputs**
+  (`index.html`, `calendar/words.js`) together — a commit missing one leaves
+  `--check` failing for whoever pulls next.
 
 ## Known wrinkles
 
-- `.DS_Store` and `assets/.DS_Store` are tracked despite being listed in
-  `.gitignore`; the ignore rule was added after they were committed, and
-  `.gitignore` does not untrack existing files. Removing them with
-  `git rm --cached` would be a tidy-up, not a fix to anything functional.
+- `assets/.DS_Store` is still tracked, though the root one has been removed and
+  `.DS_Store` is in `.gitignore` — the ignore rule does not untrack files already
+  committed. `git rm --cached assets/.DS_Store` finishes the job.
+- `athenadarling/` is gitignored: it is a separate project with its own git repo
+  that happens to sit inside this folder, and without the ignore git offers to
+  swallow it as a submodule. It is not part of this site.
 - The design system depends on Google Fonts at render time. The five font files
-  *are* vendored under `design-system/fonts/` with their OFL licences, but
-  nothing currently loads them locally — self-hosting means swapping the
-  `@import` in `tokens.css` for `@font-face` rules.
-- The subscribe control is a plain link to Substack, not a form. This is
-  intentional: Substack's API sends no `Access-Control-Allow-Origin`, so an
-  in-page form cannot submit to it. There is a comment in `index.html` saying so.
+  *are* vendored under `design-system/fonts/` with their OFL licences, but nothing
+  currently loads them locally — self-hosting means swapping the `@import` in
+  `tokens.css` for `@font-face` rules.
+- The subscribe control is a plain link to Substack, not a form. Intentional:
+  Substack's API sends no `Access-Control-Allow-Origin`, so an in-page form
+  cannot submit to it. There is a comment in `index.html` saying so.
+- `calendar/words.js` is loaded as a plain `<script>` defining a global `WORDS`,
+  read by `app.js`. No modules, no imports, load order matters.
 
 ## Maintaining this file
 
-Keep it true. If you change a command, a marker, a directory, or one of the
-house rules, update this file in the same commit. Base additions on files you
-have read and commands you have run — not on what a project of this kind usually
-looks like.
+Keep it true. If you change a command, a marker, a directory, a constant, or one
+of the house rules, update this file in the same commit. Base additions on files
+you have read and commands you have run — not on what a project of this kind
+usually looks like.
