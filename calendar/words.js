@@ -337,7 +337,7 @@ const WORDS = [
     definition: "The gap between what one asked for and what one meant; to instruct a machine accurately in the wrong direction.",
     tag: "Asking",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/misask",
   },
   {
     week: 32,
@@ -347,7 +347,7 @@ const WORDS = [
     definition: "A personal, accumulated collection of proven instructions, kept and refined the way a cook keeps recipes; a promptwright’s working grimoire.",
     tag: "Keeping",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/promptbook",
   },
   {
     week: 33,
@@ -357,7 +357,7 @@ const WORDS = [
     definition: "To keep refining an instruction past the point of improvement; to polish a working prompt until it breaks.",
     tag: "Making",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/overwright",
   },
   {
     week: 34,
