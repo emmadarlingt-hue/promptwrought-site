@@ -62,6 +62,11 @@ python3 tools/build-lexicon.py --status
    morning the date has arrived hours before the email does. `git push --no-verify`
    overrides it if you ever need to.
 
+   Only pushes that update `main` are gated, because only `main` deploys. Parking
+   work on a feature branch and opening a pull request are never blocked — which
+   means you can push a branch the night before and merge it, from a phone if you
+   like, once the email has landed.
+
 ### How an issue becomes a calendar week
 
 The tray is one calendar year and the run opens at week 31, so **issue N is week

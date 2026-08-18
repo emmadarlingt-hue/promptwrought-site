@@ -213,8 +213,11 @@ early is the normal way to work. Read the output rather than trusting the exit
 code.
 
 `--ready` **exits non-zero** while any issue file describes a word that has not
-gone out, and `tools/pre-push` wires that into `git push`. The hook has to be
-linked into place once per clone, because `.git/hooks/` is not version controlled:
+gone out, and `tools/pre-push` wires that into `git push`. The hook reads the refs
+git is about to send and gates **only those bound for `refs/heads/main`**, since
+only main deploys — pushing a feature branch or opening a pull request is never
+blocked. It has to be linked into place once per clone, because `.git/hooks/` is
+not version controlled:
 
 ```bash
 ln -sf ../../tools/pre-push .git/hooks/pre-push
