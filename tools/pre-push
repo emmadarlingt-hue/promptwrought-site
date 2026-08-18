@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Refuse to push while any issue file in the repo describes a word whose
+# publication moment has not arrived. A push to the deploy branch is a
+# publication — Netlify has it live in a minute or two — so this is the
+# one place the "send first, push after" rule can actually be enforced.
+#
+# Install (once, per clone):
+#
+#     ln -sf ../../tools/pre-push .git/hooks/pre-push
+#
+# Git hooks live in .git/, which is not version controlled, so the hook
+# has to be linked into place rather than arriving with a checkout.
+#
+# In a genuine emergency: git push --no-verify
+#
+exec python3 "$(git rev-parse --show-toplevel)/tools/build-lexicon.py" --ready

@@ -13,23 +13,31 @@ From it this script generates:
                     where an issue exists and left empty where it does
                     not. Don't hand-edit it; your edit will be lost.
 
-    python3 tools/build-lexicon.py            rewrite both
-    python3 tools/build-lexicon.py --check    exit 1 if either would change
+    python3 tools/build-lexicon.py                 rewrite both
+    python3 tools/build-lexicon.py --status        where things stand
+    python3 tools/build-lexicon.py --new <word>    start the next issue file
+    python3 tools/build-lexicon.py --check         exit 1 if either is stale
+    python3 tools/build-lexicon.py --ready         exit 1 if a word is unpublished
+
+If you only remember one, remember --status. It says what has gone out,
+what is next, whether the generated files are current, and whether it is
+safe to push yet.
 
 Field values are HTML fragments — <em>, <cite> and the like are kept as
 written. A bare & is escaped for you; a real entity such as &amp; is left
 alone.
 
-Because a word only reaches either file once you have written its issue
-JSON, and you only write that once the issue has gone out, neither file
-can leak a word early. The script warns if it notices otherwise.
+Nothing here talks to Substack. Sending the issue and pushing the site are
+two separate acts, and the site changes only when you push. --ready is the
+backstop: it fails while any issue file describes a word whose publication
+moment has not arrived, and tools/pre-push wires it into `git push`.
 """
 
 import json
 import re
 import sys
 import textwrap
-from datetime import date
+from datetime import date, datetime, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -50,6 +58,11 @@ VOLUME_YEAR = 2026
 FIRST_ISSUE_WEEK = 31
 TOTAL_WEEKS = 52
 TUESDAY = 2  # in ISO numbering Monday is 1
+
+# The Substack slot. This is the whole reason the guard is worth having:
+# on publication day the date has already arrived hours before the email
+# does, so anything comparing dates alone reads as safe all morning.
+PUBLISH_TIME = time(13, 30)
 
 # The homepage sets part of speech in dictionary abbreviations; the
 # calendar writes them out. Anything not listed here is passed through
@@ -184,8 +197,55 @@ const WORDS = [
 '''
 
 
+QUIET = False  # --status reports the same facts in a tidier form
+
+
 def warn(message):
-    print(f"  warning: {message}", file=sys.stderr)
+    if not QUIET:
+        print(f"  warning: {message}", file=sys.stderr)
+
+
+def release_date(week):
+    """The Tuesday of that ISO week."""
+    return date.fromisocalendar(VOLUME_YEAR, week, TUESDAY)
+
+
+def release_moment(week):
+    """The moment the issue actually reaches subscribers — date *and* time."""
+    return datetime.combine(release_date(week), PUBLISH_TIME)
+
+
+def human_gap(delta):
+    """A timedelta as "11h 26m", for saying how long until something."""
+    minutes = int(delta.total_seconds() // 60)
+    days, minutes = divmod(minutes, 60 * 24)
+    hours, minutes = divmod(minutes, 60)
+    if days:
+        return f"{days}d {hours}h"
+    return f"{hours}h {minutes:02d}m"
+
+
+def unpublished(issues):
+    """Issues whose publication moment is still in the future, soonest first."""
+    now = datetime.now()
+    pending = [i for i in issues if release_moment(week_for(i)) > now]
+    return sorted(pending, key=lambda i: i["no"])
+
+
+# Everything an entry needs before it can render. issueUrl, note and
+# next_word are left off deliberately — each is legitimately empty.
+REQUIRED = ["word", "pos", "pron", "tag", "definition",
+            "etymology", "in_use", "the_case"]
+
+
+def incomplete(issues):
+    """(issue, missing fields) for any issue still part-written."""
+    found = []
+    for issue in sorted(issues, key=lambda i: i["no"]):
+        missing = [f for f in REQUIRED if not str(issue.get(f, "")).strip()]
+        if missing:
+            found.append((issue, missing))
+    return found
 
 
 def expand_pos(pos, word):
@@ -220,7 +280,7 @@ def js_string(value):
 
 def slot(week, issue):
     """One of the fifty-two objects. `issue` is None for a week with no word."""
-    released = date.fromisocalendar(VOLUME_YEAR, week, TUESDAY)
+    released = release_date(week)
 
     fields = {"word": "", "pos": "", "definition": "",
               "tag": "", "note": "", "issueUrl": ""}
@@ -233,13 +293,15 @@ def slot(week, issue):
         fields["note"] = issue.get("note", "")
         fields["issueUrl"] = issue.get("issueUrl", "")
 
-        # The issue file is meant to be written on publication day. If it
-        # exists before its date, say so — pushing would beat the email.
-        if released > date.today():
+        # Compared against the moment, not the day. On publication morning
+        # the date has arrived and the email has not, which is exactly the
+        # window a date-only check waves through.
+        moment = release_moment(week)
+        if moment > datetime.now():
             warn(
-                f'{issue["word"]} is dated {released}, which has not arrived '
-                f"yet. Pushing now puts it on the site before subscribers "
-                f"get the issue."
+                f'{issue["word"]} is not out until {moment:%a %d %b, %H:%M} — '
+                f"{human_gap(moment - datetime.now())} away. Writing the file "
+                f"now is fine; pushing would beat the email."
             )
 
     lines = ["  {", f"    week: {week},",
@@ -278,26 +340,181 @@ def load_issues():
     return sorted(issues, key=lambda i: i["no"], reverse=True)
 
 
-def main():
-    check = "--check" in sys.argv[1:]
-
-    issues = load_issues()
-
+def build_targets(issues):
+    """(file, what it says now, what it should say) for each generated file."""
     current = INDEX.read_text(encoding="utf-8")
     if START not in current or END not in current:
         sys.exit(f"markers {START.strip()} / {END.strip()} not found in {INDEX}")
     before, rest = current.split(START, 1)
     _, after = rest.split(END, 1)
-
-    # (file, what it says now, what it should say)
-    targets = [
+    return [
         (INDEX, current, f"{before}{START}\n{render(issues)}\n{END}{after}"),
         (WORDS_JS,
          WORDS_JS.read_text(encoding="utf-8") if WORDS_JS.exists() else "",
          render_words(issues)),
     ]
 
-    stale = [(path, wanted) for path, now, wanted in targets if now != wanted]
+
+# ══════════════════════════════════════════════════════════════════════════
+#  --new : start the next issue file, so the numbering is never guessed at
+# ══════════════════════════════════════════════════════════════════════════
+
+def do_new(word, issues):
+    slug = re.sub(r"[^a-z0-9-]", "", word.strip().lower())
+    if not slug:
+        sys.exit("name the word: python3 tools/build-lexicon.py --new grainsense")
+
+    number = max(i["no"] for i in issues) + 1
+    week = number + FIRST_ISSUE_WEEK - 1
+    if week > TOTAL_WEEKS:
+        sys.exit(
+            f"issue {number} would be week {week}, past the end of the "
+            f"{VOLUME_YEAR} tray. A second year needs its own words.js."
+        )
+
+    path = ISSUES / f"{number:03d}-{slug}.json"
+    if path.exists():
+        sys.exit(f"{path.relative_to(ROOT).as_posix()} already exists — edit that.")
+
+    skeleton = {
+        "no": number,
+        "word": slug,
+        "pos": "",
+        "pron": "\\  \\",
+        "tag": "",
+        "definition": "",
+        "etymology": "",
+        "in_use": "",
+        "the_case": "",
+        "issueUrl": f"https://promptwrought.substack.com/p/{slug}",
+        "next_word": "",
+    }
+    path.write_text(json.dumps(skeleton, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8")
+
+    moment = release_moment(week)
+    print(f"wrote {path.relative_to(ROOT).as_posix()}")
+    print(f"  Nº {number:03d} · week {week:03d} · out {moment:%a %d %b %Y, %H:%M}")
+    print()
+    print("  Fill it in from Verbarium, then run the script with no arguments.")
+    print("  The issueUrl is a guess from the pattern — check it against Substack.")
+
+
+# ══════════════════════════════════════════════════════════════════════════
+#  --status : the one command worth remembering
+# ══════════════════════════════════════════════════════════════════════════
+
+def do_status(issues):
+    global QUIET
+    QUIET = True  # the same facts appear below, more tidily
+
+    now = datetime.now()
+    pending = unpublished(issues)
+    pending_numbers = {i["no"] for i in pending}
+    struck = [i for i in issues if i["no"] not in pending_numbers]
+    stale = [p for p, was, wants in build_targets(issues) if was != wants]
+    newest = max(issues, key=lambda i: i["no"])
+
+    print()
+    print(f"  Promptwrought — {VOLUME_YEAR}")
+    print()
+    print(f"  struck         {len(struck)} of {TOTAL_WEEKS}")
+
+    if struck:
+        last = max(struck, key=lambda i: i["no"])
+        week = week_for(last)
+        print(f"  latest         Nº {last['no']:03d}  {last['word']:<15}"
+              f"week {week:03d}   {release_date(week):%a %d %b}")
+
+    if pending:
+        for issue in pending:
+            week = week_for(issue)
+            moment = release_moment(week)
+            print(f"  in flight      Nº {issue['no']:03d}  {issue['word']:<15}"
+                  f"week {week:03d}   out {moment:%a %d %b, %H:%M}")
+    else:
+        number = newest["no"] + 1
+        week = number + FIRST_ISSUE_WEEK - 1
+        if week <= TOTAL_WEEKS:
+            name = newest.get("next_word") or "not yet named"
+            print(f"  next up        Nº {number:03d}  {name:<15}"
+                  f"week {week:03d}   {release_moment(week):%a %d %b, %H:%M}")
+            print(f"                 no file yet — --new {name}"
+                  if newest.get("next_word") else
+                  "                 no file yet — --new <word>")
+
+    print()
+    for issue, missing in incomplete(issues):
+        print(f"  unfinished     Nº {issue['no']:03d} {issue['word']} — "
+              f"{', '.join(missing)}")
+    print(f"  generated      {'up to date' if not stale else 'STALE — run the script'}")
+
+    if pending:
+        moment = release_moment(week_for(pending[0]))
+        print(f"  safe to push   NO — {pending[0]['word']} is out in "
+              f"{human_gap(moment - now)}")
+    else:
+        print("  safe to push   yes")
+    print()
+
+
+# ══════════════════════════════════════════════════════════════════════════
+#  --ready : the backstop git push runs
+# ══════════════════════════════════════════════════════════════════════════
+
+def do_ready(issues):
+    pending = unpublished(issues)
+    if not pending:
+        return
+
+    now = datetime.now()
+    say = lambda line: print(line, file=sys.stderr)
+    say("")
+    say("  Push blocked — a word in this repo has not gone out yet:")
+    say("")
+    for issue in pending:
+        moment = release_moment(week_for(issue))
+        say(f"    Nº {issue['no']:03d}  {issue['word']} — out "
+            f"{moment:%a %d %b, %H:%M}, {human_gap(moment - now)} away")
+    say("")
+    say("  Pushing now puts it on promptwrought.com before subscribers get")
+    say("  the email. Wait for the send, or override with:")
+    say("")
+    say("    git push --no-verify")
+    say("")
+    sys.exit(1)
+
+
+def main():
+    args = sys.argv[1:]
+    issues = load_issues()
+
+    if "--new" in args:
+        position = args.index("--new")
+        do_new(args[position + 1] if len(args) > position + 1 else "", issues)
+        return
+
+    if "--status" in args:
+        do_status(issues)
+        return
+
+    if "--ready" in args:
+        do_ready(issues)
+        return
+
+    # A scaffolded file has the headword in it but nothing else. Generating
+    # from it would put the word on both pages with an empty definition.
+    part_written = incomplete(issues)
+    if part_written:
+        lines = ["nothing written — these issue files are not filled in yet:", ""]
+        for issue, missing in part_written:
+            lines.append(f"  Nº {issue['no']:03d} {issue['word']}: "
+                         f"{', '.join(missing)}")
+        lines += ["", "Fill them in from Verbarium and run this again."]
+        sys.exit("\n".join(lines))
+
+    stale = [(path, wanted) for path, now, wanted in build_targets(issues)
+             if now != wanted]
     summary = f"{len(issues)} issue(s), latest Nº {issues[0]['no']:03d}"
 
     if not stale:
@@ -306,7 +523,7 @@ def main():
 
     names = ", ".join(path.relative_to(ROOT).as_posix() for path, _ in stale)
 
-    if check:
+    if "--check" in args:
         sys.exit(f"out of date: {names} — run: python3 tools/build-lexicon.py")
 
     for path, wanted in stale:

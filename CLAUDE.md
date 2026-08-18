@@ -60,12 +60,24 @@ Python 3 standard library only; no install step, no virtualenv.
 
 | Task | Command |
 |---|---|
+| Where things stand | `python3 tools/build-lexicon.py --status` |
+| Start the next issue file | `python3 tools/build-lexicon.py --new <word>` |
 | Regenerate both outputs | `python3 tools/build-lexicon.py` |
 | Verify both are current | `python3 tools/build-lexicon.py --check` |
+| Is it safe to push? | `python3 tools/build-lexicon.py --ready` |
 | Preview locally | `python3 -m http.server` then open `/` or `/calendar/` |
+
+`--status` is the orientation command: what has gone out, what is next, whether
+the outputs are current, whether pushing is safe. Start there.
 
 `--check` writes nothing and exits non-zero if **either** output is stale. Run it
 before you commit; it is the closest thing this repo has to a test.
+
+`--new` scaffolds `issues/00N-<word>.json` with the number and week worked out
+and `issueUrl` guessed from the usual `/p/<word>` pattern — verify that against
+Substack. A scaffold is deliberately unusable: generating refuses while any issue
+is missing a field in `REQUIRED`, so a half-written entry cannot reach either
+page with an empty definition.
 
 ## One source, two generated files
 
@@ -193,13 +205,31 @@ or two, unreviewed. There is no staging step to catch a word that has not been
 emailed yet. Treat pushing to that branch as pressing publish; feature branches
 are free.
 
-This is now partly enforced: the script **warns on stderr** if an issue's release
-date has not arrived yet. A warning is not a failure — the build still writes.
-Read the output rather than trusting the exit code, and if you have generated an
-entry for an issue that has not been sent, say so and leave the push to a human.
+This is enforced in three places, weakest to strongest.
 
-The structural guard is that a word only reaches either output once its issue
-JSON exists, so neither file can leak a word you have not written up.
+The script **warns on stderr** while an issue's publication moment is still ahead.
+A warning is not a failure — the build still writes, because preparing the files
+early is the normal way to work. Read the output rather than trusting the exit
+code.
+
+`--ready` **exits non-zero** while any issue file describes a word that has not
+gone out, and `tools/pre-push` wires that into `git push`. The hook has to be
+linked into place once per clone, because `.git/hooks/` is not version controlled:
+
+```bash
+ln -sf ../../tools/pre-push .git/hooks/pre-push
+```
+
+`git push --no-verify` bypasses it. That is the intended escape hatch, not a
+workaround — but if you reach for it, know what you are publishing.
+
+**The comparison is a moment, not a date.** `PUBLISH_TIME` is 13:30, matching the
+Substack slot, and `release_moment()` combines it with the Tuesday. This is the
+whole point of the guard: on publication morning the date has already arrived and
+the email has not, so a date-only check waves the entire morning through.
+
+The structural guard, still the strongest, is that a word only reaches either
+output once its issue JSON exists and is complete.
 
 ## Git
 
