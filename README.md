@@ -13,7 +13,15 @@ Don't edit either output. Everything between `<!-- lexicon:start -->` and
 `<!-- lexicon:end -->` in `index.html` is overwritten, and so is the whole of
 `calendar/words.js`.
 
-1. Write `issues/00N-<word>.json`, copying the shape of an existing one:
+Lost? One command tells you where everything stands — what has gone out, what is
+next, whether the pages are current, and whether it is safe to push:
+
+```bash
+python3 tools/build-lexicon.py --status
+```
+
+1. Start the file with `--new <word>`, which works out the number, the week and
+   the release date for you. Then fill it in from Verbarium:
 
    | field        | notes                                                        |
    | ------------ | ------------------------------------------------------------ |
@@ -41,8 +49,23 @@ Don't edit either output. Everything between `<!-- lexicon:start -->` and
    and writes nothing.
 
 3. Commit. **Push after the Substack issue has actually gone out** — pushing early
-   puts the word on the site before subscribers get the email. The script warns if
-   an issue is dated in the future.
+   puts the word on the site before subscribers get the email.
+
+   You don't have to hold that in your head. Install the hook once per clone and
+   `git push` refuses until the send has happened:
+
+   ```bash
+   ln -sf ../../tools/pre-push .git/hooks/pre-push
+   ```
+
+   It compares against 13:30 on the Tuesday, not just the date — on publication
+   morning the date has arrived hours before the email does. `git push --no-verify`
+   overrides it if you ever need to.
+
+   Only pushes that update `main` are gated, because only `main` deploys. Parking
+   work on a feature branch and opening a pull request are never blocked — which
+   means you can push a branch the night before and merge it, from a phone if you
+   like, once the email has landed.
 
 ### How an issue becomes a calendar week
 

@@ -362,12 +362,12 @@ const WORDS = [
   {
     week: 34,
     releaseDate: "2026-08-18",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "grainsense",
+    pos: "noun",
+    definition: "A practised feel for a particular machine’s tendencies — where it drifts, what it over-does, which phrasings it obeys; the promptwright’s knowledge of the material.",
+    tag: "Knowing",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/grainsense",
   },
   {
     week: 35,

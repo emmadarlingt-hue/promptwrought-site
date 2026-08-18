@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# Refuse to publish a word before its issue has gone out.
+#
+# Only a push that updates the deploy branch is a publication — Netlify
+# builds main and has it live in a minute or two. Feature branches are
+# free, as README and CLAUDE.md both say, so this reads the refs git is
+# about to send and gates only the ones that reach main. Parking work on
+# a branch, or opening a pull request, is never blocked.
+#
+# Git hands a pre-push hook one line per ref on stdin:
+#
+#     <local ref> <local sha> <remote ref> <remote sha>
+#
+# Install (once, per clone):
+#
+#     ln -sf ../../tools/pre-push .git/hooks/pre-push
+#
+# .git/hooks is not version controlled, so the hook has to be linked
+# into place rather than arriving with a checkout.
+#
+# In a genuine emergency: git push --no-verify
+#
+DEPLOY_REF="refs/heads/main"
+
+publishes=0
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+    if [ "$remote_ref" = "$DEPLOY_REF" ]; then
+        publishes=1
+    fi
+done
+
+# Nothing bound for the deploy branch: not a publication, let it through.
+[ "$publishes" -eq 1 ] || exit 0
+
+exec python3 "$(git rev-parse --show-toplevel)/tools/build-lexicon.py" --ready
