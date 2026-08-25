@@ -231,6 +231,17 @@ Substack slot, and `release_moment()` combines it with the Tuesday. This is the
 whole point of the guard: on publication morning the date has already arrived and
 the email has not, so a date-only check waves the entire morning through.
 
+**And the moment carries a zone.** `PUBLISH_ZONE` is `Europe/London`, so 13:30
+means 13:30 in London wherever the script runs; `current_moment()` is the other
+half of every comparison and returns an aware `now` in the same zone. Both sides
+have to stay aware — a naive `datetime.now()` anywhere in this file raises a
+`TypeError` on comparison rather than failing quietly, which is the intended
+behaviour. Don't "fix" it by dropping the zone: on a UTC machine — a CI runner,
+a cloud dev container — a naive 13:30 reads as 13:30Z and holds the guard shut
+for an hour *after* the email has gone. `ZoneInfo` also tracks the clock change,
+which this volume crosses: weeks 031–043 release in BST, weeks 044–052 in GMT, so
+a fixed offset would be wrong from late October on.
+
 The structural guard, still the strongest, is that a word only reaches either
 output once its issue JSON exists and is complete.
 

@@ -39,6 +39,7 @@ import sys
 import textwrap
 from datetime import date, datetime, time
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 ISSUES = ROOT / "issues"
@@ -62,6 +63,14 @@ TUESDAY = 2  # in ISO numbering Monday is 1
 # The Substack slot. This is the whole reason the guard is worth having:
 # on publication day the date has already arrived hours before the email
 # does, so anything comparing dates alone reads as safe all morning.
+#
+# The zone is named rather than assumed. 13:30 means 13:30 in London, and
+# a naive datetime would instead mean 13:30 wherever the script happens to
+# run — an hour out on a UTC machine such as a CI runner or a cloud dev
+# container, which holds the guard shut for an hour after the email has
+# gone. ZoneInfo also handles the clock change: this volume opens in BST
+# and ends in GMT, so a fixed offset would be wrong from week 44 on.
+PUBLISH_ZONE = ZoneInfo("Europe/London")
 PUBLISH_TIME = time(13, 30)
 
 # The homepage sets part of speech in dictionary abbreviations; the
@@ -212,7 +221,15 @@ def release_date(week):
 
 def release_moment(week):
     """The moment the issue actually reaches subscribers — date *and* time."""
-    return datetime.combine(release_date(week), PUBLISH_TIME)
+    return datetime.combine(release_date(week), PUBLISH_TIME, tzinfo=PUBLISH_ZONE)
+
+
+def current_moment():
+    """Now, in the publication zone — the other half of every comparison.
+
+    Both sides have to be aware, or Python refuses to compare them at all.
+    """
+    return datetime.now(PUBLISH_ZONE)
 
 
 def human_gap(delta):
@@ -227,7 +244,7 @@ def human_gap(delta):
 
 def unpublished(issues):
     """Issues whose publication moment is still in the future, soonest first."""
-    now = datetime.now()
+    now = current_moment()
     pending = [i for i in issues if release_moment(week_for(i)) > now]
     return sorted(pending, key=lambda i: i["no"])
 
@@ -297,10 +314,10 @@ def slot(week, issue):
         # the date has arrived and the email has not, which is exactly the
         # window a date-only check waves through.
         moment = release_moment(week)
-        if moment > datetime.now():
+        if moment > current_moment():
             warn(
                 f'{issue["word"]} is not out until {moment:%a %d %b, %H:%M} — '
-                f"{human_gap(moment - datetime.now())} away. Writing the file "
+                f"{human_gap(moment - current_moment())} away. Writing the file "
                 f"now is fine; pushing would beat the email."
             )
 
@@ -408,7 +425,7 @@ def do_status(issues):
     global QUIET
     QUIET = True  # the same facts appear below, more tidily
 
-    now = datetime.now()
+    now = current_moment()
     pending = unpublished(issues)
     pending_numbers = {i["no"] for i in pending}
     struck = [i for i in issues if i["no"] not in pending_numbers]
@@ -467,7 +484,7 @@ def do_ready(issues):
     if not pending:
         return
 
-    now = datetime.now()
+    now = current_moment()
     say = lambda line: print(line, file=sys.stderr)
     say("")
     say("  Push blocked — a word in this repo has not gone out yet:")
