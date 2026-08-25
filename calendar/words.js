@@ -372,12 +372,12 @@ const WORDS = [
   {
     week: 35,
     releaseDate: "2026-08-25",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "promptwright",
+    pos: "noun",
+    definition: "A person skilled in the craft of writing and refining instructions for generative AI systems to produce a reliable, intended result; a professional prompt-maker.",
+    tag: "Making",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/promptwright",
   },
   {
     week: 36,

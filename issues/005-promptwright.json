@@ -1,0 +1,13 @@
+{
+  "no": 5,
+  "word": "promptwright",
+  "pos": "n.",
+  "pron": "\\ ˈprɒm(p)t.raɪt \\",
+  "tag": "Making",
+  "definition": "A person skilled in the craft of writing and refining instructions for generative AI systems to produce a reliable, intended result; a professional prompt-maker.",
+  "etymology": "From <em>prompt</em> (n., 14th c., via Latin <em>promptus</em>, ‘brought forth, ready’) + <em>-wright</em> (Old English <em>wryhta</em>, ‘worker, maker’), the agentive suffix of playwright, shipwright and wheelwright. The suffix is the older half by several centuries, and it does the carrying: say the word aloud and it lands like a trade, not a title.",
+  "in_use": "We hired a promptwright to turn the marketing team’s vague briefs into reliable, repeatable AI output.",
+  "the_case": "A craft gets a vocabulary, and this one has been working without a name for its worker — <em>prompt engineer</em> arrived pre-embarrassed, two words wide, the second borrowed from people who build bridges. When an age needs a title for its newest job and takes the suffix from the oldest ones, it is telling you something: the work is older than the machine.",
+  "issueUrl": "https://promptwrought.substack.com/p/promptwright",
+  "next_word": "beigevoice"
+}
