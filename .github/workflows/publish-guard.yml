@@ -1,0 +1,45 @@
+# The publish guard, at the one place tools/pre-push cannot reach.
+#
+# The hook runs in a clone, on `git push`. Merging a pull request on
+# GitHub runs server-side — no clone, no push, no hook — and Netlify
+# builds main straight afterwards, so the merge button could publish a
+# word before its email had gone. Nº 006 went live five days early
+# exactly that way. This runs the same checks where the merge happens.
+#
+# Both jobs check out the pull request's *merge result*, not its head,
+# so each one answers the question that actually matters: what would be
+# true of main if this were merged right now.
+#
+# These jobs going red does not by itself stop a merge. They have to be
+# marked required under Settings → Branches → branch protection rules
+# for main. Without that they are advice; with it they are the gate.
+
+name: publish guard
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  outputs-current:
+    name: outputs current
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Fails if index.html or calendar/words.js is stale against
+      # issues/*.json — the commit that forgot to regenerate.
+      - run: python3 tools/build-lexicon.py --check
+
+  word-has-gone-out:
+    name: word has gone out
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Fails while any issue file describes a word whose publication
+      # moment is still ahead. Runners are UTC; --ready compares against
+      # 13:30 Europe/London regardless, so this is only correct because
+      # PUBLISH_ZONE is named rather than assumed.
+      - run: python3 tools/build-lexicon.py --ready

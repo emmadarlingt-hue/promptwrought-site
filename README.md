@@ -68,11 +68,18 @@ python3 tools/build-lexicon.py --status
    **The hook cannot see a merge.** It is a git hook: it runs on `git push` from a
    clone, reads the refs git is about to send, and stops the ones bound for `main`.
    Merging a pull request on GitHub happens on their servers — no clone, no push,
-   no hook — and Netlify builds the result within a minute or two. So you *can*
-   prepare a branch the night before and merge it from a phone once the email has
-   landed, but nothing enforces the *once*: on that path the timing is yours to
-   keep. Merge on send day, or run `python3 tools/build-lexicon.py --ready` first
-   and let it tell you.
+   no hook — and Netlify builds the result within a minute or two.
+
+   So a second guard covers that path: `.github/workflows/publish-guard.yml` runs
+   `--check` and `--ready` on every pull request, against what `main` *would* be if
+   you merged. The **word has gone out** check stays red until the release moment,
+   which is what turns the merge button red with it. You can still prepare a branch
+   the night before and merge it from a phone once the email has landed — now the
+   *once* is enforced rather than remembered.
+
+   One catch worth knowing: a red check only *blocks* a merge if it is marked
+   required under Settings → Branches. Otherwise GitHub shows it and lets you merge
+   anyway.
 
    One more thing a feature branch does not hide: Netlify builds a **deploy preview**
    for every pull request, at a public (if unlisted) URL. The word is not on
