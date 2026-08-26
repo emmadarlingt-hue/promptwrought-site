@@ -382,12 +382,12 @@ const WORDS = [
   {
     week: 36,
     releaseDate: "2026-09-01",
-    word: "beigevoice",
-    pos: "noun",
-    definition: "The default register of machine prose: affable, tidy, featureless; the sound of no one in particular.",
-    tag: "Hearing",
+    word: "",
+    pos: "",
+    definition: "",
+    tag: "",
     note: "",
-    issueUrl: "https://promptwrought.substack.com/p/beigevoice",
+    issueUrl: "",
   },
   {
     week: 37,
