@@ -63,9 +63,22 @@ python3 tools/build-lexicon.py --status
    overrides it if you ever need to.
 
    Only pushes that update `main` are gated, because only `main` deploys. Parking
-   work on a feature branch and opening a pull request are never blocked — which
-   means you can push a branch the night before and merge it, from a phone if you
-   like, once the email has landed.
+   work on a feature branch and opening a pull request are never blocked.
+
+   **The hook cannot see a merge.** It is a git hook: it runs on `git push` from a
+   clone, reads the refs git is about to send, and stops the ones bound for `main`.
+   Merging a pull request on GitHub happens on their servers — no clone, no push,
+   no hook — and Netlify builds the result within a minute or two. So you *can*
+   prepare a branch the night before and merge it from a phone once the email has
+   landed, but nothing enforces the *once*: on that path the timing is yours to
+   keep. Merge on send day, or run `python3 tools/build-lexicon.py --ready` first
+   and let it tell you.
+
+   One more thing a feature branch does not hide: Netlify builds a **deploy preview**
+   for every pull request, at a public (if unlisted) URL. The word is not on
+   promptwrought.com, but it is on the web. Nobody finds those URLs without the pull
+   request, so this is a small exposure rather than a leak — worth knowing rather
+   than worrying about.
 
 ### How an issue becomes a calendar week
 

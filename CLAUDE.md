@@ -205,7 +205,9 @@ or two, unreviewed. There is no staging step to catch a word that has not been
 emailed yet. Treat pushing to that branch as pressing publish; feature branches
 are free.
 
-This is enforced in three places, weakest to strongest.
+This is enforced in three places, weakest to strongest — none of which stops a
+merge on GitHub, which is the way a prepared branch usually reaches the site.
+Read to the end of the section before trusting the guard.
 
 The script **warns on stderr** while an issue's publication moment is still ahead.
 A warning is not a failure — the build still writes, because preparing the files
@@ -225,6 +227,24 @@ ln -sf ../../tools/pre-push .git/hooks/pre-push
 
 `git push --no-verify` bypasses it. That is the intended escape hatch, not a
 workaround — but if you reach for it, know what you are publishing.
+
+**And a merge is not a push.** This is the gap in the guard, and it is structural
+rather than a bug. `tools/pre-push` is a git hook: it runs in a clone, on `git
+push`, against the refs git is about to send. Merging a pull request on GitHub
+runs on their servers — no clone, no push, no hook — and Netlify builds `main`
+straight afterwards. So the merge button publishes without consulting `--ready`
+at all, and it is how issues actually reach the site when the work was prepared
+on a branch. Nº 006 went live five days early exactly this way. Until a CI check
+runs `--ready` on pull requests, the only thing gating that path is knowing the
+release moment; assume the hook has *not* run whenever a word reaches main through
+a merge, and check `--ready` by hand before pressing it.
+
+**A feature branch is free of the deploy, not of the web.** Netlify builds a deploy
+preview for every pull request, at a public though unlisted URL. Preparing an issue
+early therefore puts the unsent word online, off promptwrought.com but reachable by
+anyone holding the link. The exposure is small — nobody finds a preview URL without
+the pull request — but "feature branches are free" is a statement about the live
+site, not about secrecy.
 
 **The comparison is a moment, not a date.** `PUBLISH_TIME` is 13:30, matching the
 Substack slot, and `release_moment()` combines it with the Tuesday. This is the
