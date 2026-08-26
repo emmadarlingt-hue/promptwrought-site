@@ -11,8 +11,9 @@ to break without noticing.
 
 The site behind [promptwrought.com](https://promptwrought.com) — a newsletter
 that coins one word at a time for the craft of talking to machines. There is
-**no framework, no bundler, no dependency manifest, and no CI**. The only tooling
-is one Python script, standard library only.
+**no framework, no bundler and no dependency manifest**. The only tooling is one
+Python script, standard library only — and one GitHub Actions workflow that runs
+that same script on pull requests, which is the whole of the CI.
 
 It has two surfaces:
 
@@ -36,9 +37,12 @@ issues/00N-<word>.json  one issue; the only file written by hand
 tools/build-lexicon.py  generates both outputs from issues/*.json (stdlib only)
 design-system/          brand reference sheets + tokens.css
 assets/                 logos, wordmarks, mastheads (PNG) + lockup HTML
+.github/workflows/
+  publish-guard.yml     runs --check and --ready on every pull request
 ```
 
-There is no `.github/`, no test suite, and no package manifest.
+That workflow is the only file under `.github/`. There is no test suite and no
+package manifest.
 
 ## Deployment
 
@@ -205,7 +209,9 @@ or two, unreviewed. There is no staging step to catch a word that has not been
 emailed yet. Treat pushing to that branch as pressing publish; feature branches
 are free.
 
-This is enforced in three places, weakest to strongest.
+This is enforced in four places, weakest to strongest. The first three are local
+and none of them stops a merge on GitHub, which is the way a prepared branch
+usually reaches the site; the fourth exists to cover exactly that.
 
 The script **warns on stderr** while an issue's publication moment is still ahead.
 A warning is not a failure — the build still writes, because preparing the files
@@ -225,6 +231,44 @@ ln -sf ../../tools/pre-push .git/hooks/pre-push
 
 `git push --no-verify` bypasses it. That is the intended escape hatch, not a
 workaround — but if you reach for it, know what you are publishing.
+
+**And a merge is not a push.** This is the gap in the guard, and it is structural
+rather than a bug. `tools/pre-push` is a git hook: it runs in a clone, on `git
+push`, against the refs git is about to send. Merging a pull request on GitHub
+runs on their servers — no clone, no push, no hook — and Netlify builds `main`
+straight afterwards. So the merge button publishes without consulting `--ready`
+at all, and it is how issues actually reach the site when the work was prepared
+on a branch. Nº 006 went live five days early exactly this way — which is why the
+fourth enforcement point below exists.
+
+**`.github/workflows/publish-guard.yml` runs the same checks where the merge
+happens.** Two jobs on every pull request against main: *outputs current* runs
+`--check`, *word has gone out* runs `--ready`. Both check out the pull request's
+**merge result** rather than its head, so each answers the question that actually
+matters — what would be true of main if this were merged now.
+
+Two things about it are easy to get wrong:
+
+- **A red job does not block a merge on its own.** Both have to be marked required
+  under Settings → Branches → branch protection for `main`. Untick that and they
+  are advice, not a gate. Nothing in this repo can tell you which they are; check
+  the setting rather than assuming.
+- **It only works because `PUBLISH_ZONE` is named.** Runners are UTC, so a naive
+  13:30 would read as 13:30Z and hold the guard shut for an hour after the email.
+  That is the same bug the local script had; don't reintroduce it here.
+
+While an issue is prepared and waiting, *word has gone out* is red on **every** open
+pull request against main, not just the one carrying the word — because the check
+describes the state of main after a merge, and any merge deploys whatever main then
+holds. That is correct, and it is also inconvenient: expect unrelated work to sit
+behind a red check during a prep week.
+
+**A feature branch is free of the deploy, not of the web.** Netlify builds a deploy
+preview for every pull request, at a public though unlisted URL. Preparing an issue
+early therefore puts the unsent word online, off promptwrought.com but reachable by
+anyone holding the link. The exposure is small — nobody finds a preview URL without
+the pull request — but "feature branches are free" is a statement about the live
+site, not about secrecy.
 
 **The comparison is a moment, not a date.** `PUBLISH_TIME` is 13:30, matching the
 Substack slot, and `release_moment()` combines it with the Tuesday. This is the
