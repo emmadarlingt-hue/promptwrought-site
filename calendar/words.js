@@ -375,7 +375,7 @@ const WORDS = [
     word: "promptwright",
     pos: "noun",
     definition: "A person skilled in the craft of writing and refining instructions for generative AI systems to produce a reliable, intended result; a professional prompt-maker.",
-    tag: "Making",
+    tag: "Naming",
     note: "",
     issueUrl: "https://promptwrought.substack.com/p/promptwright",
   },
