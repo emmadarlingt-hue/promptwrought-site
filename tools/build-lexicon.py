@@ -176,7 +176,7 @@ def forthcoming(issues):
 
 SET_ID = f"{SITE}/#lexicon"
 
-SET_DESCRIPTION = ("Coined words for the craft of talking to machines — one an issue, "
+SET_DESCRIPTION = ("Coined words for the craft of talking to machines — one a week, "
                    "with its definition, its roots, and the case for keeping it.")
 
 
