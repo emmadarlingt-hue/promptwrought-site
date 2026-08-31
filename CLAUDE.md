@@ -69,6 +69,7 @@ Python 3 standard library only; no install step, no virtualenv.
 | Regenerate both outputs | `python3 tools/build-lexicon.py` |
 | Verify both are current | `python3 tools/build-lexicon.py --check` |
 | Is it safe to push? | `python3 tools/build-lexicon.py --ready` |
+| Substack SEO copy to paste | `python3 tools/build-lexicon.py --seo [word]` |
 | Preview locally | `python3 -m http.server` then open `/` or `/calendar/` |
 
 `--status` is the orientation command: what has gone out, what is next, whether
@@ -104,6 +105,15 @@ every run. The file has a "GENERATED FILE — do not edit by hand" banner. Anyth
 typed into it is overwritten without warning.
 
 **Never hand-edit either.** Edit the issue JSON and re-run the script.
+
+Two fields reach *neither* output. `seo_title` and `seo_description` are copy
+for Substack's own SEO fields, which live in Substack's editor, where nothing
+is versioned and nothing counts the characters. They are kept beside the word
+so they can be reviewed with the rest of the entry, and `--seo` prints them
+unwrapped, with lengths, to be pasted in one go. They are deliberately absent
+from `REQUIRED`: a missing one is a chore outstanding, never a reason to
+refuse to build. `SEO_TITLE_MAX` and `SEO_DESC_MAX` are where Google
+truncates, not where it penalises — over-length is a warning, not an error.
 
 How they render:
 
