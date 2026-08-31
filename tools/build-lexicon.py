@@ -33,6 +33,7 @@ backstop: it fails while any issue file describes a word whose publication
 moment has not arrived, and tools/pre-push wires it into `git push`.
 """
 
+import html
 import json
 import re
 import sys
@@ -45,6 +46,8 @@ ROOT = Path(__file__).resolve().parent.parent
 ISSUES = ROOT / "issues"
 INDEX = ROOT / "index.html"
 WORDS_JS = ROOT / "calendar" / "words.js"
+
+SITE = "https://promptwrought.com"
 
 START = "    <!-- lexicon:start -->"
 END = "    <!-- lexicon:end -->"
@@ -98,6 +101,21 @@ def esc(text):
     return re.sub(r"&(?!#?\w+;)", "&amp;", text)
 
 
+def plain(text):
+    """A field value as prose: no tags, no entities.
+
+    Field values are HTML fragments — <em> and &amp; are written to survive
+    into the markup. Structured data wants the sentence a person would read,
+    so both come back out here.
+    """
+    return html.unescape(re.sub(r"<[^>]+>", "", text)).strip()
+
+
+def anchor(word):
+    """The id an entry is deep-linked by: promptwrought.com/#misask."""
+    return re.sub(r"[^a-z0-9]+", "-", word.lower()).strip("-")
+
+
 def para(indent, open_tag, text, close_tag):
     """One paragraph, wrapped the way the hand-written markup was."""
     return textwrap.fill(
@@ -121,7 +139,7 @@ def field(key, open_tag, text, close_tag):
 
 def article(issue):
     head = "\n".join([
-        '    <article class="word-entry">',
+        f'    <article class="word-entry" id="{anchor(issue["word"])}">',
         '      <div class="word-entry__head">',
         f'        <span class="word-entry__word">{esc(issue["word"])}</span>',
         f'        <span class="word-entry__pos">{esc(issue["pos"])}</span>',
@@ -156,6 +174,57 @@ def forthcoming(issues):
     )
 
 
+SET_ID = f"{SITE}/#lexicon"
+
+SET_DESCRIPTION = ("Coined words for the craft of talking to machines — one an issue, "
+                   "with its definition, its roots, and the case for keeping it.")
+
+
+def structured_data(issues):
+    """schema.org DefinedTermSet — the lexicon, said again for machines.
+
+    A coinage has no search volume on the day it is coined: nobody types a
+    word they have not met. What a search engine can be told is that this
+    page is a glossary and these are its entries, which is the question
+    "what does <word> mean" answered before it is asked. Regenerated with
+    the markup so the two cannot drift.
+    """
+    terms = []
+    for issue in issues:
+        term = {
+            "@type": "DefinedTerm",
+            "@id": f"{SITE}/#{anchor(issue['word'])}",
+            "name": plain(issue["word"]),
+            "description": plain(issue["definition"]),
+            "inDefinedTermSet": SET_ID,
+        }
+        if issue.get("issueUrl"):
+            term["sameAs"] = issue["issueUrl"]
+        terms.append(term)
+
+    payload = {
+        "@context": "https://schema.org",
+        "@type": "DefinedTermSet",
+        "@id": SET_ID,
+        "name": "The Promptwrought Lexicon",
+        "description": SET_DESCRIPTION,
+        "url": SET_ID,
+        "inLanguage": "en",
+        "hasDefinedTerm": terms,
+    }
+
+    body = json.dumps(payload, ensure_ascii=False, indent=2)
+    # A literal </script> inside the JSON would close the tag early. No field
+    # holds one today; escaping the sequence means none ever can.
+    body = body.replace("</", "<\\/")
+    body = textwrap.indent(body, "      ")
+    return "\n".join([
+        '    <script type="application/ld+json">',
+        body,
+        "    </script>",
+    ])
+
+
 def render(issues):
     """issues arrive newest first."""
     head = "\n".join([
@@ -164,7 +233,8 @@ def render(issues):
         f'      <p class="label">Nº {issues[0]["no"]:03d}</p>',
         "    </div>",
     ])
-    blocks = [head] + [article(i) for i in issues] + [forthcoming(issues)]
+    blocks = ([head] + [article(i) for i in issues]
+              + [forthcoming(issues), structured_data(issues)])
     return "\n\n".join(blocks)
 
 
