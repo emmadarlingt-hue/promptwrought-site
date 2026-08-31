@@ -112,6 +112,16 @@ How they render:
 - Field values are **HTML fragments** — `<em>` survives as written. A bare `&` is
   escaped for you; an existing entity like `&amp;` is left alone.
 - `in_use` is wrapped in `<cite>` and curly quotes by the script — write it bare.
+- Each entry gets `id="<word>"`, so every word is deep-linkable as
+  `promptwrought.com/#misask`. Link the Substack issue at that anchor, not at
+  the bare front page.
+- The region ends with a `schema.org` **`DefinedTermSet`** in a
+  `<script type="application/ld+json">` block — one `DefinedTerm` per word, its
+  `description` the definition as plain prose and its `sameAs` the `issueUrl`.
+  `plain()` strips the tags and entities that the markup wants and structured
+  data does not. It is generated with the markup, so it cannot drift; there is
+  nothing to hand-maintain, but a malformed field will now show up in Google's
+  Rich Results Test as well as on the page.
 - On the calendar, `pos` is expanded to long form (`n. & v.` → `noun & verb`).
   An abbreviation not in `POS_WORDS` passes through **with a warning** rather
   than failing — check stderr after adding an unusual part of speech.
