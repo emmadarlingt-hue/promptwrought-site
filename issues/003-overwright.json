@@ -6,7 +6,7 @@
   "tag": "Making",
   "definition": "To keep refining an instruction past the point of improvement; to polish a working prompt until it breaks.",
   "etymology": "Back-formed from <em>overwrought</em> (‘overworked; agitated’) on the maker-suffix <em>-wright</em> — and deliberately a homophone of computing’s <em>overwrite</em>, because over-editing destroys the version that worked. Three words fold into one, and every maker knows the fault the moment they hear it.",
-  "in_use": "It ran fine three versions ago. Then I overwrighted it.",
+  "in_context": "It ran fine three versions ago. Then I overwrighted it.",
   "the_case": "The prompt was working — that is what makes this one dangerous. Over-instructing is harder to catch than its opposite because it wears the mask of diligence: under-instructing feels like laziness and you notice it, while adding one more clause feels like care, and nobody flinches at care. Naming the fault turns it into craft — the sound of a maker recognising the moment to put the tool down and step back from the bench.",
   "issueUrl": "https://promptwrought.substack.com/p/overwright",
   "seo_title": "overwright — editing a working prompt until it breaks",

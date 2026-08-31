@@ -152,7 +152,7 @@ def article(issue):
         para("      ", '<p class="word-entry__def">', issue["definition"], "</p>"),
         "\n".join([
             field("Etymology", '<p class="field__v">', issue["etymology"], "</p>"),
-            field("In use", '<p class="field__v"><cite>“', issue["in_use"], "”</cite></p>"),
+            field("In context", '<p class="field__v"><cite>“', issue["in_context"], "”</cite></p>"),
             field("The case", '<p class="field__v">', issue["the_case"], "</p>"),
         ]),
     ]) + "\n    </article>"
@@ -322,7 +322,7 @@ def unpublished(issues):
 # Everything an entry needs before it can render. issueUrl, note and
 # next_word are left off deliberately — each is legitimately empty.
 REQUIRED = ["word", "pos", "pron", "tag", "definition",
-            "etymology", "in_use", "the_case"]
+            "etymology", "in_context", "the_case"]
 
 # seo_title and seo_description are deliberately not in REQUIRED. They are
 # copy for Substack's own fields and reach neither generated output, so a
@@ -478,7 +478,7 @@ def do_new(word, issues):
         "tag": "",
         "definition": "",
         "etymology": "",
-        "in_use": "",
+        "in_context": "",
         "the_case": "",
         "issueUrl": f"https://promptwrought.substack.com/p/{slug}",
         "seo_title": "",

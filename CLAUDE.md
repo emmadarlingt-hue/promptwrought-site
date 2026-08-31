@@ -121,7 +121,9 @@ How they render:
   takes the highest `no`; the closing line names the newest issue's `next_word`.
 - Field values are **HTML fragments** — `<em>` survives as written. A bare `&` is
   escaped for you; an existing entity like `&amp;` is left alone.
-- `in_use` is wrapped in `<cite>` and curly quotes by the script — write it bare.
+- `in_context` is wrapped in `<cite>` and curly quotes by the script — write it
+  bare. It renders as **In context**, the name Verbarium uses; the site, the
+  design-system sheet and the field name all say the same thing.
 - Each entry gets `id="<word>"`, so every word is deep-linkable as
   `promptwrought.com/#misask`. Link the Substack issue at that anchor, not at
   the bare front page.

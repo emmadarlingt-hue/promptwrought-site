@@ -31,13 +31,13 @@ python3 tools/build-lexicon.py --status
    | `pron`       | pronunciation, backslash-delimited — escape as `\\` in JSON   |
    | `tag`        | the one-word category pill, e.g. `Asking`, `Keeping`          |
    | `definition` | the sense line under the headword                             |
-   | `etymology`, `in_use`, `the_case` | the three fields below it                |
+   | `etymology`, `in_context`, `the_case` | the three fields below it             |
    | `issueUrl`   | the Substack link; the calendar's "Read issue" link stays hidden while empty |
    | `note`       | optional; an aside shown under the definition on the calendar |
    | `next_word`  | optional; names next issue's word in the closing line         |
 
    Values are HTML fragments, so `<em>` works. A bare `&` is escaped for you.
-   `in_use` is wrapped in `<cite>` and curly quotes — write it bare.
+   `in_context` is wrapped in `<cite>` and curly quotes — write it bare.
 
 2. Regenerate and read the diff:
 
