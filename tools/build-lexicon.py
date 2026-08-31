@@ -324,6 +324,13 @@ def unpublished(issues):
 REQUIRED = ["word", "pos", "pron", "tag", "definition",
             "etymology", "in_use", "the_case"]
 
+# seo_title and seo_description are deliberately not in REQUIRED. They are
+# copy for Substack's own fields and reach neither generated output, so a
+# missing one is a chore outstanding, never a reason to refuse to build.
+# The limits are where Google truncates, not where it penalises.
+SEO_TITLE_MAX = 60
+SEO_DESC_MAX = 160
+
 
 def incomplete(issues):
     """(issue, missing fields) for any issue still part-written."""
@@ -474,6 +481,8 @@ def do_new(word, issues):
         "in_use": "",
         "the_case": "",
         "issueUrl": f"https://promptwrought.substack.com/p/{slug}",
+        "seo_title": "",
+        "seo_description": "",
         "next_word": "",
     }
     path.write_text(json.dumps(skeleton, ensure_ascii=False, indent=2) + "\n",
@@ -485,6 +494,8 @@ def do_new(word, issues):
     print()
     print("  Fill it in from Verbarium, then run the script with no arguments.")
     print("  The issueUrl is a guess from the pattern — check it against Substack.")
+    print("  seo_title and seo_description are for Substack's own SEO fields;")
+    print("  --seo prints them to paste, with their lengths.")
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -572,6 +583,39 @@ def do_ready(issues):
     sys.exit(1)
 
 
+# ══════════════════════════════════════════════════════════════════════════
+#  --seo : the Substack fields, ready to paste
+# ══════════════════════════════════════════════════════════════════════════
+
+def do_seo(issues, want=None):
+    """Print the SEO copy for one issue or all of them.
+
+    Substack keeps its SEO title and description in its own editor, where
+    nothing is versioned and nothing counts the characters. Holding the copy
+    beside the word means it can be reviewed with the rest of the entry;
+    printing it unwrapped means it can be selected and pasted in one go.
+    """
+    chosen = [i for i in reversed(issues)
+              if want is None or i["word"] == want]
+    if not chosen:
+        sys.exit(f"no issue for {want!r} — try --status to see what there is.")
+
+    for issue in chosen:
+        print()
+        print(f'  Nº {issue["no"]:03d}  {issue["word"]}')
+        for label, key, limit in (("title", "seo_title", SEO_TITLE_MAX),
+                                  ("description", "seo_description", SEO_DESC_MAX)):
+            text = issue.get(key, "").strip()
+            print()
+            if not text:
+                print(f"  SEO {label} — not written yet")
+                continue
+            over = " — over, Google will cut it" if len(text) > limit else ""
+            print(f"  SEO {label}  {len(text)}/{limit}{over}")
+            print(f"  {text}")
+    print()
+
+
 def main():
     args = sys.argv[1:]
     issues = load_issues()
@@ -587,6 +631,12 @@ def main():
 
     if "--ready" in args:
         do_ready(issues)
+        return
+
+    if "--seo" in args:
+        position = args.index("--seo")
+        word = args[position + 1] if len(args) > position + 1 else None
+        do_seo(issues, word)
         return
 
     # A scaffolded file has the headword in it but nothing else. Generating
