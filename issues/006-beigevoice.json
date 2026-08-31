@@ -1,0 +1,15 @@
+{
+  "no": 6,
+  "word": "beigevoice",
+  "pos": "n.",
+  "pron": "\\ ˈbeɪʒ.vɔɪs \\",
+  "tag": "Voicing",
+  "definition": "The default register of machine prose: affable, tidy, featureless; the sound of no one in particular.",
+  "etymology": "From <em>beige</em> (French; originally the colour of undyed wool) + <em>voice</em>. Undyed is precisely the point.",
+  "in_use": "The first draft always arrives in beigevoice. The craft is dyeing it.",
+  "the_case": "The accusation it replaces — “it sounds like AI” — condemns a whole text and locates nothing. This one has coordinates: not the content and not the grammar but the register, and a register can be worked on. The mean of every sentence a model has read is no voice at all, the way the mean of all colours is a warm grey.",
+  "issueUrl": "https://promptwrought.substack.com/p/beigevoice",
+  "seo_title": "beigevoice — why AI prose reads fine and feels empty",
+  "seo_description": "“It sounds like AI” condemns a whole text and locates nothing. Beigevoice gives the fault an address — the register of the average, which belongs to no one.",
+  "next_word": "fauxluent"
+}
