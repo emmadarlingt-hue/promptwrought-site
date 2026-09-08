@@ -392,12 +392,12 @@ const WORDS = [
   {
     week: 37,
     releaseDate: "2026-09-08",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "fauxluent",
+    pos: "adjective",
+    definition: "Of machine prose: fluent, confident and wrong; possessing the rhythm of sense without the substance.",
+    tag: "Seeming",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/fauxluent",
   },
   {
     week: 38,
