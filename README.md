@@ -58,7 +58,7 @@ python3 tools/build-lexicon.py --status
    ln -sf ../../tools/pre-push .git/hooks/pre-push
    ```
 
-   It compares against 13:30 on the Tuesday, not just the date — on publication
+   It compares against 13:31 on the Tuesday, not just the date — on publication
    morning the date has arrived hours before the email does. `git push --no-verify`
    overrides it if you ever need to.
 

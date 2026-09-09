@@ -274,7 +274,7 @@ Two things about it are easy to get wrong:
   are advice, not a gate. Nothing in this repo can tell you which they are; check
   the setting rather than assuming.
 - **It only works because `PUBLISH_ZONE` is named.** Runners are UTC, so a naive
-  13:30 would read as 13:30Z and hold the guard shut for an hour after the email.
+  13:31 would read as 13:31Z and hold the guard shut for an hour after the email.
   That is the same bug the local script had; don't reintroduce it here.
 
 While an issue is prepared and waiting, *word has gone out* is red on **every** open
@@ -290,18 +290,18 @@ anyone holding the link. The exposure is small — nobody finds a preview URL wi
 the pull request — but "feature branches are free" is a statement about the live
 site, not about secrecy.
 
-**The comparison is a moment, not a date.** `PUBLISH_TIME` is 13:30, matching the
+**The comparison is a moment, not a date.** `PUBLISH_TIME` is 13:31, matching the
 Substack slot, and `release_moment()` combines it with the Tuesday. This is the
 whole point of the guard: on publication morning the date has already arrived and
 the email has not, so a date-only check waves the entire morning through.
 
-**And the moment carries a zone.** `PUBLISH_ZONE` is `Europe/London`, so 13:30
-means 13:30 in London wherever the script runs; `current_moment()` is the other
+**And the moment carries a zone.** `PUBLISH_ZONE` is `Europe/London`, so 13:31
+means 13:31 in London wherever the script runs; `current_moment()` is the other
 half of every comparison and returns an aware `now` in the same zone. Both sides
 have to stay aware — a naive `datetime.now()` anywhere in this file raises a
 `TypeError` on comparison rather than failing quietly, which is the intended
 behaviour. Don't "fix" it by dropping the zone: on a UTC machine — a CI runner,
-a cloud dev container — a naive 13:30 reads as 13:30Z and holds the guard shut
+a cloud dev container — a naive 13:31 reads as 13:31Z and holds the guard shut
 for an hour *after* the email has gone. `ZoneInfo` also tracks the clock change,
 which this volume crosses: weeks 031–043 release in BST, weeks 044–052 in GMT, so
 a fixed offset would be wrong from late October on.

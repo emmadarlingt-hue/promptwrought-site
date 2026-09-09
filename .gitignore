@@ -6,3 +6,8 @@ design-system/_ds_manifest.json
 # a separate project that happens to live inside this folder — it has its
 # own git repo, so without this git offers to swallow it as a submodule
 athenadarling/
+
+# Python bytecode — the script is run, never imported, but tooling that
+# imports it for a quick check leaves these behind.
+__pycache__/
+*.pyc

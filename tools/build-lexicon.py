@@ -67,14 +67,19 @@ TUESDAY = 2  # in ISO numbering Monday is 1
 # on publication day the date has already arrived hours before the email
 # does, so anything comparing dates alone reads as safe all morning.
 #
-# The zone is named rather than assumed. 13:30 means 13:30 in London, and
-# a naive datetime would instead mean 13:30 wherever the script happens to
+# The zone is named rather than assumed. 13:31 means 13:31 in London, and
+# a naive datetime would instead mean 13:31 wherever the script happens to
 # run — an hour out on a UTC machine such as a CI runner or a cloud dev
 # container, which holds the guard shut for an hour after the email has
 # gone. ZoneInfo also handles the clock change: this volume opens in BST
 # and ends in GMT, so a fixed offset would be wrong from week 44 on.
+#
+# The minute matters. The send is 13:31, and a guard set to 13:30 opens a
+# minute before the email — small, but a guard that is approximately right
+# is one you stop trusting. Keep this equal to the Substack slot; the
+# scheduled time in pipeline.private.js is the other half of the pair.
 PUBLISH_ZONE = ZoneInfo("Europe/London")
-PUBLISH_TIME = time(13, 30)
+PUBLISH_TIME = time(13, 31)
 
 # The homepage sets part of speech in dictionary abbreviations; the
 # calendar writes them out. Anything not listed here is passed through
