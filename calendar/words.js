@@ -402,12 +402,12 @@ const WORDS = [
   {
     week: 38,
     releaseDate: "2026-09-15",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "truthflinch",
+    pos: "noun",
+    definition: "The small jolt of discovering that a smooth, plausible machine answer is false; the moment trust recalibrates.",
+    tag: "Trusting",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/truthflinch",
   },
   {
     week: 39,
