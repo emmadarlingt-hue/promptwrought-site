@@ -412,12 +412,12 @@ const WORDS = [
   {
     week: 39,
     releaseDate: "2026-09-22",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "verifidget",
+    pos: "verb",
+    definition: "To check machine output compulsively, switching between claim and source, unable to rest in trust.",
+    tag: "Checking",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/verifidget",
   },
   {
     week: 40,
