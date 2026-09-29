@@ -34,7 +34,7 @@ python3 tools/build-lexicon.py --status
    | `etymology`, `in_use`, `the_case` | the three fields below it                |
    | `issueUrl`   | the Substack link; the calendar's "Read issue" link stays hidden while empty |
    | `note`       | optional; an aside shown under the definition on the calendar |
-   | `next_word`  | optional; names next issue's word in the closing line         |
+   | `next_word`  | the word the closing line promises next; must match the next issue's `word`, and may be blank only on the newest issue |
 
    Values are HTML fragments, so `<em>` works. A bare `&` is escaped for you.
    `in_use` is wrapped in `<cite>` and curly quotes — write it bare.

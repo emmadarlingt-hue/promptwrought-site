@@ -75,8 +75,9 @@ Python 3 standard library only; no install step, no virtualenv.
 `--status` is the orientation command: what has gone out, what is next, whether
 the outputs are current, whether pushing is safe. Start there.
 
-`--check` writes nothing and exits non-zero if **either** output is stale. Run it
-before you commit; it is the closest thing this repo has to a test.
+`--check` writes nothing and exits non-zero if **either** output is stale, or if
+generating would refuse (an unfinished issue, or a broken chain of teases). Run
+it before you commit; it is the closest thing this repo has to a test.
 
 `--new` scaffolds `issues/00N-<word>.json` with the number and week worked out
 and `issueUrl` guessed from the usual `/p/<word>` pattern — verify that against
@@ -308,6 +309,23 @@ a fixed offset would be wrong from late October on.
 
 The structural guard, still the strongest, is that a word only reaches either
 output once its issue JSON exists and is complete.
+
+**And only in the slot the issue before it promised.** Every issue's closing
+line names the next word, and once that email has gone the promise is public.
+`broken_chain()` holds each issue's `next_word` against the `word` of the issue
+numbered one higher, and generating refuses on a mismatch, naming both issues. A
+blank counts as a mismatch wherever a next issue exists. The newest issue alone
+may leave `next_word` empty. The comparison ignores case and surrounding spaces.
+It runs inside `--check`, so a broken chain also turns *outputs current* red on
+a pull request.
+
+Unlike *word has gone out*, this guard ignores the clock, so it holds at any
+hour. The publish-time guard asks whether it is late enough. This one asks
+whether it is the right word. On 26 Sep a drafting run working from a superseded
+order produced handfinish as Nº 010, after verifidget had already promised
+ghostwrought, and the time check alone would have let it through at 13:31. The
+sent email is the record: if an issue file and its live post disagree, fix the
+file.
 
 ## Git
 

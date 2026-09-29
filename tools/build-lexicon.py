@@ -325,7 +325,9 @@ def unpublished(issues):
 
 
 # Everything an entry needs before it can render. issueUrl, note and
-# next_word are left off deliberately — each is legitimately empty.
+# next_word are left off deliberately — each is legitimately empty at some
+# point. next_word may stay empty only on the newest issue; broken_chain()
+# holds every other one to the word that followed it.
 REQUIRED = ["word", "pos", "pron", "tag", "definition",
             "etymology", "in_use", "the_case"]
 
@@ -345,6 +347,28 @@ def incomplete(issues):
         if missing:
             found.append((issue, missing))
     return found
+
+
+def broken_chain(issues):
+    """(issue, promised, actual) wherever an issue does not follow its tease.
+
+    Every issue's closing line names the next word, and once the email has
+    gone that promise is public and cannot be recalled. So issue N's
+    next_word has to be issue N+1's word. This is the check that would have
+    refused handfinish as Nº 010, when verifidget had already said
+    ghostwrought.
+    """
+    by_no = {i["no"]: i for i in issues}   # the lookup table
+    broken = []
+    for issue in sorted(issues, key=lambda i: i["no"]):   # oldest first
+        nxt = by_no.get(issue["no"] + 1)             # the issue one higher
+        if nxt is None:
+            continue                          # nothing to compare: move on
+        promised = (issue.get("next_word") or "").strip().lower()
+        actual = nxt.get("word", "").strip().lower()  # tidied the same way
+        if promised != actual:
+            broken.append((issue, promised or "nothing", actual))
+    return broken
 
 
 def expand_pos(pos, word):
@@ -653,6 +677,18 @@ def main():
             lines.append(f"  Nº {issue['no']:03d} {issue['word']}: "
                          f"{', '.join(missing)}")
         lines += ["", "Fill them in from Verbarium and run this again."]
+        sys.exit("\n".join(lines))
+
+    # Each closing line has already told subscribers what comes next. An
+    # issue that disagrees is the wrong word in the slot, or the right word
+    # in the wrong slot, and neither should reach the site.
+    broken = broken_chain(issues)
+    if broken:
+        lines = ["nothing written — an issue does not follow the one before it:", ""]
+        for issue, promised, actual in broken:
+            lines.append(f"  Nº {issue['no']:03d} {issue['word']} promised "
+                         f"{promised}, but Nº {issue['no'] + 1:03d} is {actual}")
+        lines += ["", "The sent email is the record: its \"Next week:\" line wins."]
         sys.exit("\n".join(lines))
 
     stale = [(path, wanted) for path, now, wanted in build_targets(issues)
