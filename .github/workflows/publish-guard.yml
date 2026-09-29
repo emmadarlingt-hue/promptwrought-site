@@ -40,6 +40,6 @@ jobs:
       - uses: actions/checkout@v4
       # Fails while any issue file describes a word whose publication
       # moment is still ahead. Runners are UTC; --ready compares against
-      # 13:30 Europe/London regardless, so this is only correct because
+      # 13:31 Europe/London regardless, so this is only correct because
       # PUBLISH_ZONE is named rather than assumed.
       - run: python3 tools/build-lexicon.py --ready

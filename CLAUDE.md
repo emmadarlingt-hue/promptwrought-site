@@ -278,11 +278,12 @@ Two things about it are easy to get wrong:
   13:31 would read as 13:31Z and hold the guard shut for an hour after the email.
   That is the same bug the local script had; don't reintroduce it here.
 
-While an issue is prepared and waiting, *word has gone out* is red on **every** open
-pull request against main, not just the one carrying the word — because the check
-describes the state of main after a merge, and any merge deploys whatever main then
-holds. That is correct, and it is also inconvenient: expect unrelated work to sit
-behind a red check during a prep week.
+While an issue is prepared and waiting, *word has gone out* is red only on a pull
+request whose merge result contains the unsent issue file — the one carrying the
+word, or a branch cut from it. Unrelated pull requests stay green: the word lives on
+its own branch, not on main, so merging them into main leaves main without it. Only
+if an unsent word were already on main would every pull request go red, and by then
+it would already be live. Unrelated work does not wait on a prep week.
 
 **A feature branch is free of the deploy, not of the web.** Netlify builds a deploy
 preview for every pull request, at a public though unlisted URL. Preparing an issue
