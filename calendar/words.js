@@ -422,12 +422,12 @@ const WORDS = [
   {
     week: 40,
     releaseDate: "2026-09-29",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "ghostwrought",
+    pos: "adjective",
+    definition: "Of work: produced entirely by a machine yet presented under a human name; ghostwritten by something that was never alive.",
+    tag: "Signing",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/ghostwrought",
   },
   {
     week: 41,
