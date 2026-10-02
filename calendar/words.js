@@ -432,12 +432,12 @@ const WORDS = [
   {
     week: 41,
     releaseDate: "2026-10-06",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "handfinish",
+    pos: "verb & noun",
+    definition: "To give machine output a final pass by hand; the human coat of care that turns generated into made.",
+    tag: "Finishing",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/handfinish",
   },
   {
     week: 42,
