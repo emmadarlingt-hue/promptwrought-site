@@ -1,0 +1,15 @@
+{
+  "no": 11,
+  "word": "handfinish",
+  "pos": "v. & n.",
+  "pron": "\\ hænd.fɪn.ɪʃ \\",
+  "tag": "Finishing",
+  "definition": "To give machine output a final pass by hand; the human coat of care that turns generated into made.",
+  "etymology": "From furniture-making, where machine-cut pieces are hand-finished — sanded, fitted, signed. Both halves are old: <em>hand</em> is Old English <em>hand</em>, unchanged; <em>finish</em> is fourteenth-century, via Old French <em>finir</em> from Latin <em>finire</em>, ‘to bound, to end’. The compound is the young one: cabinetmakers, tailors, bookbinders and gunsmiths have marked work <em>hand-finished</em> since machines began doing the roughing-out, and the label always meant the same thing — a machine did the bulk of it, and a person did the part that had to be trusted. The word was built to sit on a small brass plate, and it still reads like one.",
+  "in_use": "Ship nothing raw. Everything gets a handfinish, even the emails.",
+  "the_case": "Without a name, the last pass registers as overhead: a tax on using the machine at all, paid grudgingly, skipped when you are tired. Name it and it flips. A handfinish is not the tax; it is the stage where the value gets added, and skipping it stops being efficiency and becomes shipping unsanded furniture. Note what the definition does not say. It does not say <em>better</em>. Machine output that gets handfinished was often already good; that is precisely why the word is useful and <em>rewrite</em> is not. It names the smaller, humbler claim — that between generated and made there is a threshold, and someone chose to walk the work across it. The word works twice: as a verb it is the act, as a noun the quality the act leaves behind. The machine cuts. You sign.",
+  "issueUrl": "https://promptwrought.substack.com/p/handfinish",
+  "seo_title": "handfinish — the human pass that turns generated into made",
+  "seo_description": "It's fine, but it reads produced, not written. Handfinish names the final pass by hand that turns machine output into made work — and who touched it last.",
+  "next_word": "unprompted"
+}
