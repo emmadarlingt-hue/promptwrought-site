@@ -442,12 +442,12 @@ const WORDS = [
   {
     week: 42,
     releaseDate: "2026-10-13",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "unprompted",
+    pos: "adjective",
+    definition: "Of work: made entirely by hand and mind, without machine assistance; carried as a quiet mark of provenance, as <em>organic</em> is for food.",
+    tag: "Authoring",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/unprompted",
   },
   {
     week: 43,
