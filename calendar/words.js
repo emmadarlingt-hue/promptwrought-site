@@ -452,12 +452,12 @@ const WORDS = [
   {
     week: 43,
     releaseDate: "2026-10-20",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "blankfright",
+    pos: "noun",
+    definition: "The dread of the empty prompt box; stage fright before an infinitely capable audience of one.",
+    tag: "Starting",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/blankfright",
   },
   {
     week: 44,
