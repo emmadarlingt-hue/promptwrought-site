@@ -462,12 +462,12 @@ const WORDS = [
   {
     week: 44,
     releaseDate: "2026-10-27",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "sisyphrase",
+    pos: "verb",
+    definition: "To re-explain the same context, constraints or preferences to a machine over and over, each fresh conversation rolling the boulder from the bottom of the hill.",
+    tag: "Repeating",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/sisyphrase",
   },
   {
     week: 45,
