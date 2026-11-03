@@ -472,12 +472,12 @@ const WORDS = [
   {
     week: 45,
     releaseDate: "2026-11-03",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "soulfile",
+    pos: "noun",
+    definition: "The document a person keeps that teaches a machine who they are — voice, history, preferences, standards; the self, made portable and legible.",
+    tag: "Carrying",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/soulfile",
   },
   {
     week: 46,
