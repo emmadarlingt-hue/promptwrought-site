@@ -482,12 +482,12 @@ const WORDS = [
   {
     week: 46,
     releaseDate: "2026-11-10",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "threadfray",
+    pos: "noun",
+    definition: "The gradual unravelling of a machine’s grip on a long task; the point at which instructions given early no longer hold.",
+    tag: "Unravelling",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/threadfray",
   },
   {
     week: 47,
