@@ -492,12 +492,12 @@ const WORDS = [
   {
     week: 47,
     releaseDate: "2026-11-17",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "confabulence",
+    pos: "noun",
+    definition: "The serene, unearned confidence with which a machine delivers an invented fact.",
+    tag: "Inventing",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/confabulence",
   },
   {
     week: 48,
