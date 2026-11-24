@@ -502,12 +502,12 @@ const WORDS = [
   {
     week: 48,
     releaseDate: "2026-11-24",
-    word: "",
-    pos: "",
-    definition: "",
-    tag: "",
+    word: "giftline",
+    pos: "noun",
+    definition: "A line, phrase or idea in machine output that was never asked for but proves better than what was; the happy accident kept in the final work.",
+    tag: "Receiving",
     note: "",
-    issueUrl: "",
+    issueUrl: "https://promptwrought.substack.com/p/giftline",
   },
   {
     week: 49,
